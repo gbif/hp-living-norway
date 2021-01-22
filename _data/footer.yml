@@ -5,10 +5,10 @@
 columns:
   - name: Partners
     links:
-    - text: Name of project partner 1
-      href: http://example.com
-    - text: Name of project partner 2
-      href: http://example.com
+    - text: Norwegian Institute for Nature Research (NINA)
+      href: http://www.nina.no/
+    - text: Norwegian University for Science and Technology (NTNU)
+      href: http://www.ntnu.no/en
 
   - name: Code
     description: | # Can be Markdown
