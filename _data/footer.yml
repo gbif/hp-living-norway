@@ -21,6 +21,8 @@ columns:
       href: https://www.nmbu.no/en
     - text: Norwegian Institute of Bioeconomy Research (NIBIO)
       href: https://www.nibio.no/en
+    - text: GBIF Norway
+      href: https://gbif.no
 
   - name: Code
     description: | # Can be Markdown
