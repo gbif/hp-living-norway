@@ -1,7 +1,7 @@
 ---
 lang-ref: about
 title: Living Norway Ecological Data Network
-description: Lorem markdownum spatium limes indefessus neque at orat aestuat
+description: Living Norway Ecological Data Network is facilitating FAIR management of ecological data to the benefit of society and science
 background: /assets/images/moss.jpg
 imageLicense: |
   Photo by mhoefft via [gbif.org](https://www.gbif.org/occurrence/1580487687)
