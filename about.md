@@ -10,15 +10,9 @@ height: 70vh
 
 ## Procris quippe mentior urbes ubi
 
-Lorem markdownum spatium limes indefessus neque *at* orat aestuat, quicquam ne
-flavusque omnibus, virginis socerque sparsos vidimus eundem. Sustinet **ramo
-pontum ut** avus quamquam de trabes vestemque cruorem tremor.
+Living Norway Ecological Data Network is established as a joint effort to promote management of ecological data from Norwegian research institutions in agreement with FAIR principles. This include data mobilization efforts, development and deployment of new tools and data-infrastructure, contributing to the international development of data standards, and development of education and training for students and established researchers. Living Norway is embedded with the Norwegian node of the Global Biodiversity Information Facility [GBIF] (https://www.gbif.org).
 
-**Viscera mercibus** isdem hebetarat undas! Iubet ora ire unum telis adicit, si
-Telephus *valent*, instructo refers. Ille **est resque**, sic ruris erit ante
-profana detegeret. Et cogor tractus arboribus prensurum praesens memorantur
-neque inplet iussus temeraria merui **fas ecce** aethera dixit fieretque [plura
-tollebat altius](http://virgineusque.net/est.html).
+When fully operational Living Norway Ecological Data Network has the ambition to become the focal point for ecological data in Norway.
 
 ## Quam ex te videt
 
