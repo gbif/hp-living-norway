@@ -9,6 +9,8 @@ columns:
       href: http://www.nina.no/
     - text: Norwegian University for Science and Technology (NTNU)
       href: http://www.ntnu.no/en
+    - text: Natural History Museum, University of Oslo
+      href: https://www.nhm.uio.no/english/
 
   - name: Code
     description: | # Can be Markdown
