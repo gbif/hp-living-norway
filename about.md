@@ -20,14 +20,8 @@ Quam Erycina et celsoque trabes; torva, nec et alto egens. Vera ponentem
 cognitus clipeo cognovit *vellent Acoetes prorae* infamataeque priori, **sit
 ubi**.
 
-    ``` r
-########################################################
-##### Number of years surveyd along each line ----------
-
-LineData <- filter(d, eventRemarks=="Line transect")
-
-N_years_line <- LineData %>% dplyr::count(locationID)
-head(N_years_line)
+```r
+  1 + 1 = 2
 ```
 
 
