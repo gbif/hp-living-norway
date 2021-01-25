@@ -2,7 +2,7 @@
 lang-ref: about
 title: Living Norway Ecological Data Network
 description: Living Norway Ecological Data Network is facilitating FAIR management of ecological data to the benefit of society and science
-background: https://github.com/gbif/hp-living-norway/blob/master/assets/images/20190811_140635216051094709878354%20(1).jpeg
+background: /assets/images/20190811_140635216051094709878354%20(1).jpeg
 imageLicense: |
   Photo by mhoefft via [gbif.org](https://www.gbif.org/occurrence/1580487687)
 height: 70vh
