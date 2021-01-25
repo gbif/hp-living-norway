@@ -20,20 +20,16 @@ Quam Erycina et celsoque trabes; torva, nec et alto egens. Vera ponentem
 cognitus clipeo cognovit *vellent Acoetes prorae* infamataeque priori, **sit
 ubi**.
 
-    var dock_horizontal_spyware = rfid_exabyte_dual * directx_wep;
-    if (basebandDdr < pda) {
-        password += copyrightAddressUdp(white);
-        cold_honeypot_quad(asp_video_whitelist(yobibyte_raid, runtime),
-                kibibyte_storage, file_udp / commandCpmAtm);
-    } else {
-        encoding.dragWhoisWww = lun_token * ram;
-        boxCpm(media_drag_southbridge);
-        url_key.gnutellaTrinitron += uddi_login_overwrite;
-    }
-    if (phreaking(digitalMulticasting, compression)) {
-        mashup -= serverWidgetTask(9) + mashupDirectory;
-        safeCifsIde = odbc_modem;
-    }
+    ``` r
+########################################################
+##### Number of years surveyd along each line ----------
+
+LineData <- filter(d, eventRemarks=="Line transect")
+
+N_years_line <- LineData %>% dplyr::count(locationID)
+head(N_years_line)
+```
+
 
 ### Turbatque promittat memorque
 
