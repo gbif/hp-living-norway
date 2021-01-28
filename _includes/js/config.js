@@ -3,5 +3,5 @@ var siteTheme = gbifReactComponents.themeBuilder.extend({baseTheme: 'light', ext
 }});
 
 var siteConfig = {
-  rootPredicate: { type: 'equals', key: 'publishingInstitution', value: "Norwegian Institute for Nature Research" }
+  rootPredicate: { type: 'equals', key: 'publishingOrg', value: "Norwegian Institute for Nature Research" }
 };
