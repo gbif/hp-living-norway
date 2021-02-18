@@ -1,0 +1,28 @@
+image: ruby:2.6
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/ruby
+
+variables:
+  JEKYLL_ENV: production
+  LC_ALL: C.UTF-8
+
+before_script:
+  - gem install bundler
+  - bundle config set --local path 'vendor/ruby'
+  - bundle install -j $(nproc)
+
+pages:
+  stage: deploy
+  script:
+    - bundle exec jekyll build -d public -b "$PUBLIC_URL"
+  artifacts:
+    paths:
+      - public
+  environment:
+    name: Develop
+    url: "https://$CI_PROJECT_NAMESPACE.gitlab.io/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/public/index.html"
+  variables:
+    PUBLIC_URL: "/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/public"
