@@ -19,8 +19,7 @@
 - text: News
   href: /news/
 # Your new page goes here
-- text: Hello world
-  href: /hello
+
 # And let us add an external link - could be to your Github repo
-- text: Report an issue
-  href: https://github.com/gbif/hp-template/issues/new/choose
+- text: Living Norway portal
+  href: https://livingnorway.no
