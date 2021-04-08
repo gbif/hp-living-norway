@@ -12,7 +12,7 @@
   <div>${JSON.stringify(datasets)}</div>
   <ul>
   
-  ${datasets.results.map(x => `<li><a href="dataset?key=${x.key}">${x.title}</a></li>`)}
+  ${datasets.results.map(x => `<li><a href="dataset.html?key=${x.key}">${x.title}</a></li>`)}
   </ul>
  `
  };
