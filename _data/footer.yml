@@ -6,17 +6,17 @@ columns:
   - name: Partners
     links:
     - text: Norwegian Institute for Nature Research (NINA)
-      href: http://www.nina.no/
+      href: https://www.nina.no/
     - text: Norwegian University for Science and Technology (NTNU)
       href: http://www.ntnu.no/en
     - text: Natural History Museum, University of Oslo (UiO)
       href: https://www.nhm.uio.no/english/
     - text: Norwegian Biodiversity Information Centre – Artsdatabanken (NBIC)
-      href: http://www.artsdatabanken.no/
+      href: https://www.artsdatabanken.no/
     - text: University of Bergen (UiB)
       href: https://www.uib.no/en
     - text: Norwegian Institute for Water Research (NIVA)
-      href: http://www.niva.no/
+      href: https://www.niva.no/
     - text: Norwegian University of Life Science (NMBU)
       href: https://www.nmbu.no/en
     - text: Norwegian Institute of Bioeconomy Research (NIBIO)
