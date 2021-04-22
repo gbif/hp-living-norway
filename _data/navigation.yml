@@ -21,9 +21,9 @@
 - text: Datasets
   menu: # Dropdown menu (one level deep only)
   - text: Available datasets
-    href: /datasets.html
+    href: /datasets
   - text: Dataset collections
-    href: https://dev.to/paulasantamaria/introduction-to-yaml-125f
+    href: /collections
 # Your new page goes here
 
 # And let us add an external link - could be to your Github repo

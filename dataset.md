@@ -1,12 +1,13 @@
 ---
 layout: compose
-klass: dataset
 permalink: /dataset
-composition:
-- type: pageMarkdown
+
+composition: # you can extend the documentation layout with a custom composition
+  - type: postHeader
+  - type: pageMarkdown
 ---
 
 
 
-<article id="my-custom-dataset"></article>
+<div id="my-custom-dataset"></div>
 <script src="custom-dataset-example.js">
