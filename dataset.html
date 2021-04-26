@@ -234,96 +234,87 @@ document.gbifTocMaxDepth = 6;
 <div id="app">
   <section class="section">
   <div class="container">
-    <p>{{ dataset.type }} | {{ dataset.created}}</p>
+    <p>
+      <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
+        <span class="tag">DOI</span>
+        <span class="tag is-primary">{{dataset.doi}}</span>
+      </div> 
+      {{ dataset.type }} | {{ dataset.created}}
+    </p>
+    <span class="is-clearfix"></span>
     <p class="title">
       {{dataset.title}}
     </p>
-    <p>Published by: {{dataset.publishingOrganizationKey}}</p>
-    <p>Doi: {{dataset.doi}}</p>
-    <ul>
-      <li><a v-bind:href="'https://www.gbif.org/dataset/'+ dataset.key">View data on GBIF.org</a></li>
-      <li><a v-bind:href="'https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey=' + dataset.key">View data on citation tracker</a></li>
-    </ul>
-    <div>Download data:</div>
-    <ul>
-      <li v-for="endpoint in dataset.endpoints" :key="endpoint.key">
-        <a v-bind:href="endpoint.url">{{endpoint.type}}</a>
-      </li>
-    </ul>
-
-    
+    <div class="block">
+    <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
+    </div>
+    <div class="block">
+      <p class="buttons">
+        <a class="button" v-bind:href="'https://www.gbif.org/dataset/'+ dataset.key" target="_blank" title="View data on GBIF.org">
+          <span class="icon">
+            <img src="/assets/images/gbif-logo.png"></img>
+          </span>
+          <span>GBIF</span>
+        </a>
+        <a class="button is-primary" v-bind:href="'https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey=' + dataset.key" target="_blank" title="View data on citation tracker">
+          <span class="icon">
+            <i class="fas fa-quote-right"></i>
+          </span>
+          <span>Citation</span>
+        </a>
+        <span style="margin-right: .5rem" v-for="endpoint in dataset.endpoints" :key="endpoint.key">
+          <a class="button" v-bind:href="endpoint.url" target="_blank" title="Download data">
+            <span class="icon">
+              <i class="fas fa-download"></i>
+            </span>
+            <span>{{endpoint.type}}</span>
+            </a>
+        </span>
+      </p>
+    </div>
+      <div id="map"></div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div id="map"></div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container">
-    <h2 class="is-size-4">Description</h2>
+    <h2 class="is-size-4 mt-5">Description</h2>
     <p>{{dataset.description}}</p>
-    <h2 class="is-size-4">Temporal scope</h2>
-    <p>{{dataset.temporalCoverages}}</p>
-    <h2 class="is-size-4">Geographic scope</h2>
-    <p> {{dataset.geographicCoverages}}</p>
-    <h2 class="is-size-4">Methodology</h2>
-    <p> TODO</p>
-    <h2 class="is-size-4">Contacts</h2>
-    <p> TODO</p>
-    <h2 class="is-size-4">Data description</h2>
-    <p> TODO</p>
-    <h2 class="is-size-4">GBIF registration</h2>
-    <p> TODO</p>
-    <h2 class="is-size-4">Citation</h2>
-    <p> TODO</p>
+    <h2 class="is-size-4 mt-5">Temporal scope</h2>
+    <div class="content">
+      <ul>
+        <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+      </ul>
+    </div>
+    
+    <h2 class="is-size-4 mt-5">Geographic scope</h2>
+    <p>{{getGeographicScope}}</p>
+    <div id="map-bounding-box" class="mt-3"></div>
+    
+    <h2 class="is-size-4 mt-5">Taxonomic scope</h2>
+    <p> {{getTaxonomicScope}}</p>
+    <h2 class="is-size-4 mt-5">Contacts</h2>
+    <div class="content">
+      <ul>
+        <li v-for="contact in dataset.contacts"> {{ contact.firstName}} {{ contact.lastName}}</li>
+      </ul>
+    </div>
+    <h2 class="is-size-4 mt-5">Methodology</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">Data description</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">GBIF registration</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">Citation</h2>
+    <p> TODO?</p>
 
   </div>
 </section>
-
-
-
-<section class="section">
-<div class="container">
-  <h2>Abstract</h2>
-  <!-- <div> {{dataset.project.abstract}}</div> -->
-<h2> Description </h2>
-  <div>{{dataset.description}}</div>
-<h2>Scope</h2>
-<h3>Temporal scope</h3>
-<p> {{dataset.temporalCoverages}}</p>
-<h3>Geographic scope</h3>
-<p> {{dataset.geographicCoverages}}</p>
- <div id="map-bounding-box"></div>
-<h3>Taxonomic scope</h3>
-  
-<!--   
-    ${dataset.endpoints.map(x => `<a href="${x.url}" class="button">${x.type}</a>`).join('')}
-      <h2>Abstract</h2>
-        <div> ${dataset.project.abstract}</div>
-      <h2> Description </h2>
-        <div>${dataset.description}</div>
-      <h2>Scope</h2>
-      <h3>Temporal scope</h3>
-      <p>${JSON.stringify(dataset.temporalCoverages)}</p>
-      <h3>Geographic scope</h3>
-      <p>${JSON.stringify(dataset.geographicCoverages)}</p>
-      <h3>Taxonomic scope</h3>
-      <ul>
-      ${dataset.taxonomicCoverages.map(x => `<li>${JSON.stringify(x)}</li>`)}
-      </ul> -->
-
-</div>
-</section>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
 <script src="dataset.js"></script>
 
 <script>
