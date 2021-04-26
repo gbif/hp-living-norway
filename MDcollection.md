@@ -1,7 +1,7 @@
 ---
 layout: compose
 klass: dataset
-permalink: /collection
+permalink: /MDcollection
 composition:
 - type: pageMarkdown
 ---

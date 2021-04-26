@@ -21,7 +21,7 @@
 - text: Datasets
   menu: # Dropdown menu (one level deep only)
   - text: Available datasets
-    href: /datasets
+    href: /datasets1
   - text: Dataset collections
     href: /collections
 # Your new page goes here

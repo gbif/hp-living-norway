@@ -29,3 +29,18 @@ fetch(`https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/cons
   .catch(function (err) {
     console.log(err);
   });
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      datasets: []
+    },
+    methods: {},
+    computed: {},  
+    mounted() {
+        let self = this
+        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents').then(function(response) {
+          self.datasets = response.data.results
+        })
+    }
+  })

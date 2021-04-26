@@ -230,11 +230,10 @@ document.gbifTocMaxDepth = 6;
   <div class="container">
   
     <p class="title">
-      {{title}}
+      Living Noway Network datasets
     </p>
     <p class="subtitle">
-      
-       {{ description }} 
+      The datasets than belongs to the Living Norway Network
     </p>
   </div>
 </section>
@@ -252,10 +251,10 @@ document.gbifTocMaxDepth = 6;
   
   <tbody>
     <tr v-for="dataset in datasets" :key="dataset.key">     
-      <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a></td>
+      <td><a v-bind:href="'dataset1?key='+ dataset.key">{{ dataset.title }}</a></td>
       <td>{{ dataset.doi }}</td>
       <td>{{ dataset.type }}</td>
-      <td>{{ dataset.hostingOrganizationTitle }}</td>
+      <td>{{ dataset.publishingOrganizationKey }}</td>
     </tr>
   </tbody>
 </table>
@@ -266,8 +265,7 @@ document.gbifTocMaxDepth = 6;
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-<script src="custom-collection.js"></script>
+<script src="custom-datasets.js"></script>
 
 <script>
 </script>

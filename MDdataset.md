@@ -1,6 +1,6 @@
 ---
 layout: compose
-permalink: /dataset
+permalink: /MDdataset
 
 composition: # you can extend the documentation layout with a custom composition
   - type: postHeader
