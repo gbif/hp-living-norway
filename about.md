@@ -16,14 +16,14 @@ When fully operational Living Norway Ecological Data Network has the ambition to
 
 Living Norway Ecological Data Network currently consist of the following institutions:
 
-- [Norwegian Institute for Nature Research (NINA)](https://www.nina.no/)
-- [Norwegian University for Science and Technology (NTNU)](https://www.ntnu.no/)
+- [Norwegian Institute for Nature Research (NINA)](https://www.nina.no/english/Home)
+- [Norwegian University for Science and Technology (NTNU)](https://www.ntnu.edu/)
 - [Norwegian Biodiversity Information Centre – Artsdatabanken (NBIC)](https://www.biodiversity.no/)
-- [University of Bergen (UiB)](https://www.uib.no/)
-- [Natural History Museum, University of Oslo](https://www.nhm.uio.no/)
-- [Norwegian Institute for Water Research (NIVA)](https://www.niva.no/)
-- [Norwegian University of Life Science (NMBU)](https://www.nmbu.no/)
-- [Norwegian Institute of Bioeconomy Research (NIBIO)](https://www.nibio.no/)
+- [University of Bergen (UiB)](https://www.uib.no/en)
+- [Natural History Museum, University of Oslo](https://www.nhm.uio.no/english)
+- [Norwegian Institute for Water Research (NIVA)](https://www.niva.no/en)
+- [Norwegian University of Life Science (NMBU)](https://www.nmbu.no/en)
+- [Norwegian Institute of Bioeconomy Research (NIBIO)](https://www.nibio.no/en)
 
 
 ### Do you want to provide data
@@ -35,7 +35,7 @@ All data in this portal can be used by anyone, as long as the licence statements
 
 
 ### Do you want to join the network
-Living Norway Ecological Data Network are happy to accept new memebrs of the network. More information can be found here. 
+Living Norway Ecological Data Network are happy to accept new memebrs of the network. More information can be found [here](www.livingnorway.no). 
 
 
 ## I leave this for now...
