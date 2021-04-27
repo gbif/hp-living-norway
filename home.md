@@ -3,9 +3,9 @@ lang-ref: home
 layout: home
 title: Living Norway Data Portal
 description: Living Norway Ecological Data Network is facilitating FAIR management of ecological data to the benefit of society and science.
-background: https://api.gbif.org/v1/image/unsafe/https%3A%2F%2Fstatic.inaturalist.org%2Fphotos%2F58912610%2Foriginal.jpeg%3F1577953995
+background: https://github.com/gbif/hp-living-norway/blob/Text-content-exploration/assets/images/2016U06__2016-06-21__22-19-31(11).JPG
 imageLicense: |
-  *Xylaria hypoxylon* (L.) Grev. Photo by Alexis via [iNaturalist](https://www.gbif.org/occurrence/2542961803)
+  *Vulpes vulpes (L.). Photo by "Lirypeprosjektet i Lierne (NINA & Nord university)
 cta:
   - text: Start exploring
     href: /data
