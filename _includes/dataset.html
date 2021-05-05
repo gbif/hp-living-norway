@@ -1,0 +1,165 @@
+{::nomarkdown}
+{% raw %}
+<div id="app">
+  <section class="section">
+  <div class="container">
+    <p>
+      <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
+        <span class="tag">DOI</span>
+        <span class="tag is-primary">{{dataset.doi}}</span>
+      </div> 
+      {{ dataset.type }} | {{ dataset.created}}
+    </p>
+    <span class="is-clearfix"></span>
+    <p class="title">
+      {{dataset.title}}
+    </p>
+    <div class="block">
+    <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
+    </div>
+    <div class="block">
+      <p class="buttons">
+        <a class="button" v-bind:href="'https://www.gbif.org/dataset/'+ dataset.key" target="_blank" title="View data on GBIF.org">
+          <span class="icon">
+            <img src="/assets/images/gbif-logo.png"></img>
+          </span>
+          <span>GBIF</span>
+        </a>
+        <a class="button is-primary" v-bind:href="'https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey=' + dataset.key" target="_blank" title="View data on citation tracker">
+          <span class="icon">
+            <i class="fas fa-quote-right"></i>
+          </span>
+          <span>Citation</span>
+        </a>
+        <span style="margin-right: .5rem" v-for="endpoint in dataset.endpoints" :key="endpoint.key">
+          <a class="button" v-bind:href="endpoint.url" target="_blank" title="Download data">
+            <span class="icon">
+              <i class="fas fa-download"></i>
+            </span>
+            <span>{{endpoint.type}}</span>
+            </a>
+        </span>
+      </p>
+    </div>
+      <div id="map"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="is-size-4 mt-5">Description</h2>
+    <p>{{dataset.description}}</p>
+    <h2 class="is-size-4 mt-5">Temporal scope</h2>
+    <div class="content">
+      <ul>
+        <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+      </ul>
+    </div>
+    
+    <h2 class="is-size-4 mt-5">Geographic scope</h2>
+    <p>{{getGeographicScope}}</p>
+    <div id="map-bounding-box" class="mt-3"></div>
+    
+    <h2 class="is-size-4 mt-5">Taxonomic scope</h2>
+    <p> {{getTaxonomicScope}}</p>
+    <h2 class="is-size-4 mt-5">Contacts</h2>
+    <div class="content">
+      <ul>
+        <li v-for="contact in dataset.contacts"> {{ contact.firstName}} {{ contact.lastName}}</li>
+      </ul>
+    </div>
+    <h2 class="is-size-4 mt-5">Methodology</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">Data description</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">GBIF registration</h2>
+    <p> TODO?</p>
+    <h2 class="is-size-4 mt-3">Citation</h2>
+    <p> TODO?</p>
+
+  </div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+
+{% endraw %}
+{:/nomarkdown}
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    title: '',
+    dataset: {},
+    map: {},
+    mapBoundingBox: {},
+    occurrences: [],
+    publishingOrg: {}
+  },
+  methods: {
+    getDatasetKey() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get('key')
+    }
+  },
+  computed: {
+    getTaxonomicScope () {
+      if (this.dataset.taxonomicCoverages != undefined) {
+        return this.dataset.taxonomicCoverages[0].description
+      }
+    },
+    getGeographicScope () {
+      if (this.dataset.taxonomicCoverages != undefined) {
+        return this.dataset.geographicCoverages[0].description
+      }
+    },
+    getPublishingOrgName () {
+      return this.publishingOrg.title      
+    },
+    getPublishingOrgUrl () {
+      return this.publishingOrg.description
+    }
+  },  
+  mounted() {
+    let key = this.getDatasetKey()
+    if (key) {
+      let self = this
+      axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
+        self.dataset = response.data
+        var bounding = self.dataset.geographicCoverages[0].boundingBox
+        var bounds = [[bounding.maxLatitude , bounding.maxLongitude], [ bounding.minLatitude , bounding.minLongitude ]];
+
+        self.mapBoundingBox = L.map('map-bounding-box').setView([63.446827, 10.421906], 4);
+        new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(self.mapBoundingBox)
+        var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 1})
+        self.mapBoundingBox.addLayer(boundingBox)
+        axios.get('https://api.gbif.org/v1/organization/' + self.dataset.publishingOrganizationKey).then(function(response) {
+          self.publishingOrg = response.data
+        })
+      })
+    } else {
+      alert('no such dataset found');
+    }
+    
+    self.map = L.map('map').setView([63.446827, 10.421906], 4);
+    new L.TileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    ).addTo(self.map)
+    new L.TileLayer(
+      'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=b49a2978-0e30-4748-a99f-9301d17ae119&bin=hex&hexPerTile=30&style=green.poly'
+    ).addTo(self.map)
+  }
+})
+</script>

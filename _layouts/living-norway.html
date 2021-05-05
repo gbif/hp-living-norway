@@ -1,0 +1,359 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       
+        <meta name="robots" content="noindex">
+        <script>
+          var themeFeedbackEnabled = true;
+          var themeFeedback = [];
+        </script>
+          <title> - Living Norway Data Portal</title>
+        <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+        <!-- Language versions -->
+        
+      
+        <!-- CSS -->
+        <!-- Bulma is included in main.css -->
+        <link rel="stylesheet" href="/assets/theme/css/main.css?v=1619011298">
+        <link rel="stylesheet" href="/assets/theme/css/font-awesome.min.css">
+      
+        <!-- Feeds -->
+        <link rel="alternate" type="application/rss+xml" title="Living Norway Data Portal - RSS feed" href="http://localhost:4000/feed.xml" >
+      
+        <!-- favicon - to set a favicon add favicon.ico to your root folder -->
+        <!-- to add more favicon types, then add /_include/favicon.html to your project -->
+        
+        
+      </head>
+      <body class="dataset">
+        <nav class="navbar  navbar--hasWhiteText" 
+          style="background-color: #303030"
+          role="navigation" aria-label="main navigation">
+          <div class="navbar-content">
+            <div class="navbar-brand">
+              <a class="navbar-item navbar-logo" href="/">
+                  <img class="navbar-logo_img" src="/assets/images/logo.png" height="28" />
+              </a>
+                <a
+                  role="button"
+                  id="navbarBurger"
+                  class="navbar-burger burger menu-toggle"
+                  aria-label="menu"
+                  aria-expanded="false"
+                  data-target="mainNavbar"
+                >
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>      
+            </div>
+            <div id="mainNavbar" class="navbar-menu">
+              <div class="navbar-start">
+                    <a
+                      class="navbar-top-item navbar-item"
+                      href="/about"
+                    >
+                    About
+                  </a>
+                    <a
+                      class="navbar-top-item navbar-item"
+                      href="/data"
+                    >
+                    Data
+                  </a>
+                  <div class="navbar-top-item navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"> Links </a>
+                    <div class="navbar-dropdown">
+                          <a
+                            href="https://hp-base-theme.gbif-staging.org/"
+                            class="navbar-item "
+                          >
+                            Base theme demo
+                          </a>
+                          <hr class="navbar-divider" />
+                          <h6 class="has-text-grey navbar-item">Docs</h6>
+                          <a
+                            href="https://jekyllrb.com/docs/pages/"
+                            class="navbar-item "
+                          >
+                            Jekyll documentation
+                          </a>
+                        
+                          <a
+                            href="https://guides.github.com/features/mastering-markdown/"
+                            class="navbar-item "
+                          >
+                            Markdown tutorial
+                          </a>
+                        
+                      
+                        
+                          <a
+                            href="https://dev.to/paulasantamaria/introduction-to-yaml-125f"
+                            class="navbar-item "
+                          >
+                            YAML tutorial
+                          </a>
+                        
+                      
+                    </div>
+                  </div>
+                  <a
+                      class="navbar-top-item navbar-item"
+                      href="/news/"
+                    >
+                    News
+                  </a>
+                  
+                
+                  
+                  <div class="navbar-top-item navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link"> Datasets </a>
+        
+                    <div class="navbar-dropdown">
+                      
+                        
+                          <a
+                            href="/datasets1"
+                            class="navbar-item "
+                          >
+                            Available datasets
+                          </a>
+                        
+                      
+                        
+                          <a
+                            href="/collections"
+                            class="navbar-item "
+                          >
+                            Dataset collections
+                          </a>
+                        
+                      
+                    </div>
+                  </div>
+                  
+                
+                  
+                    <a
+                      class="navbar-top-item navbar-item"
+                      href="https://livingnorway.no"
+                    >
+                    Living Norway portal
+                  </a>
+                  
+                
+              </div>
+        
+              
+              
+            </div>
+          </div>
+          
+        </nav>
+        
+        
+            <main>
+        
+              <div>
+        <script>
+        document.gbifTocMaxDepth = 6;
+        
+        </script>
+       
+       
+       
+        {{ content }}
+       
+       
+     
+        {% raw %}
+      
+      
+      <div id="app" markdown="0" >
+      
+      <section class="section">
+        <div class="container">  
+          <p class="title">
+            {{title}}
+          </p>
+          <p class="subtitle">
+            
+             {{ description }} 
+          </p>
+        </div>
+      </section>
+      <section class="section">
+      
+      <div class="container">
+      <table class="table is-fullwidth is-bordered is-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Doi</th>
+            <th>Type</th>
+            <th>Produced by</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr v-for="dataset in datasets" :key="dataset.key">     
+            <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a></td>
+            <td>{{ dataset.doi }}</td>
+            <td>{{ dataset.type }}</td>
+            <td>{{ dataset.hostingOrganizationTitle }}</td>
+          </tr>
+      
+        </tbody>
+      </table>
+      </div>
+      </section>
+      </div>
+      
+      
+      
+      
+      {% endraw %}
+
+    
+    
+       
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="custom-collection.js"></script>
+
+  <footer class="footer">
+    <div>
+      
+    </div>
+    <div>
+      <div class="footer-groups">
+        
+        <div class="footer-column">
+          <p class="footer-column-name">Partners</p>
+          
+          
+          <ul class="footer-links">
+            
+            <li>
+              <a href="http://www.nina.no/">Norwegian Institute for Nature Research (NINA)</a>
+            </li>
+            
+            <li>
+              <a href="http://www.ntnu.no/en">Norwegian University for Science and Technology (NTNU)</a>
+            </li>
+            
+            <li>
+              <a href="https://www.nhm.uio.no/english/">Natural History Museum, University of Oslo (UiO)</a>
+            </li>
+            
+            <li>
+              <a href="http://www.artsdatabanken.no/">Norwegian Biodiversity Information Centre – Artsdatabanken (NBIC)</a>
+            </li>
+            
+            <li>
+              <a href="https://www.uib.no/en">University of Bergen (UiB)</a>
+            </li>
+            
+            <li>
+              <a href="http://www.niva.no/">Norwegian Institute for Water Research (NIVA)</a>
+            </li>
+            
+            <li>
+              <a href="https://www.nmbu.no/en">Norwegian University of Life Science (NMBU)</a>
+            </li>
+            
+            <li>
+              <a href="https://www.nibio.no/en">Norwegian Institute of Bioeconomy Research (NIBIO)</a>
+            </li>
+            
+            <li>
+              <a href="https://gbif.no">GBIF Norway</a>
+            </li>
+            
+          </ul>
+          
+          
+          
+  
+        </div>
+        
+        <div class="footer-column">
+          <p class="footer-column-name">Code</p>
+          
+          <div class="footer-description">
+            <p>This project is open source. See <code class="language-plaintext highlighter-rouge">_data/footer.yml</code> to customize the footer.</p>
+  
+          </div>
+          
+          
+          
+          
+  
+        </div>
+        
+        <div class="footer-column">
+          <p class="footer-column-name">Contact</p>
+          
+          <div class="footer-description">
+            <p>Social icons links defined in <code class="language-plaintext highlighter-rouge">_config.yml</code></p>
+  <ul>
+    <li>Street name</li>
+    <li>1234 postal code</li>
+    <li>Country</li>
+  </ul>
+  
+          </div>
+          
+          
+          
+          
+          <ul class="footer-online-list">
+            
+            <li>
+              <a href="https://twitter.com/living_norway">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+            
+            <li>
+              <a href="https://github.com/LivingNorway">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+            
+            
+          </ul>
+          
+  
+        </div>
+        
+      </div>
+  
+      <div class="footer-footer">
+        <div>Powered by <a href="https://www.gbif.org">GBIF</a></div>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    ;
+    var currentLocale = 'en';
+  </script>
+  
+  <script src="/assets/theme/js/script.js?v=1619011298"></script>
+</body>
+</html>

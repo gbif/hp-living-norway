@@ -12,3 +12,5 @@ composition:
 
 
 [Living Norway test collection](collection1?keyword=living-norway-test)
+
+[Test collection](living-norway-test)

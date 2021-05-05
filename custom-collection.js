@@ -17,6 +17,7 @@ var app = new Vue({
   computed: {
   },  
   mounted() {
+    
     let keyword = this.getKeyword()
     
     if (keyword) {
