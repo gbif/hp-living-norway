@@ -39,6 +39,7 @@
     <div class="tabs">
       <ul>
         <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="tabselect = 'dataset'"><a>Dataset</a></li>
+        <!-- <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li> -->
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" @click="tabselect = 'citations'"><a>Citations</a></li>
       </ul>
     </div>
@@ -46,79 +47,77 @@
   </div>
 </div>
 
-<div v-show="tabselect == 'dataset'" class="mt-5">
-  <div class="container">
-    <div id="map"></div>
-    <h2 class="is-size-4 mt-5">Description</h2>
-    <p v-html=dataset.description></p>
-    <h2 class="is-size-4 mt-5">Temporal scope</h2>
-    <div class="content">
+  <div v-show="tabselect == 'dataset'" class="mt-5">
+    <div class="container">
+      <div id="map"></div>
+      <h2 class="is-size-4 mt-5 mb-3">Description</h2>
+      <p v-html=dataset.description></p>
+      <h2 class="is-size-4 mt-5">Temporal scope</h2>
+      <div class="content">
+        <ul>
+          <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+        </ul>
+      </div>
+      
+      <h2 class="is-size-4 mt-5 mb-3">Geographic scope</h2>
+      <p>{{getGeographicScope}}</p>
+      <div id="map-bounding-box" class="mt-3"></div>
+      
+      <h2 class="is-size-4 mt-5 mb-3">Taxonomic scope</h2>
+      <p> {{getTaxonomicScope}}</p>
+      <h3 class="is-size-5 mt-5">Taxa</h3>
+      <div class="content">
+        <ul>
+          <li v-for="taxa in getTaxa"> {{ taxa.commonName}}</li>
+        </ul>
+      </div>
+      <h2 class="is-size-4 mt-5">Contacts</h2>
+      <div class="content">
+        <ul>
+          <li v-for="contact in getContacts"> {{ contact.firstName}} {{ contact.lastName}} ({{ contact.email[0]}})</li>
+        </ul>
+      </div>
+      <h2 class="is-size-4 mt-5 mb-3">Methodology</h2>
+      <h3 class="is-size-5 mt-3 mb-3">Study extent </h3>
+      <p>{{ getStudyExtent}}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Sampling </h3>
+      <p>{{ getSampling }}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Quality control </h3>
+      <p>{{ getQualityControl }}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Method steps </h3>
       <ul>
-        <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+        <li v-for="step in getMethodSteps"> {{ step }}</li>
       </ul>
-    </div>
-    
-    <h2 class="is-size-4 mt-5">Geographic scope</h2>
-    <p>{{getGeographicScope}}</p>
-    <div id="map-bounding-box" class="mt-3"></div>
-    
-    <h2 class="is-size-4 mt-5">Taxonomic scope</h2>
-    <p> {{getTaxonomicScope}}</p>
-    <h3 class="is-size-5 mt-5">Taxa</h3>
-    <div class="content"></div>
-    <ul>
-      <li v-for="taxa in getTaxa"> {{ taxa.commonName}}</li>
-    </ul>
-  </div>
-    <h2 class="is-size-4 mt-5">Contacts</h2>
-    <div class="content">
-      <ul>
-        <li v-for="contact in dataset.contacts"> {{ contact.firstName}} {{ contact.lastName}}</li>
-      </ul>
-    </div>
-    <h2 class="is-size-4 mt-5">Methodology</h2>
-    <h3 class="is-size-5">Study extent </h3>
-    <p>{{ getStudyExtent}}</p>
-    <h3 class="is-size-5">Sampling </h3>
-    <p>{{ getSampling }}</p>
-    <h3 class="is-size-5">Quality control </h3>
-    <p>{{ getQualityControl }}</p>
-    <h3 class="is-size-5">Method steps </h3>
-    <ul>
-      <li v-for="step in getMethodSteps"> {{ step }}</li>
-    </ul>
 
-    <h2 class="is-size-4 mt-3">Data description</h2>
-    <p>Metadata language: {{dataset.language}} </p>
-    <p>Data language: {{dataset.dataLanguage}} </p>
-    <h2 class="is-size-4 mt-3">GBIF registration</h2>
-    <p>Registration date: {{dataset.created}}</p>
-    <p>Metadata last modified: {{dataset.modified}}</p>
-    <p>Publication date: {{dataset.pubDate}}</p>
-    <p>Hosted by: {{dataset.publishingOrganizationKey}}</p>
-    <p>Installation: {{dataset.installationKey}}</p>
-    <p>Installation contacts: {{dataset.createdBy}}</p>
-    <p>Endpoints:</p>
-    <ul>
-      <li v-for="endpoint in dataset.endpoints"> {{ endpoint.url }}</li>
-    </ul>
-    <p>Preferred identifier: {{dataset.doi }}</p>
-    <p>Alternative identifiers: </p>
-    <ul>
-      <li v-for="identifier in dataset.identifiers"> {{ identifier.identifier }}</li>
-    </ul>
-    
-    <h2 class="is-size-4 mt-3">Citation</h2>
-    <p> {{ dataset.citation}}</p>
-    
+      <h2 class="is-size-4 mt-5 mb-3">Data description</h2>
+      <p>Metadata language: {{dataset.language}} </p>
+      <p>Data language: {{dataset.dataLanguage}} </p>
+      <h2 class="is-size-4 mt-5 mb-3">GBIF registration</h2>
+      <p><span class="has-text-weight-bold">Registration date:</span> {{dataset.created}}</p>
+      <p><span class="has-text-weight-bold">Metadata last modified: </span>{{dataset.modified}}</p>
+      <p><span class="has-text-weight-bold">Publication date:</span> {{dataset.pubDate}}</p>
+      <p><span class="has-text-weight-bold">Hosted by: </span>{{dataset.publishingOrganizationKey}}</p>
+      <p><span class="has-text-weight-bold">Installation:</span> {{dataset.installationKey}}</p>
+      <p><span class="has-text-weight-bold">Installation contacts: </span> {{dataset.createdBy}}</p>
+      <p class="has-text-weight-bold">Endpoints:</p>
+      <ul>
+        <li v-for="endpoint in dataset.endpoints"> {{ endpoint.url }}</li>
+      </ul>
+      <p><span class="has-text-weight-bold">Preferred identifier: </span> {{dataset.doi }}</p>
+      <p class="has-text-weight-bold">Alternative identifiers: </p>
+      <ul>
+        <li v-for="identifier in dataset.identifiers"> {{ identifier.identifier }}</li>
+      </ul>
+      
+      <h2 class="is-size-4 mt-5">Citation</h2>
+      <p> {{ dataset.citation}}</p>
+      
   </div>
 </div>
 
-<div  v-show="tabselect == 'citations'" class="mt-5">
-
-  <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
-  
-</div>
+  <div  v-show="tabselect == 'citations'" class="mt-5"> 
+    <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -139,8 +138,7 @@
 <script>
 var app = new Vue({
   el: '#app',
-  data() {
-    return {
+  data: {
       title: '',
       dataset: {},
       map: {},
@@ -148,14 +146,23 @@ var app = new Vue({
       occurrences: [],
       publishingOrg: {},
       tabselect: 'dataset'
-    };
   },
   methods: {
     getDatasetKey() {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       return urlParams.get('key')
-    }
+    }  
+
+    //  setDatasetTab() {
+    //    this.tabselect = 'dataset'
+    //    Vue.nextTick().then(function () {
+    //      Vue.nextTick().then(function () {
+    //      this.map.invalidateSize()
+    //      })
+    //    })
+    
+    //  } 
     
   },
   computed: {
@@ -203,6 +210,25 @@ var app = new Vue({
       if (this.dataset.samplingDescription != undefined) {
         return this.dataset.samplingDescription.methodSteps
       } 
+    },
+    getContacts() {
+      const contacts = []
+      if (this.dataset.contacts != undefined) {
+        for(var i=0; i < this.dataset.contacts.length; i++){
+        var contact = this.dataset.contacts[i];
+        var exists = false
+        for(var j=0; j < contacts.length; j++){
+          if (contact.userId[0] === contacts[j].userId[0]) {
+            exists = true
+          }
+        }
+        if (!exists) {
+          contacts.push(contact)
+        }        
+      }
+      return contacts      
+      }  
+       
     }
   },  
   mounted() {
@@ -222,7 +248,7 @@ var app = new Vue({
           self.publishingOrg = response.data
         })
       })
-      self.map = L.map('map').setView([65.83599, 13.19076], 4);
+    self.map = L.map('map').setView([65.83599, 13.19076], 4);
     new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(self.map)
       new L.TileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=' + key + '&bin=hex&hexPerTile=30&style=green.poly'
     ).addTo(self.map)
