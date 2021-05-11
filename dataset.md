@@ -1,12 +1,15 @@
 ---
-layout: compose
-klass: dataset
-permalink: /dataset
+layout: dataset
 composition:
-- type: pageMarkdown
+- type: pageMarkdown 
 ---
 
+{% include dataset.html %}
 
 
-<article id="my-custom-dataset"></article>
-<script src="custom-dataset-example.js">
+
+
+
+  
+
+

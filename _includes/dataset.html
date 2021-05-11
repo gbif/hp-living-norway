@@ -1,0 +1,297 @@
+{::nomarkdown}
+{% raw %}
+<div id="app">
+
+  <div>
+  <div class="container">
+    <p>
+      <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
+        <span class="tag">DOI</span>
+        <span class="tag is-primary">{{dataset.doi}}</span>
+      </div> 
+      {{ dataset.type }} | {{ dataset.created | formatDate}}
+    </p>
+    <span class="is-clearfix"></span>
+    <p class="title">
+      {{dataset.title}}
+    </p>
+    <div class="block">
+    <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
+    </div>
+    <div class="block">
+      <p class="buttons">
+        <a class="button" v-bind:href="'https://www.gbif.org/dataset/'+ dataset.key" target="_blank" title="View data on GBIF.org">
+          <span class="icon">
+            <img src="/assets/images/gbif-logo.png"></img>
+          </span>
+          <span>GBIF</span>
+        </a>
+        <span style="margin-right: .5rem" v-for="endpoint in dataset.endpoints" :key="endpoint.key">
+          <a class="button" v-bind:href="endpoint.url" target="_blank" title="Download data">
+            <span class="icon">
+              <i class="fas fa-download"></i>
+            </span>
+            <span>{{endpoint.type}}</span>
+            </a>
+        </span>
+      </p>
+    </div>
+    <div class="tabs">
+      <ul>
+        <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="tabselect = 'dataset'"><a>Dataset</a></li>
+        <!-- TODO: Fix map <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li> -->
+        <li v-bind:class="{ 'is-active': tabselect == 'citations' }" @click="tabselect = 'citations'"><a>Citations</a></li>
+      </ul>
+    </div>
+     
+  </div>
+</div>
+
+  <div v-show="tabselect == 'dataset'" class="mt-5">
+    <div class="container">
+      <div id="map"></div>
+      <h2 class="is-size-4 mt-5 mb-3">Description</h2>
+      <p v-html=dataset.description></p>
+      <h2 class="is-size-4 mt-5">Temporal scope</h2>
+      <div class="content">
+        <ul>
+          <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+        </ul>
+      </div>
+      
+      <h2 class="is-size-4 mt-5 mb-3">Geographic scope</h2>
+      <p>{{getGeographicScope}}</p>
+      <div id="map-bounding-box" class="mt-3"></div>
+      
+      <h2 class="is-size-4 mt-5 mb-3">Taxonomic scope</h2>
+      <p> {{getTaxonomicScope}}</p>
+      <h3 class="is-size-5 mt-5">Taxa</h3>
+      <div class="content">
+        <ul>
+          <li v-for="taxa in getTaxa"> {{ taxa.commonName}}</li>
+        </ul>
+      </div>
+      <h2 class="is-size-4 mt-5">Contacts</h2>
+      <div class="content">
+        <ul>
+          <li v-for="contact in getContacts"> {{ contact.firstName}} {{ contact.lastName}} ({{ contact.email[0]}})</li>
+        </ul>
+      </div>
+      <h2 class="is-size-4 mt-5 mb-3">Methodology</h2>
+      <h3 class="is-size-5 mt-3 mb-3">Study extent </h3>
+      <p>{{ getStudyExtent}}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Sampling </h3>
+      <p>{{ getSampling }}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Quality control </h3>
+      <p>{{ getQualityControl }}</p>
+      <h3 class="is-size-5 mt-3 mb-3">Method steps </h3>
+      <ul>
+        <li v-for="step in getMethodSteps"> {{ step }}</li>
+      </ul>
+
+      <h2 class="is-size-4 mt-5 mb-3">Data description</h2>
+      <p>Metadata language: {{dataset.language}} </p>
+      <p>Data language: {{dataset.dataLanguage}} </p>
+      <h2 class="is-size-4 mt-5 mb-3">GBIF registration</h2>
+      <p><span class="has-text-weight-bold">Registration date:</span> {{dataset.created | formatDate }}</p>
+      <p><span class="has-text-weight-bold">Metadata last modified: </span>{{dataset.modified | formatDate }}</p>
+      <p><span class="has-text-weight-bold">Publication date:</span> {{dataset.pubDate | formatDate }}</p>
+      <p><span class="has-text-weight-bold">Hosted by: </span>{{ getPublishingOrgName }}</p>
+      <p><span class="has-text-weight-bold">Installation:</span> {{installation.title }}</p>
+      <p><span class="has-text-weight-bold">Installation contacts: </span> {{ getInstallationContacts }}</p>
+      <p class="has-text-weight-bold">Endpoints:</p>
+      <ul>
+        <li v-for="endpoint in dataset.endpoints"> <a v-bind:href="endpoint.url"> {{ endpoint.url }}</a></li>
+      </ul>
+      <p><span class="has-text-weight-bold">Preferred identifier: </span> {{dataset.doi }}</p>
+      <p class="has-text-weight-bold">Alternative identifiers: </p>
+      <ul>
+        <li v-for="identifier in dataset.identifiers"><a v-bind:href="identifier.identifier">{{ identifier.identifier }}</a>  </li>
+      </ul>
+      
+      <h2 class="is-size-4 mt-5">Citation</h2>
+      <p> {{ dataset.citation.text}}</p>
+      
+  </div>
+</div>
+
+  <div  v-show="tabselect == 'citations'" class="mt-5"> 
+    <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+
+{% endraw %}
+{:/nomarkdown}
+
+<script>
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(String(value)).format("DD.MM.YYYY");
+  }
+});
+
+var app = new Vue({
+  el: '#app',
+  data: {
+      title: '',
+      dataset: {},
+      map: {},
+      mapBoundingBox: {},
+      publishingOrg: {},
+      installation: {},
+      tabselect: 'dataset'
+  },
+  methods: {
+    getDatasetKey() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get('key')
+    }  
+
+    //  setDatasetTab() {
+    //    this.tabselect = 'dataset'
+    //    Vue.nextTick().then(function () {
+    //      Vue.nextTick().then(function () {
+    //      this.map.invalidateSize()
+    //      })
+    //    })
+    
+    //  } 
+    
+  },
+  computed: {
+    getWidgetUrl() {
+      let url = 'https://www.gbif.org/api/widgets/literature/latest?gbifDatasetKey=' + this.dataset.key
+      return url
+    },
+    getTaxonomicScope () {
+      if (this.dataset.taxonomicCoverages != undefined) {
+        return this.dataset.taxonomicCoverages[0].description
+      }
+    },
+    getTaxa () {
+      if (this.dataset.taxonomicCoverages != undefined) {
+        return this.dataset.taxonomicCoverages[0].coverages
+      }
+    },
+    getGeographicScope () {
+      if (this.dataset.geographicCoverages != undefined) {
+        return this.dataset.geographicCoverages[0].description
+      }
+    },
+    getPublishingOrgName () {
+      return this.publishingOrg.title      
+    },
+    getPublishingOrgUrl () {
+      return this.publishingOrg.description
+    },
+    getStudyExtent () {
+      if (this.dataset.samplingDescription != undefined) {
+        return this.dataset.samplingDescription.studyExtent
+      } 
+    },
+    getSampling() {
+      if (this.dataset.samplingDescription != undefined) {
+        return this.dataset.samplingDescription.sampling
+      } 
+    },
+    getQualityControl() {
+      if (this.dataset.samplingDescription != undefined) {
+        return this.dataset.samplingDescription.qualityControl
+      } 
+    },
+    getMethodSteps() {
+      if (this.dataset.samplingDescription != undefined) {
+        return this.dataset.samplingDescription.methodSteps
+      } 
+    },
+    getContacts() {
+      const contacts = []
+      if (this.dataset.contacts != undefined) {
+        for(var i=0; i < this.dataset.contacts.length; i++){
+        var contact = this.dataset.contacts[i];
+        var exists = false
+        for(var j=0; j < contacts.length; j++){
+          if (contact.userId[0] === contacts[j].userId[0]) {
+            exists = true
+          }
+        }
+        if (!exists) {
+          contacts.push(contact)
+        }        
+      }
+      return contacts      
+      }  
+       
+    },
+    getInstallationContacts() {
+      let instCont = "";
+      if (this.installation.contacts != undefined) {
+        this.installation.contacts.forEach(element => {
+          instCont += element.firstName + ','
+        });
+      }
+      return instCont
+
+    }
+  },  
+  mounted() {
+    let key = this.getDatasetKey()
+    if (key) {
+      let self = this
+      axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
+        self.dataset = response.data
+        var bounding = self.dataset.geographicCoverages[0].boundingBox
+        var bounds = [[bounding.maxLatitude , bounding.maxLongitude], [ bounding.minLatitude , bounding.minLongitude ]];
+
+        axios.get('https://api.gbif.org/v2/map/occurrence/density/capabilities.json?datasetKey=' + key).then(function(res) {
+          
+          var corner1 = L.latLng(res.data.minLat, res.data.minLng),
+          corner2 = L.latLng(res.data.maxLat, res.data.maxLng),
+          bounds = L.latLngBounds(corner1, corner2);
+
+          self.mapBoundingBox = L.map('map-bounding-box').fitBounds(bounds);
+          new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+            {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.mapBoundingBox)
+          var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 1})
+          self.mapBoundingBox.addLayer(boundingBox)
+
+          axios.get('https://api.gbif.org/v1/organization/' + self.dataset.publishingOrganizationKey).then(function(response) {
+            self.publishingOrg = response.data
+          });
+
+          axios.get('https://api.gbif.org/v1/installation/' + self.dataset.installationKey).then(function(response) {
+            self.installation = response.data
+          });
+
+      
+        self.map = L.map('map').fitBounds(bounds);
+        new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+          {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.map)
+          
+          new L.TileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=' + key + '&bin=hex&hexPerTile=30&style=green.poly'
+        ).addTo(self.map)
+      })
+    })
+
+    } else {
+      alert('no such dataset found');
+    }
+  }
+})
+
+
+</script>
