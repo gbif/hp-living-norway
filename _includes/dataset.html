@@ -1,6 +1,6 @@
 {::nomarkdown}
 {% raw %}
-<div id="app">
+<div id="app" v-cloak>
 
   <div>
   <div class="container">
@@ -38,8 +38,7 @@
     </div>
     <div class="tabs">
       <ul>
-        <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="tabselect = 'dataset'"><a>Dataset</a></li>
-        <!-- TODO: Fix map <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li> -->
+        <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" @click="tabselect = 'citations'"><a>Citations</a></li>
       </ul>
     </div>
@@ -110,7 +109,7 @@
       </ul>
       
       <h2 class="is-size-4 mt-5">Citation</h2>
-      <p> {{ dataset.citation.text}}</p>
+      <p> {{ getCitations }}</p>
       
   </div>
 </div>
@@ -152,24 +151,25 @@ var app = new Vue({
       mapBoundingBox: {},
       publishingOrg: {},
       installation: {},
-      tabselect: 'dataset'
+      tabselect: 'dataset',
+      bounds: {}
   },
   methods: {
     getDatasetKey() {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       return urlParams.get('key')
-    }  
+    },  
 
-    //  setDatasetTab() {
-    //    this.tabselect = 'dataset'
-    //    Vue.nextTick().then(function () {
-    //      Vue.nextTick().then(function () {
-    //      this.map.invalidateSize()
-    //      })
-    //    })
-    
-    //  } 
+    setDatasetTab() {
+      var self = this
+      this.tabselect = 'dataset'
+      Vue.nextTick().then(function () {
+        self.map.invalidateSize().fitBounds(self.bounds)
+        self.mapBoundingBox.invalidateSize().fitBounds(self.bounds)
+      })
+
+    } 
     
   },
   computed: {
@@ -246,6 +246,11 @@ var app = new Vue({
       }
       return instCont
 
+    },
+    getCitations() {
+      if (this.dataset.citation != undefined) {
+        return this.dataset.citation.text
+      }
     }
   },  
   mounted() {
@@ -254,14 +259,13 @@ var app = new Vue({
       let self = this
       axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
         self.dataset = response.data
-        var bounding = self.dataset.geographicCoverages[0].boundingBox
-        var bounds = [[bounding.maxLatitude , bounding.maxLongitude], [ bounding.minLatitude , bounding.minLongitude ]];
-
         axios.get('https://api.gbif.org/v2/map/occurrence/density/capabilities.json?datasetKey=' + key).then(function(res) {
           
           var corner1 = L.latLng(res.data.minLat, res.data.minLng),
           corner2 = L.latLng(res.data.maxLat, res.data.maxLng),
           bounds = L.latLngBounds(corner1, corner2);
+
+          self.bounds = bounds
 
           self.mapBoundingBox = L.map('map-bounding-box').fitBounds(bounds);
           new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
@@ -277,7 +281,6 @@ var app = new Vue({
             self.installation = response.data
           });
 
-      
         self.map = L.map('map').fitBounds(bounds);
         new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
           {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.map)

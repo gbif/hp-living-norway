@@ -1,11 +1,11 @@
 {::nomarkdown}
 {% raw %}
-<div id="app">
+<div id="app" v-cloak>
   <section class="section">
   <div class="container">
   
     <p class="title">
-      Living Noway Network datasets
+      Living Norway Network datasets
     </p>
     <p class="subtitle">
       The datasets that belong to the Living Norway Network
@@ -18,18 +18,23 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Doi</th>
+      <th><div style="width:150px">Doi</div></th>
       <th>Type</th>
-      <th>Produced by</th>
+      <th>Created date</th>
     </tr>
   </thead>
   
   <tbody>
     <tr v-for="dataset in datasets" :key="dataset.key">     
       <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a></td>
-      <td>{{ dataset.doi }}</td>
-      <td>{{ dataset.type }}</td>
-      <td>{{ dataset.publishingOrganizationKey }}</td>
+      <td> 
+        <div class="tags has-addons" style="margin-bottom: 0;">
+          <span class="tag">DOI</span>
+          <span class="tag is-primary">{{dataset.doi}}</span>
+        </div> 
+      </td>
+      <td>{{ getType(dataset.type) }}</td>
+      <td>{{ dataset.created | formatDate }}</td>
     </tr>
   </tbody>
 </table>
@@ -40,23 +45,35 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 {% endraw %}
 {:/nomarkdown}
 
 <script>
+  Vue.filter("formatDate", function(value) {
+  if (value) {
+    return moment(String(value)).format("DD.MM.YYYY");
+  }
+});
 var app = new Vue({
     el: '#app',
     data: {
       datasets: []
     },
-    methods: {},
+    methods: {
+      getType (type) {
+        return type.replace('_', ' ')
+      }
+    },
     computed: {},  
     mounted() {
         let self = this
         axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents').then(function(response) {
           self.datasets = response.data.results
+          
+         
+
         })
     }
   })

@@ -4,7 +4,7 @@ tag: living-norway-test
 collectionTitle: Living Norway Test
 composition:
 - type: pageMarkdown 
-permalink: /collections/living-norway-test
+permalink: /collections/collection/living-norway-test
 ---
 
 # Heading 1
@@ -19,7 +19,7 @@ Here can you write a description in markdown with some limits
 
 
 
-{% include custom-collection-test.html %}
+{% include collection.html %}
 
 
 
