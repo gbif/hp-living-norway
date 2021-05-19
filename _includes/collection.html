@@ -1,12 +1,12 @@
 {::nomarkdown}
 {% raw %}
-<div id="app" markdown="0" class="mt-6" >
+<div id="app" markdown="0" class="mt-6" v-cloak>
 <div class="container">
 <table class="table is-fullwidth is-bordered is-striped">
 <thead>
   <tr>
     <th>Title</th>
-    <th>Doi</th>
+    <th><div style="width:180px">Doi</div></th>
     <th>Type</th>
     <th>Produced by</th>
   </tr>
@@ -15,8 +15,13 @@
 <tbody>
   <tr v-for="dataset in datasets" :key="dataset.key">     
     <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a></td>
-    <td>{{ dataset.doi }}</td>
-    <td>{{ dataset.type }}</td>
+    <td> 
+      <div class="tags has-addons" style="margin-bottom: 0;">
+      <span class="tag">DOI</span>
+      <span class="tag is-primary">{{dataset.doi}}</span>
+    </div> 
+  </td>
+    <td>{{ getType(dataset.type) }}</td>
     <td>{{ dataset.hostingOrganizationTitle }}</td>
   </tr>
 
@@ -46,9 +51,13 @@ var app = new Vue({
       const urlParams = new URLSearchParams(queryString);
       return urlParams.get('keyword')
     },
+    getType (type) {
+      return type.replace('_', ' ')
+    }
     
   },
   computed: {
+   
   },  
   mounted() {
     var keyword2 = '{{ page.tag }}'
@@ -64,8 +73,8 @@ var app = new Vue({
       alert('no such dataset found');
     }
 
-    
   }
+  
 })  
 
 </script>

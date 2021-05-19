@@ -19,7 +19,7 @@ Here can you write a description in markdown with some limits
 
 
 
-{% include custom-collection-test.html %}
+{% include collection.html %}
 
 
 
