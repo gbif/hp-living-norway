@@ -15,6 +15,6 @@ composition:
 <h3> All data collections available in the Living Norway Network </h3>
 <ul>
    {% for item in site.data.collections.docs %}
-      <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+      <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
    {% endfor %}
 </ul>

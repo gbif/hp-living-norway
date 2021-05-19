@@ -4,7 +4,7 @@ tag: living-norway-test
 collectionTitle: Living Norway Test
 composition:
 - type: pageMarkdown 
-permalink: /collections/collection/living-norway-test
+permalink: /collections/living-norway-test
 ---
 
 # Heading 1

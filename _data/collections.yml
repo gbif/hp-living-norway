@@ -2,7 +2,7 @@ docs_list_title: Data Collections
 docs:
 
 - title: Test collection
-  url: collection/living-norway-test
+  url: collections/living-norway-test
 
 # - title: Configuration
 #   url: configuration.html
