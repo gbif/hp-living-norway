@@ -1,0 +1,78 @@
+{% raw %}
+<div id="app" markdown="0" class="mt-6" v-cloak>
+<div class="container">
+<table class="table is-fullwidth is-bordered is-striped">
+<thead>
+  <tr>
+    <th>Title</th>
+    <th><div style="width:180px">Doi</div></th>
+    <th>Type</th>
+    <th>Produced by</th>
+  </tr>
+</thead>
+
+<tbody>
+  <tr v-for="dataset in datasets" :key="dataset.key">     
+    <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a></td>
+    <td> 
+      <div class="tags has-addons" style="margin-bottom: 0;">
+      <span class="tag">DOI</span>
+      <span class="tag is-primary">{{dataset.doi}}</span>
+    </div> 
+  </td>
+    <td>{{ getType(dataset.type) }}</td>
+    <td>{{ dataset.hostingOrganizationTitle }}</td>
+  </tr>
+
+</tbody>
+</table>
+</div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+{% endraw %}
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    title: '',
+    datasets: []
+   
+  },
+  methods: {
+    getKeyword() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      return urlParams.get('keyword')
+    },
+    getType (type) {
+      return type.replace('_', ' ')
+    }
+    
+  },
+  computed: {
+   
+  },  
+  mounted() {
+    var keyword2 = '{{ page.tag }}'
+    let keyword = this.getKeyword()
+    
+    if (keyword2) {
+      let self = this
+      self.title = keyword
+      axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + '{{ page.tag }}').then(function(response) {
+        self.datasets = response.data.results
+      })
+    } else {
+      alert('no such dataset found');
+    }
+
+  }
+  
+})  
+
+</script>

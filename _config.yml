@@ -34,9 +34,12 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
+  - jekyll-redirect-from
 
 remote_theme: gbif/jekyll-hp-base-theme
 
+whitelist:
+  - jekyll-redirect-from
 algae:
   rootLang: en
   # latestPostLimit: 2
