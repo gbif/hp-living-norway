@@ -2,8 +2,8 @@
 layout: my_layout
 ---
 
-{% assign redirect = page.redirect.from | split: "." | last | prepend: "collection." %}
+{% assign redirect = page.redirect.from | split: "." | last %}
 
-{% if redirect != "collection." %}
-  {% include {{ redirect }} %}
+{% if redirect %}
+  {% include {{ redirect | prepend: "collection." }} %}
 {% endif %}
