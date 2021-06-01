@@ -1,12 +1,10 @@
 ---
+layout: collection
 tag: living-norway-test
 collectionTitle: Living Norway Test
 composition:
 - type: pageMarkdown 
-#permalink: /collections/living-norway-test
-redirect_from:
-- /collections/living-norway-test.html
-- /collections/living-norway-test.json
+permalink: /collections/living-norway-test
 ---
 
 # Heading 1
@@ -19,6 +17,9 @@ redirect_from:
 Here can you write a description in markdown with some limits
 
 
+
+
+{% include collection.html %}
 
 
 
