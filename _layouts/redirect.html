@@ -1,0 +1,9 @@
+---
+layout: my_layout
+---
+
+{% assign redirect = page.redirect.from | split: "." | last %}
+
+{% if redirect %}
+  {% include {{ redirect | prepend: "collection." }} %}
+{% endif %}
