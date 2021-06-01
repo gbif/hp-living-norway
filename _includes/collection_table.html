@@ -45,9 +45,9 @@ var app = new Vue({
   },
   methods: {
     getKeyword() {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      return urlParams.get('keyword')
+      const pathname = window.location.pathname
+      const keyword = pathname.split('/').pop()
+      return keyword
     },
     getType (type) {
       return type.replace('_', ' ')
@@ -58,13 +58,11 @@ var app = new Vue({
    
   },  
   mounted() {
-    var keyword2 = '{{ page.tag }}'
-    let keyword = this.getKeyword()
-    
-    if (keyword2) {
+    let keyword = this.getKeyword() 
+    if (keyword) {
       let self = this
       self.title = keyword
-      axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + '{{ page.tag }}').then(function(response) {
+      axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + keyword).then(function(response) {
         self.datasets = response.data.results
       })
     } else {
