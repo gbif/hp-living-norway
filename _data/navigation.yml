@@ -2,8 +2,8 @@
 
 - text: About
   href: /about
-- text: Data
-  href: /data
+#- text: Data
+#  href: /data
 - text: Links
   menu: # Dropdown menu (one level deep only)
   - text: Base theme demo
@@ -19,11 +19,10 @@
 - text: News
   href: /news/
 - text: Datasets
-  menu: # Dropdown menu (one level deep only)
-  - text: Available datasets
-    href: /datasets
-  - text: Dataset collections
-    href: /collections
+  href: /datasets
+- text: Collections
+  href: /collections
+
 # Your new page goes here
 
 # And let us add an external link - could be to your Github repo

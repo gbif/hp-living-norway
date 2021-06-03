@@ -6,6 +6,13 @@
 
 #map-bounding-box { height: 400px; }
 
+//.container a {text-decoration: underline;}
+.tag a {color: white}
+
 [v-cloak] {
     display: none;
   }
+.contact-list:not(:last-child):after {
+  font-style: normal;
+    content: '\25CF';
+}  

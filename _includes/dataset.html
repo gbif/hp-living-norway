@@ -7,9 +7,9 @@
     <p>
       <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
         <span class="tag">DOI</span>
-        <span class="tag is-primary">{{dataset.doi}}</span>
+        <span class="tag is-primary" ><a v-bind:href="'https://doi.org/' + dataset.doi" target="_blank">{{dataset.doi}}</a></span>
       </div> 
-      {{ dataset.type }} | {{ dataset.created | formatDate}}
+      {{ getType(dataset.type) }} | {{ dataset.created | formatDate}}
     </p>
     <span class="is-clearfix"></span>
     <p class="title">
@@ -17,6 +17,9 @@
     </p>
     <div class="block">
     <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
+    <p>
+      <span class="contact-list" v-for="contact in getContacts"> {{ contact.firstName}} {{ contact.lastName}}  </span>
+    </p>
     </div>
     <div class="block">
       <p class="buttons">
@@ -40,6 +43,7 @@
       <ul>
         <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" @click="tabselect = 'citations'"><a>Citations</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'project' }" @click="tabselect = 'project'"><a>Project</a></li>
       </ul>
     </div>
      
@@ -50,42 +54,51 @@
     <div class="container">
       <div id="map"></div>
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
-      <p v-html=dataset.description></p>
+      
+      <p v-html=dataset.description v-linkified ></p>
       <h2 class="is-size-4 mt-5">Temporal scope</h2>
       <div class="content">
         <ul>
-          <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+          <li v-for="coverage in dataset.temporalCoverages"> {{ getCoverage (coverage)}}</li>
         </ul>
       </div>
       
       <h2 class="is-size-4 mt-5 mb-3">Geographic scope</h2>
-      <p>{{getGeographicScope}}</p>
+      <p v-html="getGeographicScope" v-linkified> </p>
       <div id="map-bounding-box" class="mt-3"></div>
       
       <h2 class="is-size-4 mt-5 mb-3">Taxonomic scope</h2>
-      <p> {{getTaxonomicScope}}</p>
+      <p v-html="getTaxonomicScope" v-linkified> </p>
       <h3 class="is-size-5 mt-5">Taxa</h3>
       <div class="content">
         <ul>
-          <li v-for="taxa in getTaxa"> {{ taxa.commonName}}</li>
+          <li v-for="taxa in getTaxa"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
         </ul>
       </div>
-      <h2 class="is-size-4 mt-5">Contacts</h2>
+      <h2 class="is-size-4 mt-5 mb-5">Contacts</h2>
       <div class="content">
-        <ul>
-          <li v-for="contact in getContacts"> {{ contact.firstName}} {{ contact.lastName}} ({{ contact.email[0]}})</li>
-        </ul>
+        <div class="columns">
+        <div class="column is-one-third">       
+          <div class="card mb-3" v-for="contact in getContacts">
+          <div class="card-content">
+           <div> <h4 class="is-size-6">{{ contact.firstName}} {{ contact.lastName}} </h4></div>
+           <div v-show="contact.email[0] != undefined"> E-mail: <a v-bind:href="getEmailLink(contact.email[0])">{{contact.email[0]}}</a></div>
+           <div v-show="contact.userId[0] != undefined">Orch id: <a v-bind:href=contact.userId[0]>{{contact.userId[0]}}</a></div>
+          </div>
+        </div>
+        </div>
+      </div>
       </div>
       <h2 class="is-size-4 mt-5 mb-3">Methodology</h2>
       <h3 class="is-size-5 mt-3 mb-3">Study extent </h3>
-      <p>{{ getStudyExtent}}</p>
+      <p v-html="getStudyExtent" v-linkified> </p>
       <h3 class="is-size-5 mt-3 mb-3">Sampling </h3>
-      <p>{{ getSampling }}</p>
+      <p v-html="getSampling" v-linkified> </p>
       <h3 class="is-size-5 mt-3 mb-3">Quality control </h3>
-      <p>{{ getQualityControl }}</p>
+      <p v-html="getQualityControl" v-linkified> </p>
       <h3 class="is-size-5 mt-3 mb-3">Method steps </h3>
       <ul>
-        <li v-for="step in getMethodSteps"> {{ step }}</li>
+        <li v-for="step in getMethodSteps"> <span v-html="step"  v-linkified></span></li>
       </ul>
 
       <h2 class="is-size-4 mt-5 mb-3">Data description</h2>
@@ -117,6 +130,10 @@
   <div  v-show="tabselect == 'citations'" class="mt-5"> 
     <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
   </div>
+  <div  v-show="tabselect == 'project'" class="mt-5"> 
+    <h2 class="is-size-4 mt-5 mb-5">Project</h2>
+    <div>Project information will be available here </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -130,7 +147,8 @@
    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
-
+   <script src="https://cdn.jsdelivr.net/npm/linkifyjs@2.1.6/dist/linkify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/linkifyjs@2.1.6/dist/linkify-element.min.js"></script>
 
 {% endraw %}
 {:/nomarkdown}
@@ -140,6 +158,10 @@ Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("DD.MM.YYYY");
   }
+});
+
+Vue.directive('linkified', function (el, binding) {
+    linkifyElement(el, binding.value);
 });
 
 var app = new Vue({
@@ -169,6 +191,23 @@ var app = new Vue({
         self.mapBoundingBox.invalidateSize().fitBounds(self.bounds)
       })
 
+    },
+    getEmailLink(email) {
+      return 'mailto:' + email
+    },
+    getType (type) {
+      if (type) {
+        return type.replace('_', ' ')
+      }
+      
+    },
+    getCoverage (coverage) {
+      if (coverage["@type"] === 'range'){
+        return moment(String(coverage.start)).format("DD.MM.YYYY")   + ' - ' + moment(String(coverage.end)).format("DD.MM.YYYY")
+      }
+      if (coverage["@type"] === 'verbatim') {
+        return coverage.period
+      }
     } 
     
   },
@@ -178,17 +217,18 @@ var app = new Vue({
       return url
     },
     getTaxonomicScope () {
-      if (this.dataset.taxonomicCoverages != undefined) {
+      if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0) {
         return this.dataset.taxonomicCoverages[0].description
       }
     },
     getTaxa () {
-      if (this.dataset.taxonomicCoverages != undefined) {
+      if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0) {
+
         return this.dataset.taxonomicCoverages[0].coverages
       }
     },
     getGeographicScope () {
-      if (this.dataset.geographicCoverages != undefined) {
+      if (this.dataset.geographicCoverages != undefined && this.dataset.geographicCoverages.length > 0) {
         return this.dataset.geographicCoverages[0].description
       }
     },
@@ -237,6 +277,7 @@ var app = new Vue({
       }  
        
     },
+   
     getInstallationContacts() {
       let instCont = "";
       if (this.installation.contacts != undefined) {
@@ -252,6 +293,7 @@ var app = new Vue({
         return this.dataset.citation.text
       }
     }
+    
   },  
   mounted() {
     let key = this.getDatasetKey()
@@ -268,6 +310,7 @@ var app = new Vue({
           self.bounds = bounds
 
           self.mapBoundingBox = L.map('map-bounding-box').fitBounds(bounds);
+          self.mapBoundingBox.setZoom(4)
           new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
             {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.mapBoundingBox)
           var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 1})
@@ -281,7 +324,9 @@ var app = new Vue({
             self.installation = response.data
           });
 
-        self.map = L.map('map').fitBounds(bounds);
+        self.map = L.map('map')
+        self.map.fitBounds(bounds);
+        self.map.setZoom(4)
         new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
           {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.map)
           
