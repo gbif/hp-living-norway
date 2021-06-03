@@ -59,7 +59,7 @@
       <h2 class="is-size-4 mt-5">Temporal scope</h2>
       <div class="content">
         <ul>
-          <li v-for="coverage in dataset.temporalCoverages"> {{ coverage.period}}</li>
+          <li v-for="coverage in dataset.temporalCoverages"> {{ getCoverage (coverage)}}</li>
         </ul>
       </div>
       
@@ -72,7 +72,7 @@
       <h3 class="is-size-5 mt-5">Taxa</h3>
       <div class="content">
         <ul>
-          <li v-for="taxa in getTaxa"> {{ taxa.commonName}}</li>
+          <li v-for="taxa in getTaxa"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
         </ul>
       </div>
       <h2 class="is-size-4 mt-5 mb-5">Contacts</h2>
@@ -82,8 +82,8 @@
           <div class="card mb-3" v-for="contact in getContacts">
           <div class="card-content">
            <div> <h4 class="is-size-6">{{ contact.firstName}} {{ contact.lastName}} </h4></div>
-           E-mail: <a v-bind:href="getEmailLink(contact.email[0])">{{contact.email[0]}}</a>
-           <div>Orch id: <a v-bind:href=contact.userId[0]>{{contact.userId[0]}}</a></div>
+           <div v-show="contact.email[0] != undefined"> E-mail: <a v-bind:href="getEmailLink(contact.email[0])">{{contact.email[0]}}</a></div>
+           <div v-show="contact.userId[0] != undefined">Orch id: <a v-bind:href=contact.userId[0]>{{contact.userId[0]}}</a></div>
           </div>
         </div>
         </div>
@@ -200,6 +200,14 @@ var app = new Vue({
         return type.replace('_', ' ')
       }
       
+    },
+    getCoverage (coverage) {
+      if (coverage["@type"] === 'range'){
+        return moment(String(coverage.start)).format("DD.MM.YYYY")   + ' - ' + moment(String(coverage.end)).format("DD.MM.YYYY")
+      }
+      if (coverage["@type"] === 'verbatim') {
+        return coverage.period
+      }
     } 
     
   },
@@ -209,17 +217,18 @@ var app = new Vue({
       return url
     },
     getTaxonomicScope () {
-      if (this.dataset.taxonomicCoverages != undefined) {
+      if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0) {
         return this.dataset.taxonomicCoverages[0].description
       }
     },
     getTaxa () {
-      if (this.dataset.taxonomicCoverages != undefined) {
+      if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0) {
+
         return this.dataset.taxonomicCoverages[0].coverages
       }
     },
     getGeographicScope () {
-      if (this.dataset.geographicCoverages != undefined) {
+      if (this.dataset.geographicCoverages != undefined && this.dataset.geographicCoverages.length > 0) {
         return this.dataset.geographicCoverages[0].description
       }
     },
@@ -301,6 +310,7 @@ var app = new Vue({
           self.bounds = bounds
 
           self.mapBoundingBox = L.map('map-bounding-box').fitBounds(bounds);
+          self.mapBoundingBox.setZoom(4)
           new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
             {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.mapBoundingBox)
           var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 1})
@@ -314,7 +324,9 @@ var app = new Vue({
             self.installation = response.data
           });
 
-        self.map = L.map('map').fitBounds(bounds);
+        self.map = L.map('map')
+        self.map.fitBounds(bounds);
+        self.map.setZoom(4)
         new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
           {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.map)
           
