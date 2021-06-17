@@ -1,0 +1,23 @@
+---
+layout: none
+---
+{% comment %}
+// A plain dump of the project descriptions
+{% endcomment %}
+{{ site.projects | jsonify }} 
+
+{% comment %}
+// Or control the output in more details with something like. Making sure to escape and encode somehow.
+[
+  {% for project in site.projects %}
+  {
+    "projectId": "{{ project.identifier }}",
+    "title": "{{ project.title }}",
+    "description": "{{ project.content }}"
+  }
+  {% endfor %}
+]
+{% endcomment %}
+
+
+

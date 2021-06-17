@@ -8,8 +8,14 @@ composition:
 
 
 
-
-
+{% for project in site.projects %}
+<article>
+  <h1>{{ project.title }}</h1>
+  <div>
+  {{project.content}}
+  </div>
+</article>
+{% endfor %}
 
 <h2>{{ site.data.collections.docs_list_title }}</h2>
 <h3> All data collections available in the Living Norway Network </h3>
