@@ -9,13 +9,18 @@ composition:
 
 
 {% for project in site.projects %}
-<article>
-  <h1>{{ project.title }}</h1>
+<article class="card" style="margin-bottom: 12px; padding: 12px;">
+  <a href="{{project.url}}">
+    <h1>{{ project.title }}</h1>
+  </a>
   <div>
   {{project.content}}
   </div>
+  <a href="{{project.url}}" class="button">Read more</a>
 </article>
 {% endfor %}
+
+<a href="/collections.json" class="button is-primary">See all projects as JSON dump</a>
 
 <h2>{{ site.data.collections.docs_list_title }}</h2>
 <h3> All data collections available in the Living Norway Network </h3>

@@ -104,4 +104,5 @@ defaults:
       lang: da
 
 collections:
-  - projects
+  projects:
+    output: true
