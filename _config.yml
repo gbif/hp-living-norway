@@ -102,3 +102,7 @@ defaults:
       path: "da/"
     values:
       lang: da
+
+collections:
+  projects:
+    output: true
