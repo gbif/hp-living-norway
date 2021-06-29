@@ -131,8 +131,12 @@
     <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
   </div>
   <div  v-show="tabselect == 'project'" class="mt-5"> 
-    <h2 class="is-size-4 mt-5 mb-5">Project</h2>
-    <div>Project information will be available here </div>
+    <div class="container">
+      <div class="content">
+    <h2 class="is-size-4 mt-5 mb-5">{{ project.title }}</h2>
+    <div v-html="project.description"> </div>
+  </div>
+</div>
   </div>
 </div>
 
@@ -153,7 +157,7 @@
 {% endraw %}
 {:/nomarkdown}
 
-<script>
+<script>  
 Vue.filter("formatDate", function(value) {
   if (value) {
     return moment(String(value)).format("DD.MM.YYYY");
@@ -174,7 +178,8 @@ var app = new Vue({
       publishingOrg: {},
       installation: {},
       tabselect: 'dataset',
-      bounds: {}
+      bounds: {},
+      project: {}
   },
   methods: {
     getDatasetKey() {
@@ -292,15 +297,35 @@ var app = new Vue({
       if (this.dataset.citation != undefined) {
         return this.dataset.citation.text
       }
+    },
+    getTag() {
+      if (this.dataset.tags != undefined) {
+        return this.dataset.tags[0].value
+      }
     }
     
   },  
   mounted() {
+
+    
+
     let key = this.getDatasetKey()
     if (key) {
       let self = this
       axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
         self.dataset = response.data
+        axios.get('projects.json')
+        .then(res => {
+            if (res.data.length > 0) {
+              let element = res.data.find(d => d.projectId === self.getTag ) 
+                if (element !== undefined) {
+                  self.project = element
+                }
+              }
+        })
+        .catch(err => console.log(err))
+        
+        
         axios.get('https://api.gbif.org/v2/map/occurrence/density/capabilities.json?datasetKey=' + key).then(function(res) {
           
           var corner1 = L.latLng(res.data.minLat, res.data.minLng),

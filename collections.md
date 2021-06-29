@@ -21,6 +21,7 @@ composition:
 {% endfor %}
 
 <a href="/collections.json" class="button is-primary">See all projects as JSON dump</a>
+<a href="/projects.json" class="button is-primary">See all projects as JSON dump</a>
 
 <h2>{{ site.data.collections.docs_list_title }}</h2>
 <h3> All data collections available in the Living Norway Network </h3>
@@ -29,3 +30,4 @@ composition:
       <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
    {% endfor %}
 </ul>
+
