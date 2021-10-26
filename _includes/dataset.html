@@ -18,7 +18,7 @@
     <div class="block">
     <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
     <p>
-      <span class="contact-list" v-for="contact in getContacts"> {{ contact.firstName}} {{ contact.lastName}}  </span>
+      <span class="contact-list" v-for="contact in getContacts"> {{ contact.name}}  </span>
     </p>
     </div>
     <div class="block">
@@ -56,7 +56,7 @@
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
       
       <p v-html=dataset.description v-linkified ></p>
-      <h2 class="is-size-4 mt-5">Temporal scope</h2>
+      <h2 class="is-size-4 mt-5" v-show="hasTemporalCoverages">Temporal scope</h2>
       <div class="content">
         <ul>
           <li v-for="coverage in dataset.temporalCoverages"> {{ getCoverage (coverage)}}</li>
@@ -67,9 +67,9 @@
       <p v-html="getGeographicScope" v-linkified> </p>
       <div id="map-bounding-box" class="mt-3"></div>
       
-      <h2 class="is-size-4 mt-5 mb-3">Taxonomic scope</h2>
+      <h2 class="is-size-4 mt-5 mb-3" v-show="getTaxonomicScope">Taxonomic scope</h2>
       <p v-html="getTaxonomicScope" v-linkified> </p>
-      <h3 class="is-size-5 mt-5">Taxa</h3>
+      <h3 class="is-size-5 mt-5" v-show="getTaxa">Taxa</h3>
       <div class="content">
         <ul>
           <li v-for="taxa in getTaxa"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
@@ -81,25 +81,29 @@
         <div class="column is-one-third">       
           <div class="card mb-3" v-for="contact in getContacts">
           <div class="card-content">
-           <div> <h4 class="is-size-6">{{ contact.firstName}} {{ contact.lastName}} </h4></div>
-           <div v-show="contact.email[0] != undefined"> E-mail: <a v-bind:href="getEmailLink(contact.email[0])">{{contact.email[0]}}</a></div>
-           <div v-show="contact.userId[0] != undefined">Orch id: <a v-bind:href=contact.userId[0]>{{contact.userId[0]}}</a></div>
+           <div> <h4 class="is-size-6">{{ contact.name}}  </h4></div>
+           <div v-show="contact.email[0] != undefined"> <a v-bind:href="getEmailLink(contact.email[0])"><span class="icon">
+            <i class="far fa-envelope"></i>
+          </span>{{contact.email[0]}}</a></div>
+           <div v-show="contact.userId[0] != undefined"><a v-bind:href=contact.userId[0]><img style="vertical-align: middle; margin-right: 4px" src="https://www.gbif.org/img/orcid_16x16.gif"/> {{contact.userId[0]}}</a></div>
           </div>
         </div>
         </div>
       </div>
       </div>
-      <h2 class="is-size-4 mt-5 mb-3">Methodology</h2>
-      <h3 class="is-size-5 mt-3 mb-3">Study extent </h3>
-      <p v-html="getStudyExtent" v-linkified> </p>
-      <h3 class="is-size-5 mt-3 mb-3">Sampling </h3>
-      <p v-html="getSampling" v-linkified> </p>
-      <h3 class="is-size-5 mt-3 mb-3">Quality control </h3>
-      <p v-html="getQualityControl" v-linkified> </p>
-      <h3 class="is-size-5 mt-3 mb-3">Method steps </h3>
-      <ul>
-        <li v-for="step in getMethodSteps"> <span v-html="step"  v-linkified></span></li>
-      </ul>
+      <div v-show="hasMethodology">
+        <h2 class="is-size-4 mt-5 mb-3">Methodology</h2>
+        <h3 class="is-size-5 mt-3 mb-3" v-show="getStudyExtent">Study extent </h3>
+        <p v-html="getStudyExtent" v-linkified> </p>
+        <h3 class="is-size-5 mt-3 mb-3" v-show="getSampling">Sampling </h3>
+        <p v-html="getSampling" v-linkified> </p>
+        <h3 class="is-size-5 mt-3 mb-3" v-show="getQualityControl">Quality control </h3>
+        <p v-html="getQualityControl" v-linkified> </p>
+        <h3 class="is-size-5 mt-3 mb-3" v-show="getMethodSteps">Method steps </h3>
+        <ul>
+          <li v-for="step in getMethodSteps"> <span v-html="step"  v-linkified></span></li>
+        </ul>
+    </div>
 
       <h2 class="is-size-4 mt-5 mb-3">Data description</h2>
       <p>Metadata language: {{dataset.language}} </p>
@@ -263,6 +267,9 @@ var app = new Vue({
         return this.dataset.samplingDescription.methodSteps
       } 
     },
+    hasMethodology() {
+      return this.dataset.samplingDescription != undefined
+    },
     getContacts() {
       const contacts = []
       if (this.dataset.contacts != undefined) {
@@ -270,14 +277,25 @@ var app = new Vue({
         var contact = this.dataset.contacts[i];
         var exists = false
         for(var j=0; j < contacts.length; j++){
-          if (contact.userId[0] === contacts[j].userId[0]) {
-            exists = true
+          if (contact.userId.length == 0 && contact.email.length === 0 && contact.lastName === undefined) {
+            if (contact.organization === contacts[j].organization) {
+              exists = true
+            }
           }
+          else if (contact.userId.length > 0 && contact.userId[0] === contacts[j].userId[0] || contact.email.length > 0 && contact.email[0] === contacts[j].email[0] || contact.lastName === contacts[j].lastName) {
+            exists = true
+
+          }          
         }
-        if (!exists) {
-          contacts.push(contact)
-        }        
-      }
+          if (!exists) {
+            if (contact.firstName == undefined && contact.lastName == undefined) {
+              contact.name = contact.organization
+            } else {
+              contact.name = contact.firstName + " " + contact.lastName
+            }
+            contacts.push(contact)
+          } 
+        }  
       return contacts      
       }  
        
@@ -299,9 +317,12 @@ var app = new Vue({
       }
     },
     getTag() {
-      if (this.dataset.tags != undefined) {
+      if (this.dataset.tags != undefined && this.dataset.tags.length > 0) {
         return this.dataset.tags[0].value
       }
+    },
+    hasTemporalCoverages () {
+      return this.dataset.temporalCoverages !== undefined && this.dataset.temporalCoverages.length > 0
     }
     
   },  
@@ -338,7 +359,7 @@ var app = new Vue({
           self.mapBoundingBox.setZoom(4)
           new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
             {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.mapBoundingBox)
-          var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 1})
+          var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 2})
           self.mapBoundingBox.addLayer(boundingBox)
 
           axios.get('https://api.gbif.org/v1/organization/' + self.dataset.publishingOrganizationKey).then(function(response) {
