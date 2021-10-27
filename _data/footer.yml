@@ -24,16 +24,10 @@ columns:
     - text: GBIF Norway
       href: https://gbif.no
 
-  - name: Code
-    description: | # Can be Markdown
-      This project is open source. See `_data/footer.yml` to customize the footer.
   
   - name: Contact
     description: | # Can be Markdown
-      Social icons links defined in `_config.yml`
-      * Street name
-      * 1234 postal code
-      * Country
+      * NINA (Norwagian Institute for Nature Research)
     connectIcons: true
 
   # EXAMPLE
