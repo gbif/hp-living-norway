@@ -32,7 +32,7 @@
         <span style="margin-right: .5rem" v-for="endpoint in dataset.endpoints" :key="endpoint.key">
           <a class="button" v-bind:href="endpoint.url" target="_blank" title="Download data">
             <span class="icon">
-              <i class="fas fa-download"></i>
+              <i class="fa fa-download"></i>
             </span>
             <span>{{endpoint.type}}</span>
             </a>
@@ -137,8 +137,7 @@
   <div  v-show="tabselect == 'project'" class="mt-5"> 
     <div class="container">
       <div class="content">
-    <h2 class="is-size-4 mt-5 mb-5">{{ project.title }}</h2>
-    <div v-html="project.description"> </div>
+    <div class="mt-6" v-html="project.description"> </div>
   </div>
 </div>
   </div>
@@ -147,7 +146,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
    crossorigin=""/>

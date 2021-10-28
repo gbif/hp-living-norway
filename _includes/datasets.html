@@ -63,7 +63,7 @@ var app = new Vue({
     computed: {},  
     mounted() {
         let self = this
-        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents').then(function(response) {
+        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents?limit=100').then(function(response) {
           self.datasets = response.data.results
           
          

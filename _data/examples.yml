@@ -74,16 +74,12 @@ stats:
   #title: "type: stats"
   #description: |      # required
   #  See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml#L72) for the content structure.
+  # See https://github.com/gbif/jekyll-hp-base-theme/commit/82348400e256648292533c8977eb07dfee3a5771 for examples
   features:
-      # Hard coded value
-    - title: 123
-      description: Viscera mercibus
-      background: /assets/img/icons/validity.png
-      href: /about
-    - title: 567
-      description: Infamataeque priori
-      background: /assets/img/icons/music.png
-    - title: 456,678
-      description: Cruorem tremor
-      background: /assets/img/icons/variability.png
+    - title: <span data-ajax-url="http://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span> 
+      description: Datasets
+      background: /assets/img/icons/visualization.png
+    - title: <span data-ajax-url="http://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span> 
+      description: Occurrences
+      background: /assets/img/icons/visualization.png
     
