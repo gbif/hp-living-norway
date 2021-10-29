@@ -76,10 +76,10 @@ stats:
   #  See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml#L72) for the content structure.
   # See https://github.com/gbif/jekyll-hp-base-theme/commit/82348400e256648292533c8977eb07dfee3a5771 for examples
   features:
-    - title: <span data-ajax-url="http://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span> 
+    - title: <span data-ajax-url="https://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span> 
       description: Datasets
       background: /assets/img/icons/visualization.png
-    - title: <span data-ajax-url="http://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span> 
+    - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span> 
       description: Occurrences
       background: /assets/img/icons/visualization.png
     
