@@ -1,18 +1,26 @@
 ---
 lang-ref: home
-layout: home
+layout: compose
 title: Living Norway Data Portal
 description: Living Norway Ecological Data Network is facilitating FAIR management of ecological data to the benefit of society and science.
-background: https://api.gbif.org/v1/image/unsafe/https%3A%2F%2Fstatic.inaturalist.org%2Fphotos%2F58912610%2Foriginal.jpeg%3F1577953995
+background: /assets/images/front1.jpg
 imageLicense: |
-  *Xylaria hypoxylon* (L.) Grev. Photo by Alexis via [iNaturalist](https://www.gbif.org/occurrence/2542961803)
+  *Aursunden, Brekkfjorden* Photo by Odd Terje Sandlund
 cta:
-  - text: Start exploring
-    href: /data
+  - text: Living Norway datasets
+    href: /datasets
     isPrimary: true
-  - text: About
-    href: /about
+  - text: Data collections
+    href: /collections
+    isPrimary: false
 permalink: /
+composition:
+- type: heroImage
+- type: stats
+  data: examples.stats
+- type: features
+  data: features
+
 ---
 
 
