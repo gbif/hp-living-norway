@@ -1,8 +1,7 @@
 ---
 title: "TOV-E Bird monitoring sampling data"
 output: github_document
-#output: html_document
-#output: md_document 
+
 ---
 
 ## A Mini-Introduction to R Markdown

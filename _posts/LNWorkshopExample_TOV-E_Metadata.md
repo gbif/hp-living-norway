@@ -1,5 +1,7 @@
-A Mini-Introduction to R Markdown
----------------------------------
+TOV-E Bird monitoring sampling data
+================
+
+## A Mini-Introduction to R Markdown
 
 Markdown documents are text files that contain a mixture of standard
 prose and programming code that can be easily be rendered as HTML or PDF
@@ -31,7 +33,7 @@ rendered in the output document. For example the code chunk below will
 appear as code in the markdown document but will be replaced by a figure
 in the rendered document.
 
-![](LNWorkshopExample_TOV-E_Metadata_files/figure-markdown_strict/figExample-1.png)
+![](LNWorkshopExample_TOV-E_Metadata_files/figure-gfm/figExample-1.png)<!-- -->
 
 The easiest way to render this document is to open it in
 [RStudio](https://www.rstudio.com/) and then click on the ‘Knit’ button
@@ -54,12 +56,19 @@ text being rendered in a red colour in HTML output. For normal
 descriptions of metadata you would not want this so you should delete
 this code chunk for your own metadata descriptions.
 
-    span.LNmetadata {
-      color: red;
-    }
+``` css
+span.LNmetadata {
+  color: red;
+}
+```
 
-The Dataset
------------
+<style type="text/css">
+span.LNmetadata {
+  color: red;
+}
+</style>
+
+## The Dataset
 
 Metadata must have a dataset tag. We give this tag an ID and it serves
 as a parent ID for a lot of other tags that describe the dataset. Often
@@ -71,32 +80,27 @@ relate other things to it (here we have used the ID ‘TOVEDataset’). In
 the dataset function we can also give information on the title to use in
 the dataset through the `title.tagText` argument.
 
-<span id="LNdataset_TOVEDataset" class="LNmetadata" style="display:none"/><span
-id="LNtitle_666c08ed-e005-4d90-8baf-7e627d5932c3_TOVEDataset"
-class="LNmetadata" style="display:none">TOV-E Bird monitoring sampling
-data</span>
+<span id="LNdataset_TOVEDataset" class="LNmetadata" style="display:none"/><span id="LNtitle_73c964b5-30c0-4954-8a1e-9c4c88cb842e_TOVEDataset" class="LNmetadata" style="display:none">TOV-E
+Bird monitoring sampling data</span>
 
 We can also associate some keywords with the dataset. To do this we can
 set up a ‘keywordSet’ tag using the relevant tagging function
 <span id="LNkeywordSet_TOVEKeywordSet_TOVEDataset" class="LNmetadata" style="display:none"/>
-and then specifying keywords such as <span
-id="LNkeyword_d73b5e60-facb-4c7b-8f1a-f671cec8a9f6_TOVEKeywordSet"
-class="LNmetadata">breeding birds</span> and <span
-id="LNkeyword_453a3f0e-fb03-4472-b96b-a08934c43267_TOVEKeywordSet"
-class="LNmetadata">sampling event</span>.
+and then specifying keywords such as
+<span id="LNkeyword_980af5d4-25ae-42e9-b177-75ae9ddb7ce7_TOVEKeywordSet" class="LNmetadata">breeding
+birds</span> and
+<span id="LNkeyword_dcb8c246-30d0-40ac-88b6-742051d7f793_TOVEKeywordSet" class="LNmetadata">sampling
+event</span>.
 
 We must also specify some contact information for the individual or
 organisation responsible for coordinating with users of the dataset.
 Here the responsible user is
 <span id="LNcontact_TOVEContact_TOVEDataset" class="LNmetadata"/>
-<span id="LNindividualName_649e2fb4-6a92-4c00-9f0c-83c60a66ecb8_TOVEContact" class="LNmetadata"/><span
-id="LNgivenName_0e96e975-a733-436b-927c-264b27cb68eb_649e2fb4-6a92-4c00-9f0c-83c60a66ecb8"
-class="LNmetadata">John Atle</span> <span
-id="LNsurName_0331fb4a-0d1e-40ff-b15b-f634b78888f0_649e2fb4-6a92-4c00-9f0c-83c60a66ecb8"
-class="LNmetadata">Kålås</span>.
+<span id="LNindividualName_550998c8-ac90-4bed-bc45-fc3e028a70a7_TOVEContact" class="LNmetadata"/><span id="LNgivenName_2ba3e30a-68de-4335-9c77-fb755391e306_550998c8-ac90-4bed-bc45-fc3e028a70a7" class="LNmetadata">John
+Atle</span>
+<span id="LNsurName_7e02847e-3595-4398-a44a-5536023d1910_550998c8-ac90-4bed-bc45-fc3e028a70a7" class="LNmetadata">Kålås</span>.
 
-Abstract
---------
+## Abstract
 
 We will need to produce an abstract for the data. You can flag the
 abstract for export to EML using the following inline code:
@@ -113,10 +117,9 @@ of EML elements. In the inline code above we set the tagID argument. We
 can provide an alternative translation for the element with that tagID
 using the following code:
 
-<span id="LNvalue_6e684fe6-08bd-4a29-92e2-4f9209d09cff_TOVEAbstract"
-class="LNmetadata" style="display:none" xml:lang="nb">Data fra
-prosjektet “Ekstensiv overvåking av hekkefugl (TOV-E)” fra 2006 og frem
-til i dag. Prosjektet utføres i samarbeid mellom Norsk Ornitologisk
+<span id="LNvalue_41285d36-4124-493e-8f2e-e4bae565d3ab_TOVEAbstract" class="LNmetadata" style="display:none" xml:lang="nb">Data
+fra prosjektet “Ekstensiv overvåking av hekkefugl (TOV-E)” fra 2006 og
+frem til i dag. Prosjektet utføres i samarbeid mellom Norsk Ornitologisk
 Forening, Norsk Institutt for Naturforskning og Miljødirektoratet og er
 det viktigste prosjektet for å overvåke populasjonstrender for norske
 fuglearter på land.</span>
@@ -128,55 +131,41 @@ the EML file but do not to display them in the rendered HTML. If you
 would rather the alternative translation be displayed, then you can add
 the argument `isHidden=FALSE` to the `LNaddTranslation` function.
 
-Dataset creators
-----------------
+## Dataset creators
 
 The dataset was created by the following people:
 
--   <span id="LNcreator_TOVECreator1_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_2fd1388a-8c42-4b04-85ec-1fc4e37962fa_TOVECreator1" class="LNmetadata"/><span
-    id="LNgivenName_2c1e5972-b161-48db-8625-b67a290d50b7_2fd1388a-8c42-4b04-85ec-1fc4e37962fa"
-    class="LNmetadata">John Atle</span> <span
-    id="LNsurName_d1dcaca4-d8a7-4f61-a8d0-7c2fbf0bea33_2fd1388a-8c42-4b04-85ec-1fc4e37962fa"
-    class="LNmetadata">Kålås</span> who is a <span
-    id="LNpositionName_45ec6707-f6ac-4d1b-90fd-668009d8a006_TOVECreator1"
-    class="LNmetadata">senior researcher</span> at the <span
-    id="LNorganizationName_76920d2d-948d-4ea2-83c6-2f2625594916_TOVECreator1"
-    class="LNmetadata">Norwegian Institute for Nature Research</span>
-    (<span
-    id="LNelectronicMailAddress_456191fa-c13d-45bc-9d0e-0c0450523c9d_TOVECreator1"
-    class="LNmetadata"><a href="mailto:john.kalas@nina.no" class="email">john.kalas@nina.no</a></span>).
--   <span id="LNcreator_TOVECreator2_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_7f23a0ac-4440-4a4c-a6ae-3ca088eef566_TOVECreator2" class="LNmetadata"/><span
-    id="LNgivenName_c9da4c8d-fca9-4d90-ba5e-b65a87904d9e_7f23a0ac-4440-4a4c-a6ae-3ca088eef566"
-    class="LNmetadata">Ingar Jostein</span> <span
-    id="LNsurName_c3d6abb9-d7d7-4b0f-a5a7-7d7663fcb83e_7f23a0ac-4440-4a4c-a6ae-3ca088eef566"
-    class="LNmetadata">Øien</span> who is a <span
-    id="LNpositionName_de9688d3-88f5-4180-8d0f-6130b4ecf675_TOVECreator2"
-    class="LNmetadata">fagsjef</span> at the <span
-    id="LNorganizationName_f6cdc1ea-1d48-4d14-bdd6-8fcebb758dee_TOVECreator2"
-    class="LNmetadata">Norsk Ornitologisk Forening</span> (<span
-    id="LNelectronicMailAddress_58076436-2f05-4a9f-95b2-8b667be27609_TOVECreator2"
-    class="LNmetadata"><a href="mailto:ingar@birdlife.no" class="email">ingar@birdlife.no</a></span>).
--   <span id="LNcreator_TOVECreator3_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_61a84832-5c81-4745-813c-8f1e2051b9f4_TOVECreator3" class="LNmetadata"/><span
-    id="LNgivenName_477741ab-ef20-4c30-a2cc-c76ce21fb7a1_61a84832-5c81-4745-813c-8f1e2051b9f4"
-    class="LNmetadata">Bård</span> <span
-    id="LNsurName_6a77d351-2af1-4aa8-95d8-9d7624396615_61a84832-5c81-4745-813c-8f1e2051b9f4"
-    class="LNmetadata">Stokke</span> who is a <span
-    id="LNpositionName_7d7d157a-93d7-4bbd-b0c3-12b80c8627c9_TOVECreator3"
-    class="LNmetadata">senior researcher</span> at the <span
-    id="LNorganizationName_3c87f884-1ddc-4b7f-8ce4-de8a769e1b17_TOVECreator3"
-    class="LNmetadata">Norwegian Institute for Nature Research</span>
-    (<span
-    id="LNelectronicMailAddress_7509833d-0ee0-4401-a325-01984034b13f_TOVECreator3"
-    class="LNmetadata"><a href="mailto:bard.stokke@nina.no" class="email">bard.stokke@nina.no</a></span>).
--   <span id="LNcreator_TOVECreator4_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_60ddfe37-11b4-4cfd-9f14-afba11f5c208_TOVECreator4" class="LNmetadata"/><span
-    id="LNgivenName_6d8e9088-43dc-498c-b823-cf77ac78c5e1_60ddfe37-11b4-4cfd-9f14-afba11f5c208"
-    class="LNmetadata">Roald</span> <span
-    id="LNsurName_2d266926-2b7d-4515-ac01-e88ec417c58a_60ddfe37-11b4-4cfd-9f14-afba11f5c208"
-    class="LNmetadata">Vang</span> who is a <span
-    id="LNpositionName_eb9649b9-e3ea-475e-9c30-d510ac8fc08b_TOVECreator4"
-    class="LNmetadata">data manager</span> at the <span
-    id="LNorganizationName_9c49017c-e85b-4d72-9928-f47b06ae8ce1_TOVECreator4"
-    class="LNmetadata">Norwegian Institute for Nature Research</span>
-    (<span
-    id="LNelectronicMailAddress_9db8d716-643f-40ad-b69b-d8114b0a3062_TOVECreator4"
-    class="LNmetadata"><a href="mailto:roald.vang@nina.no" class="email">roald.vang@nina.no</a></span>).
+  - <span id="LNcreator_TOVECreator1_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_02a3d30e-492b-4636-8c16-c9ad82c16d6a_TOVECreator1" class="LNmetadata"/><span id="LNgivenName_fe88400a-cbb7-4b6e-8309-37bbe58b139e_02a3d30e-492b-4636-8c16-c9ad82c16d6a" class="LNmetadata">John
+    Atle</span>
+    <span id="LNsurName_5b0187d2-3100-4d6f-b5ea-8159484adf97_02a3d30e-492b-4636-8c16-c9ad82c16d6a" class="LNmetadata">Kålås</span>
+    who is a
+    <span id="LNpositionName_e2aae919-9a81-4c86-8377-7d224920eaac_TOVECreator1" class="LNmetadata">senior
+    researcher</span> at the
+    <span id="LNorganizationName_b04cb99b-6cd2-44a0-83dd-9c294624780c_TOVECreator1" class="LNmetadata">Norwegian
+    Institute for Nature Research</span>
+    (<span id="LNelectronicMailAddress_bc4ec9f9-e7cf-4a93-9d99-03fb55a1c3ed_TOVECreator1" class="LNmetadata"><john.kalas@nina.no></span>).
+  - <span id="LNcreator_TOVECreator2_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_4f8f51ea-b9db-42a1-af7e-d4a02c97c7e8_TOVECreator2" class="LNmetadata"/><span id="LNgivenName_3b01070b-1dc4-4f8c-8bcd-cbd34c2e235f_4f8f51ea-b9db-42a1-af7e-d4a02c97c7e8" class="LNmetadata">Ingar
+    Jostein</span>
+    <span id="LNsurName_30744399-fb85-46fd-8a28-e7e4ea6e061a_4f8f51ea-b9db-42a1-af7e-d4a02c97c7e8" class="LNmetadata">Øien</span>
+    who is a
+    <span id="LNpositionName_5f1bcfcd-de39-4581-a8c0-1b1a2a7a8667_TOVECreator2" class="LNmetadata">fagsjef</span>
+    at the
+    <span id="LNorganizationName_47db6b93-4b5b-4ea6-baa2-bad53af8debe_TOVECreator2" class="LNmetadata">Norsk
+    Ornitologisk Forening</span>
+    (<span id="LNelectronicMailAddress_a33e25ba-4a65-4223-97b3-44f8b9417040_TOVECreator2" class="LNmetadata"><ingar@birdlife.no></span>).
+  - <span id="LNcreator_TOVECreator3_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_cff14acc-55a0-4555-a4a5-3bfd7d72a069_TOVECreator3" class="LNmetadata"/><span id="LNgivenName_8cdf9c44-75a4-4cb2-96db-0de8899e2379_cff14acc-55a0-4555-a4a5-3bfd7d72a069" class="LNmetadata">Bård</span>
+    <span id="LNsurName_c761f6ea-1125-4389-a277-a6122c2bcef4_cff14acc-55a0-4555-a4a5-3bfd7d72a069" class="LNmetadata">Stokke</span>
+    who is a
+    <span id="LNpositionName_6ab9e4e3-1c3d-40dd-8a96-e7e73a2107b3_TOVECreator3" class="LNmetadata">senior
+    researcher</span> at the
+    <span id="LNorganizationName_979472b2-4f60-4459-8533-21eaa481574d_TOVECreator3" class="LNmetadata">Norwegian
+    Institute for Nature Research</span>
+    (<span id="LNelectronicMailAddress_4e5258d1-e8b5-4a8a-82d5-25d2f9433078_TOVECreator3" class="LNmetadata"><bard.stokke@nina.no></span>).
+  - <span id="LNcreator_TOVECreator4_TOVEDataset" class="LNmetadata"/><span id="LNindividualName_5d7a5491-da96-4651-b7d6-6e4c815c3f7a_TOVECreator4" class="LNmetadata"/><span id="LNgivenName_89218d29-5d2e-4acc-b5c5-58e2578ee6eb_5d7a5491-da96-4651-b7d6-6e4c815c3f7a" class="LNmetadata">Roald</span>
+    <span id="LNsurName_54c0c2ce-7bba-4843-a23f-f917b89568ac_5d7a5491-da96-4651-b7d6-6e4c815c3f7a" class="LNmetadata">Vang</span>
+    who is a
+    <span id="LNpositionName_06fc7e04-e98b-4c88-8165-4a0f44a927b8_TOVECreator4" class="LNmetadata">data
+    manager</span> at the
+    <span id="LNorganizationName_1c701273-d5e0-473f-a23a-dd699e600390_TOVECreator4" class="LNmetadata">Norwegian
+    Institute for Nature Research</span>
+    (<span id="LNelectronicMailAddress_61f68d3a-414c-41ef-9771-27a2b4f81f76_TOVECreator4" class="LNmetadata"><roald.vang@nina.no></span>).

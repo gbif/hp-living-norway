@@ -1,5 +1,8 @@
-What is Darwin Core?
---------------------
+Handling Darwin Core Files With Living Norway: Example Using the TOV-E
+Dataset
+================
+
+## What is Darwin Core?
 
 Darwin Core can best be thought of as a set of terms for describing
 information about biodiversity data that are given special significance
@@ -20,8 +23,7 @@ Biodiversity Information Facility](https://www.gbif.org/) and, for many
 researchers, GBIF will represent the most common way to make their data
 findable and sharable with the wider community.
 
-Darwin Core Archive Files
--------------------------
+## Darwin Core Archive Files
 
 The Darwin Core standard itself should not be confused with Darwin Core
 *archive files*. Darwin Core archive files are a file format type that
@@ -41,10 +43,10 @@ by the [Living Norway R
 package](https://github.com/LivingNorway/LivingNorwayR).
 
 Darwin core archive files are simply a
-[ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) folder with a
+[ZIP](https://en.wikipedia.org/wiki/ZIP_\(file_format\)) folder with a
 specific set of files inside:
 
--   **Metafile** The metafile is a file that describes what files exist
+  - **Metafile** The metafile is a file that describes what files exist
     in the Dawin Core archive file and how the columns in the data files
     map to Darwin Core terms. This file format follows an XML schema
     described in the [Darwin Core text
@@ -58,7 +60,7 @@ specific set of files inside:
     sets. Later in this document we will guide you through the process
     of creating a Darwin Core archive file from a set of data tables.
 
--   **Resource metadata** This file contains the metadata about the data
+  - **Resource metadata** This file contains the metadata about the data
     set but structured according to known standards. For example, it may
     include things such as a description of the purpose of the study,
     the sampling methodology used in the study, and license under which
@@ -74,7 +76,7 @@ specific set of files inside:
     how to generate valid EML from a markdown document that can also
     serve as a data paper to document the data set.
 
--   **Data files** These are a collection of files that contain the
+  - **Data files** These are a collection of files that contain the
     data. The format of this data is expected to be in a text-based
     delimited format such as [comma-seperated values
     (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) or
@@ -83,8 +85,8 @@ specific set of files inside:
     Information such as the encoding of the text and the type of
     delimiter used in the data files is often stored in the metafile.
     The first line of the data files may contain column headings.
-
-    -   *Core data file* Every Darwin Core archive needs exactly one
+    
+      - *Core data file* Every Darwin Core archive needs exactly one
         core data file. This is the main data table of the dataset and
         serves as the definition of the reference sampling unit for the
         data set. One column of the core data file must be an ID column
@@ -93,14 +95,14 @@ specific set of files inside:
         reference code for any extension data files included in the
         archive. Data being published to GBIF can have core data files
         that belong to one the following types:
-
-        -   [Sample event
+        
+          - [Sample event
             data](https://ipt.gbif.org/manual/en/ipt/2.5/best-practices-sampling-event-data)
             corresponds to data that have been collected according to a
             defined protocol or experimental design at particular times
             or locations. Here the data set is built around a series of
             sampling events at which measurements are recorded.
-        -   [Occurrence
+          - [Occurrence
             data](https://ipt.gbif.org/manual/en/ipt/2.5/occurrence-data)
             correspoinds to sightings or records of species (or other
             taxon level) that can been assigned to a location or time
@@ -109,15 +111,15 @@ specific set of files inside:
             that is not systemic or unknown. Observations from citizen
             science projects or from digitized museum records often fit
             this data type.
-        -   [Species checklist
+          - [Species checklist
             data](https://ipt.gbif.org/manual/en/ipt/2.5/checklist-data)
             corresponds to a list of named species (or other taxon
             level) that represent a catolgue for some purpose. This
             could for example be a list of species of particular
             conservation for a particular area or a list of potential
             invasive species.
-
-    -   *Extension data files* A Darwin Core archive file may optionally
+    
+      - *Extension data files* A Darwin Core archive file may optionally
         have any number of data tables that may contain additional
         information to extend the information in the core data file. For
         example, in a Darwin Core archive with an event-based core data
@@ -152,8 +154,7 @@ integrated into a researcher’s workflow.
 
 ![Structure of a Darwin Core archive file](images/DwCArchiveSchema.png)
 
-The Living Norway R Package
----------------------------
+## The Living Norway R Package
 
 Before we can use any of the functions contained within the Living
 Norway package we must first install it. At the current time the easiest
@@ -168,10 +169,12 @@ installation of the Living Norway package will follow that standard R
 package installation procedure. In the meantime, the following code will
 install the necessary packages:
 
-    # Install the Living Norway package from the Git repository
-    #devtools::install_github("https://github.com/LivingNorway/LivingNorwayR")
-    # Import the tools into R
-    library(LivingNorwayR)
+``` r
+# Install the Living Norway package from the Git repository
+#devtools::install_github("https://github.com/LivingNorway/LivingNorwayR")
+# Import the tools into R
+library(LivingNorwayR)
+```
 
 Once the Living Norway package is installed and loaded, a number of
 classes are added to R that allow for the easier manipulation of Darwin
@@ -183,12 +186,12 @@ The Living Norway package simply contains more class definitions that
 allow for easier manipulation of the information in Darwin Core archive
 files:
 
--   **DwCTerm** Is a class that contains information about terms used in
+  - **DwCTerm** Is a class that contains information about terms used in
     the Darwin Core standard. Nearly all users of the Living Norway
     package will never need to create their own terms objects and, for
     the most part, only interact with terms objects that have been
     pre-defined from their description in the Darwin Core standard.
--   **DwCGeneric** Is a class that the contains the information in the
+  - **DwCGeneric** Is a class that the contains the information in the
     Darwin Core archive data tables but also defines the link between
     columns in data tables to registered Darwin Core terms. Most users
     will not use this class directly but will use one of the derived
@@ -197,12 +200,12 @@ files:
     followed by the GBIF class name (for example, the GBIF
     implementation of the Event core data table class type is provided
     by the ‘GBIFEvent’ class).
--   **DwCMetadata** This is a class for handling metadata relating the
+  - **DwCMetadata** This is a class for handling metadata relating the
     dataset. It allows for the easier import and export of EML files and
     also allows for the creation of EML files from other file formats
     such as R markdown files. This will described in greater detail
     later in this document.
--   **DwCArchive** This class contains an object of a DwCGeneric-dervied
+  - **DwCArchive** This class contains an object of a DwCGeneric-dervied
     class for each of the data tables in a Darwin Core archive (one core
     file plus any number of extension tables) in addition to a
     DwCMetadata object containing the metadata describing the data
@@ -217,7 +220,9 @@ table type is supported by the ‘GBIFTaxon’ class. The
 handled by the Living Norway R package along with their definition
 information (represented as ‘DwCTerms’ objects):
 
-    getGBIFCoreClasses()
+``` r
+getGBIFCoreClasses()
+```
 
     ## $GBIFEvent
     ## http://rs.tdwg.org/dwc/terms/Event - Event
@@ -276,7 +281,9 @@ website](https://tools.gbif.org/dwca-validator/extensions.do). The names
 of the Living Norway classes that can handle these extensions can be
 found by calling the ‘getGBIFExtensionClasses()’ function.
 
-    names(getGBIFExtensionClasses())
+``` r
+names(getGBIFExtensionClasses())
+```
 
     ##  [1] "GBIFMultimedia"                "GBIFChronometricAge"          
     ##  [3] "GBIFIdentification"            "GBIFMeasurementOrFact"        
@@ -296,8 +303,7 @@ found by calling the ‘getGBIFExtensionClasses()’ function.
     ## [31] "GBIFGermplasmSample"           "GBIFExtendedMeasurementOrFact"
     ## [33] "GBIFChronometricAge"           "GBIFChronometricDate"
 
-Importing a Darwin Core Archive File
-------------------------------------
+## Importing a Darwin Core Archive File
 
 In order to import a Darwin Core archive file we need to first get hold
 of a Darwin Core archive file for a dataset that we wish to import.
@@ -314,13 +320,15 @@ To minimise the number of files needed to be distributed as part of this
 exercise, we can use the R code below to download and store the Darwin
 Core archive file in a temporary location.
 
-    # Create a temporary directory to store intermediate files used in this workshop
-    tempDirLoc <- tempdir()
-    # The URL where the Darwin Core file for the TOV-E bird survey data is housed
-    datasetURL <- "https://ipt.nina.no/archive.do?r=tove_birdsampling"
-    # Download the Darwin Core file to the temporary directory
-    localDataLoc <- file.path(tempDirLoc, "TOVEData.zip")
-    download.file(datasetURL, localDataLoc, mode = "wb")
+``` r
+# Create a temporary directory to store intermediate files used in this workshop
+tempDirLoc <- tempdir()
+# The URL where the Darwin Core file for the TOV-E bird survey data is housed
+datasetURL <- "https://ipt.nina.no/archive.do?r=tove_birdsampling"
+# Download the Darwin Core file to the temporary directory
+localDataLoc <- file.path(tempDirLoc, "TOVEData.zip")
+download.file(datasetURL, localDataLoc, mode = "wb")
+```
 
 Now that we have the Darwin Core archive file stored locally, we can now
 import it using the “initializeDwCArchive” function in the Living Norway
@@ -334,8 +342,10 @@ the Living Norway package for the times when you are using the package
 to construct your own Darwin Core archives. This latter way to call the
 function will be covered in the later section on archive file creation.
 
-    # Create a DwCArchive object from the downloaded Darwin Core archive file
-    TOVEArchive <- initializeDwCArchive(localDataLoc, "UTF-8")
+``` r
+# Create a DwCArchive object from the downloaded Darwin Core archive file
+TOVEArchive <- initializeDwCArchive(localDataLoc, "UTF-8")
+```
 
 In the code block above we specify the file UTF-8 file encoding. By
 default the encoding will be set to your system and, in most cases will
@@ -346,8 +356,10 @@ be incorrectly imported if we use the default values of your system.
 Now that the archive has been imported into a DwCArchive object then we
 can have a look at a summary of the contents:
 
-    # Print a summary of the data in the archive object
-    TOVEArchive
+``` r
+# Print a summary of the data in the archive object
+TOVEArchive
+```
 
     ## METADATA
     ## 
@@ -616,17 +628,21 @@ archive object. Once a particular data table is extracted then the user
 can use the method functions defined by the DwCGeneric class that allows
 for further manipulation of the individual data tables.
 
-    # Retrieve the core table from the archive object
-    TOVEEventTable <- TOVEArchive$getCoreTable()
-    # TOVEEvent table is an object of type GBIFEvent which is derived from DwCGeneric
-    class(TOVEEventTable)
+``` r
+# Retrieve the core table from the archive object
+TOVEEventTable <- TOVEArchive$getCoreTable()
+# TOVEEvent table is an object of type GBIFEvent which is derived from DwCGeneric
+class(TOVEEventTable)
+```
 
     ## [1] "GBIFEvent"  "DwCGeneric" "R6"
 
-    # Export the contents of the event table to a data frame
-    TOVEEventTableDF <- TOVEEventTable$exportAsDataFrame()
-    # Lets look at the top few rows of the data frame extracted from the core data table
-    head(TOVEEventTableDF)
+``` r
+# Export the contents of the event table to a data frame
+TOVEEventTableDF <- TOVEEventTable$exportAsDataFrame()
+# Lets look at the top few rows of the data frame extracted from the core data table
+head(TOVEEventTableDF)
+```
 
     ##                                     id  type                modified
     ## 1 7B888854-72DF-41AF-A09D-4AC963D2B7D2 Event 2012-04-12T15:03:57.710
@@ -711,22 +727,26 @@ requested. Therefore to extract just the one we want, we’ll need to
 further index the list with the ‘\[\[1\]\]’ notation to extract the
 first element of the returned list.
 
-    # Retrieve the extension table from the archive object: two ways to do this
-    # 1. Retrieve the extension table by using its index
-    TOVEOccTable <- TOVEArchive$getExtensionTables(1)[[1]]
-    # 2. Retrieve the extension table by using its name
-    TOVEOccTable <- TOVEArchive$getExtensionTables("occurrence")[[1]]
-    # The getExtensionTables functions returns a list of the data tables that are requested.  Therefore to extract just the first element of this list we need
-    # to use the extra '[[1]]' list extraction notation.
-    # TOVEOccTable is an object of type GBIFOccurrence which is dervied from DwCGeneric
-    class(TOVEOccTable)
+``` r
+# Retrieve the extension table from the archive object: two ways to do this
+# 1. Retrieve the extension table by using its index
+TOVEOccTable <- TOVEArchive$getExtensionTables(1)[[1]]
+# 2. Retrieve the extension table by using its name
+TOVEOccTable <- TOVEArchive$getExtensionTables("occurrence")[[1]]
+# The getExtensionTables functions returns a list of the data tables that are requested.  Therefore to extract just the first element of this list we need
+# to use the extra '[[1]]' list extraction notation.
+# TOVEOccTable is an object of type GBIFOccurrence which is dervied from DwCGeneric
+class(TOVEOccTable)
+```
 
     ## [1] "GBIFOccurrence" "DwCGeneric"     "R6"
 
-    # Export the contents of the occurrence table to a data frame
-    TOVEOccTableDF <- TOVEOccTable$exportAsDataFrame()
-    # Lets look at the top few rows of the data frame extracted from the extension data table
-    head(TOVEOccTableDF)
+``` r
+# Export the contents of the occurrence table to a data frame
+TOVEOccTableDF <- TOVEOccTable$exportAsDataFrame()
+# Lets look at the top few rows of the data frame extracted from the extension data table
+head(TOVEOccTableDF)
+```
 
     ##                                     id       type                modified
     ## 1 B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4 Occurrence 2012-06-19T23:33:30.053
@@ -783,20 +803,26 @@ It is possible to extract elements from the archive metadata. The
 object. From this object it is possible to access elements of the
 metadata.
 
-    # Retrieve the metadata from the archive object
-    TOVEMetadata <- TOVEArchive$getMetadata()
-    # Retrieve the title of the data set
-    TOVEMetadata$getTitle()
+``` r
+# Retrieve the metadata from the archive object
+TOVEMetadata <- TOVEArchive$getMetadata()
+# Retrieve the title of the data set
+TOVEMetadata$getTitle()
+```
 
     ## [1] "TOV-E Bird monitoring sampling data"
 
-    # Retrieve the abstract/summary of the data set
-    TOVEMetadata$getAbstract()
+``` r
+# Retrieve the abstract/summary of the data set
+TOVEMetadata$getAbstract()
+```
 
     ## [1] "Data from the project \"Extensive monitoring of breeding birds (TOV-E)\" from 2006 up until today. The project is carried out in cooperation between NOF BirdLife Norway, Norwegian Institute for Nature Research (NINA) and the Norwegian Environment Agency, and is the most important project for monitoring population trends for Norwegian bird species on land."
 
-    # Retrieve the information on the data set creators
-    TOVEMetadata$getCreatorInfo()
+``` r
+# Retrieve the information on the data set creators
+TOVEMetadata$getCreatorInfo()
+```
 
     ## [[1]]
     ## [[1]]$individualName
@@ -941,8 +967,7 @@ metadata.
     ## [[4]]$userId
     ## [1] "0000-0002-4006-8689"
 
-Creating a Darwin Core Archive File
------------------------------------
+## Creating a Darwin Core Archive File
 
 ### Creating the Data Tables
 
@@ -976,28 +1001,30 @@ data table that lists these taxa and is handled in the Living Norway
 package with the ‘GBIFTaxon’ class.
 
 So we’ve decided that the core data table should be the
-‘TOVEEventTableDF’ data frame and that this data table is an event-based
-core. To initialise a GBIF-complaint event table we can use the
-‘initializeGBIFEvent’ function. This function requires two arguments:
-the data frame making up the table and a column (given as either a
-column name or column number) to represent the ID information. If the
-table is going to be used as a core table then this ID column must
-contain unique values for each row and will serve as a key to link
+‘TOVEEventTableDF’ data frame and that this data table is an
+event-based core. To initialise a GBIF-complaint event table we can use
+the ‘initializeGBIFEvent’ function. This function requires two
+arguments: the data frame making up the table and a column (given as
+either a column name or column number) to represent the ID information.
+If the table is going to be used as a core table then this ID column
+must contain unique values for each row and will serve as a key to link
 extension data tables to the core table. After these two mandatory
 arguments are given then the user must specify how the columns (if any)
 relate to definitions in the Darwin Core standard for that data table
 type. This can be done in one of two ways: either the data frame can
 have column names that correspond to Darwin Core terms relevant to the
 data table type and then the user can simply add the argument
-‘nameAutoMap = TRUE’ to the initialisation function and it will look for
-any column names that correspond to Darwin Core terms, or the user can
-add arguments with names corresponding to each Darwin Core term and set
-that argument either as a column name or column number. The
+‘nameAutoMap = TRUE’ to the initialisation function and it will look
+for any column names that correspond to Darwin Core terms, or the user
+can add arguments with names corresponding to each Darwin Core term and
+set that argument either as a column name or column number. The
 ‘getGBIFEventMembers’ function returns a list of all the Darwin Core
 terms associated with GBIF-compliant event data tables.
 
-    # Look at the Darwin Core terms associated with event data tables (here we've shortened it to the first 6 entries so that the output is not too long)
-    getGBIFEventMembers()[1:6]
+``` r
+# Look at the Darwin Core terms associated with event data tables (here we've shortened it to the first 6 entries so that the output is not too long)
+getGBIFEventMembers()[1:6]
+```
 
     ## $`http://purl.org/dc/terms/type`
     ## http://purl.org/dc/terms/type - Type (DEPRECATED)
@@ -1098,50 +1125,52 @@ terms associated with GBIF-compliant event data tables.
     ##  Miscellaneous information:
     ##      not in ABCD
 
-    # Call the initialisation function using the two different methods:
-    # 1. Using the automatic mapping method
-    newTOVEEventTable <- initializeGBIFEvent(TOVEEventTableDF, "id", nameAutoMap = TRUE)
-    # 2. Using the manual mapping method
-    newTOVEEventTable <- initializeGBIFEvent(TOVEEventTableDF, "id",
-      # What follows is a list of arguments giving Darwin Core terms followed by the column name (or number)
-      # in the data frame that corresponds to those terms.  In this example it doesn't make much sense to
-      # call the initialisation function in this manner because all the column names correspond to
-      # Darwin terms anyway (so much easier to use the first method).  However, this alternative method
-      # can be useful if the column names are different from the Darwin Core terms that they represent or
-      # for data frame that don't have column names (in which case column numbers can be given as the
-      # argument values instead).
-      type = "type",
-      modified = "modified",
-      datasetName = "datasetName",
-      ownerInstitutionCode = "ownerInstitutionCode",
-      informationWithheld = "informationWithheld",
-      dataGeneralizations = "dataGeneralizations",
-      eventID = "eventID",
-      samplingProtocol = "samplingProtocol",
-      sampleSizeValue = "sampleSizeValue",
-      sampleSizeUnit = "sampleSizeUnit",
-      samplingEffort = "samplingEffort",
-      eventDate = "eventDate",
-      eventTime = "eventTime",
-      year = "year",
-      month = "month",
-      day = "day",
-      locationID = "locationID",
-      country = "country",
-      countryCode = "countryCode",
-      stateProvince = "stateProvince",
-      municipality = "municipality",
-      locality = "locality",
-      minimumElevationInMeters = "minimumElevationInMeters",
-      maximumElevationInMeters = "maximumElevationInMeters",
-      decimalLatitude = "decimalLatitude",
-      decimalLongitude = "decimalLongitude",
-      geodeticDatum = "geodeticDatum",
-      coordinateUncertaintyInMeters = "coordinateUncertaintyInMeters")
-    # We can then check to see if the terms are mapped correctly
-    # Terms with NA in the column index represent Darwin Core terms associated with the event data table that are not mapped
-    # Not all terms need to be mapped to make a valid Darwin Core archive
-    newTOVEEventTable$getTermMapping()
+``` r
+# Call the initialisation function using the two different methods:
+# 1. Using the automatic mapping method
+newTOVEEventTable <- initializeGBIFEvent(TOVEEventTableDF, "id", nameAutoMap = TRUE)
+# 2. Using the manual mapping method
+newTOVEEventTable <- initializeGBIFEvent(TOVEEventTableDF, "id",
+  # What follows is a list of arguments giving Darwin Core terms followed by the column name (or number)
+  # in the data frame that corresponds to those terms.  In this example it doesn't make much sense to
+  # call the initialisation function in this manner because all the column names correspond to
+  # Darwin terms anyway (so much easier to use the first method).  However, this alternative method
+  # can be useful if the column names are different from the Darwin Core terms that they represent or
+  # for data frame that don't have column names (in which case column numbers can be given as the
+  # argument values instead).
+  type = "type",
+  modified = "modified",
+  datasetName = "datasetName",
+  ownerInstitutionCode = "ownerInstitutionCode",
+  informationWithheld = "informationWithheld",
+  dataGeneralizations = "dataGeneralizations",
+  eventID = "eventID",
+  samplingProtocol = "samplingProtocol",
+  sampleSizeValue = "sampleSizeValue",
+  sampleSizeUnit = "sampleSizeUnit",
+  samplingEffort = "samplingEffort",
+  eventDate = "eventDate",
+  eventTime = "eventTime",
+  year = "year",
+  month = "month",
+  day = "day",
+  locationID = "locationID",
+  country = "country",
+  countryCode = "countryCode",
+  stateProvince = "stateProvince",
+  municipality = "municipality",
+  locality = "locality",
+  minimumElevationInMeters = "minimumElevationInMeters",
+  maximumElevationInMeters = "maximumElevationInMeters",
+  decimalLatitude = "decimalLatitude",
+  decimalLongitude = "decimalLongitude",
+  geodeticDatum = "geodeticDatum",
+  coordinateUncertaintyInMeters = "coordinateUncertaintyInMeters")
+# We can then check to see if the terms are mapped correctly
+# Terms with NA in the column index represent Darwin Core terms associated with the event data table that are not mapped
+# Not all terms need to be mapped to make a valid Darwin Core archive
+newTOVEEventTable$getTermMapping()
+```
 
     ##                                                                  columnIndex
     ## http://purl.org/dc/terms/type                                              2
@@ -1338,14 +1367,18 @@ terms associated with GBIF-compliant event data tables.
     ## http://rs.tdwg.org/dwc/terms/member                                                       <NA>
     ## http://rs.tdwg.org/dwc/terms/bed                                                          <NA>
 
-    # We can also check that the correct ID column is being used
-    #  Returns the index of the ID column
-    newTOVEEventTable$getIDIndex()
+``` r
+# We can also check that the correct ID column is being used
+#  Returns the index of the ID column
+newTOVEEventTable$getIDIndex()
+```
 
     ## [1] 1
 
-    #  Returns the name of the ID column (if the data table has column names)
-    newTOVEEventTable$getIDName()
+``` r
+#  Returns the name of the ID column (if the data table has column names)
+newTOVEEventTable$getIDName()
+```
 
     ## [1] "id"
 
@@ -1364,8 +1397,10 @@ output from the ‘getGBIFExtensionClasses’ function will at least give
 some hints as to which extension class may be suitable for your data
 type.
 
-    # Look at some of the supported GBIF extension classes (here we've shorted it to the first six entries so that the output is not too long)
-    getGBIFExtensionClasses()[1:6]
+``` r
+# Look at some of the supported GBIF extension classes (here we've shorted it to the first six entries so that the output is not too long)
+getGBIFExtensionClasses()[1:6]
+```
 
     ## $GBIFMultimedia
     ## http://rs.tdwg.org/ac/terms/Multimedia - Multimedia
@@ -1467,8 +1502,10 @@ type.
 We can initialise the occurrence extension table for our data set in a
 similar manner to how we initialised the event core data type.
 
-    # Look at the Darwin Core terms associated with occurrence data tables (here we've shortened it to the first 6 entries so that the output is not too long)
-    getGBIFOccurrenceMembers()[1:6]
+``` r
+# Look at the Darwin Core terms associated with occurrence data tables (here we've shortened it to the first 6 entries so that the output is not too long)
+getGBIFOccurrenceMembers()[1:6]
+```
 
     ## $`http://purl.org/dc/terms/type`
     ## http://purl.org/dc/terms/type - Type (DEPRECATED)
@@ -1569,12 +1606,14 @@ similar manner to how we initialised the event core data type.
     ##  Miscellaneous information:
     ##      not in ABCD
 
-    # Call the initialisation function
-    newTOVEOccTable <- initializeGBIFOccurrence(TOVEOccTableDF, "id", nameAutoMap = TRUE)
-    # We can then check to see if the terms are mapped correctly
-    # Terms with NA in the column index represent Darwin Core terms associated with the event data table that are not mapped
-    # Not all terms need to be mapped to make a valid Darwin Core archive
-    newTOVEOccTable$getTermMapping()
+``` r
+# Call the initialisation function
+newTOVEOccTable <- initializeGBIFOccurrence(TOVEOccTableDF, "id", nameAutoMap = TRUE)
+# We can then check to see if the terms are mapped correctly
+# Terms with NA in the column index represent Darwin Core terms associated with the event data table that are not mapped
+# Not all terms need to be mapped to make a valid Darwin Core archive
+newTOVEOccTable$getTermMapping()
+```
 
     ##                                                                  columnIndex
     ## http://purl.org/dc/terms/type                                              2
@@ -1929,10 +1968,12 @@ designed for the handling of ecological metadata. We can extract the EML
 file for the TOV-E data from the Darwin Core archive file using the
 following code:
 
-    # Extract the EML file from the Darwin Core archive file
-    unzip(localDataLoc, "eml.xml", exdir = tempDirLoc)
-    # Print the first few lines of the EML file to get an idea of the structure of the file
-    cat(readLines(con = file.path(tempDirLoc, "eml.xml"), n = 20, encoding = "UTF-8"), sep = "\n")
+``` r
+# Extract the EML file from the Darwin Core archive file
+unzip(localDataLoc, "eml.xml", exdir = tempDirLoc)
+# Print the first few lines of the EML file to get an idea of the structure of the file
+cat(readLines(con = file.path(tempDirLoc, "eml.xml"), n = 20, encoding = "UTF-8"), sep = "\n")
+```
 
     ## <eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
     ##          xmlns:dc="http://purl.org/dc/terms/"
@@ -1958,21 +1999,25 @@ following code:
 It is also possible to look at the entire EML file in a seperate browser
 by running the following code:
 
-    browseURL(file.path(tempDirLoc, "eml.xml"))
+``` r
+browseURL(file.path(tempDirLoc, "eml.xml"))
+```
 
 From the EML file we can generate a DwCMetadata object by calling the
 ‘initializeDwCMetadata’ function. This function takes one argument,
 which is the location of the file to import the metadata information
 from. This can be an EML file or a Darwin Core archive file.
 
-    # Initialise the metadata from the EML file extracted from the Darwin Core archive
-    newTOVEMetadata <- initializeDwCMetadata(file.path(tempDirLoc, "eml.xml"),
-      fileType = "eml" # This line is not required if the file has the ".xml" file extension
-    )
-    # Alternatively the metadata object can be imported directly from the Darwin Core archive file
-    newTOVEMetadata <- initializeDwCMetadata(localDataLoc,
-      fileType = "darwincore" # This line is not required if the file has the ".zip" file extension
-    )
+``` r
+# Initialise the metadata from the EML file extracted from the Darwin Core archive
+newTOVEMetadata <- initializeDwCMetadata(file.path(tempDirLoc, "eml.xml"),
+  fileType = "eml" # This line is not required if the file has the ".xml" file extension
+)
+# Alternatively the metadata object can be imported directly from the Darwin Core archive file
+newTOVEMetadata <- initializeDwCMetadata(localDataLoc,
+  fileType = "darwincore" # This line is not required if the file has the ".zip" file extension
+)
+```
 
 However, these methods assume that the researcher already has an EML
 file that can be used for initialisation of the metadata object. In many
@@ -1998,21 +2043,25 @@ A very simple minimal example of the use of markdown to generate create
 metadata documentation can be found at the [Living Norway Git
 Repository](https://raw.githubusercontent.com/LivingNorway/LivingNorwayR/master/vignettes/LNWorkshopExample_TOV-E_Metadata.rmd).
 
-    # Initialise the metadata from the R markdown file hosted at TODO
-    download.file("https://raw.githubusercontent.com/LivingNorway/LivingNorwayR/master/vignettes/LNWorkshopExample_TOV-E_Metadata.rmd",
-      file.path(tempDirLoc, "LNWorkshopExample_Metadata.rmd"))
-    createdTOVEMetadata <- initializeDwCMetadata(file.path(tempDirLoc, "LNWorkshopExample_Metadata.rmd"),
-      fileType = "rmarkdown" # This line is not required if the file has the ".rmd" or ".md" file extension
-    )
-    # Export the newly created metadata as an EML file
-    createdTOVEMetadata$exportToEML(file.path(tempDirLoc, "newMetadata.xml"))
+``` r
+# Initialise the metadata from the R markdown file hosted at TODO
+download.file("https://raw.githubusercontent.com/LivingNorway/LivingNorwayR/master/vignettes/LNWorkshopExample_TOV-E_Metadata.rmd",
+  file.path(tempDirLoc, "LNWorkshopExample_Metadata.rmd"))
+createdTOVEMetadata <- initializeDwCMetadata(file.path(tempDirLoc, "LNWorkshopExample_Metadata.rmd"),
+  fileType = "rmarkdown" # This line is not required if the file has the ".rmd" or ".md" file extension
+)
+# Export the newly created metadata as an EML file
+createdTOVEMetadata$exportToEML(file.path(tempDirLoc, "newMetadata.xml"))
+```
 
     ## NULL
 
 and again the created metadata can be viewed in a browser using the
 following command:
 
-    browseURL(file.path(tempDirLoc, "newMetadata.xml"))
+``` r
+browseURL(file.path(tempDirLoc, "newMetadata.xml"))
+```
 
 ### Putting it All Together
 
@@ -2022,12 +2071,16 @@ be done through calling the `initializeDwCArchive` function giving the
 core table as the first argument, a list of all the extension tables as
 the second argument, and a `DwCMetadata` object as the third argument.
 
-    newTOVEArchive <- initializeDwCArchive(newTOVEEventTable, list(newTOVEOccTable), newTOVEMetadata)
+``` r
+newTOVEArchive <- initializeDwCArchive(newTOVEEventTable, list(newTOVEOccTable), newTOVEMetadata)
+```
 
 Finally, we can then export it as a to whichever location we wish to
 store it to.
 
-    newTOVEArchive$exportAsDwCArchive(file.path(tempDirLoc, "newDwCArchive.zip"))
+``` r
+newTOVEArchive$exportAsDwCArchive(file.path(tempDirLoc, "newDwCArchive.zip"))
+```
 
 This Darwin Core archive file can now serve as a useful interchange
 format that ensures that all the data and metadata are packaged together

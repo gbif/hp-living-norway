@@ -1,8 +1,7 @@
 ---
 title: "Handling Darwin Core Files With Living Norway:  Example Using the TOV-E Dataset"
 output: github_document
-#output: html_document
-#output: md_document 
+
 ---
 
 ```{r setupEx, include=FALSE}
