@@ -27,7 +27,7 @@ columns:
   
   - name: Contact
     description: | # Can be Markdown
-      * NINA (Norwagian Institute for Nature Research)
+      * Norwegian Institute for Nature Research (NINA)
     connectIcons: true
 
   # EXAMPLE
