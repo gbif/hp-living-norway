@@ -1,13 +1,15 @@
+- text: Home
+  href: /
 - text: Get data
   menu:
   - text: Datasets
     href: /datasets
-  - text: Data collections
-    href: /collections
+  - text: Projects
+    href: /projects
   - text: Occurrence search
     href: /data
   - text: DarwinCoreEcoViewer         
-    href: https://jekyllrb.com/docs/pages/
+    href: http://158.38.174.16:8999/
 - text: How-to
   menu:
   - text: Share data
@@ -19,13 +21,11 @@
 - text: About
   menu:
   - text: About the network
-    href: 
+    href: https://livingnorway.no/
   - text: Link to GutHub site
-    href: 
+    href: https://github.com/LivingNorway
   - text: Contact info   
-    href: 
-  - text: Why publish data with LN
-    href:   
+    href: https://livingnorway.no/contact/
 - text: Living Norway web page
   href: https://livingnorway.no/
 

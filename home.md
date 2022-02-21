@@ -10,8 +10,8 @@ cta:
   - text: Living Norway datasets
     href: /datasets
     isPrimary: true
-  - text: Data collections
-    href: /collections
+  - text: Projects
+    href: /projects
     isPrimary: false
 permalink: /
 composition:
