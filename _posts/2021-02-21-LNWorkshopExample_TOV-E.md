@@ -161,7 +161,7 @@ dissemination of data to meet FAIR standards can be more easily
 integrated into a researcher’s workflow.
 
 ![Structure of a Darwin Core archive
-file](../assets/images/DwCArchiveSchema.png)
+file](/assets/images/DwCArchiveSchema.png)
 
 The Living Norway R Package
 ---------------------------
