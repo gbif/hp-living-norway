@@ -1,8 +1,15 @@
-Handling Darwin Core Files With Living Norway: Example Using the TOV-E
-Dataset
-================
+---
+output:
+  md_document:
+    preserve_yaml: True
+    variant: 'markdown\_github'
+title: |
+    Handling Darwin Core Files With Living Norway: Example Using the TOV-E
+    Dataset
+---
 
-## What is Darwin Core?
+What is Darwin Core?
+--------------------
 
 Darwin Core can best be thought of as a set of terms for describing
 information about biodiversity data that are given special significance
@@ -23,7 +30,8 @@ Biodiversity Information Facility](https://www.gbif.org/) and, for many
 researchers, GBIF will represent the most common way to make their data
 findable and sharable with the wider community.
 
-## Darwin Core Archive Files
+Darwin Core Archive Files
+-------------------------
 
 The Darwin Core standard itself should not be confused with Darwin Core
 *archive files*. Darwin Core archive files are a file format type that
@@ -43,10 +51,10 @@ by the [Living Norway R
 package](https://github.com/LivingNorway/LivingNorwayR).
 
 Darwin core archive files are simply a
-[ZIP](https://en.wikipedia.org/wiki/ZIP_\(file_format\)) folder with a
+[ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) folder with a
 specific set of files inside:
 
-  - **Metafile** The metafile is a file that describes what files exist
+-   **Metafile** The metafile is a file that describes what files exist
     in the Dawin Core archive file and how the columns in the data files
     map to Darwin Core terms. This file format follows an XML schema
     described in the [Darwin Core text
@@ -60,7 +68,7 @@ specific set of files inside:
     sets. Later in this document we will guide you through the process
     of creating a Darwin Core archive file from a set of data tables.
 
-  - **Resource metadata** This file contains the metadata about the data
+-   **Resource metadata** This file contains the metadata about the data
     set but structured according to known standards. For example, it may
     include things such as a description of the purpose of the study,
     the sampling methodology used in the study, and license under which
@@ -76,7 +84,7 @@ specific set of files inside:
     how to generate valid EML from a markdown document that can also
     serve as a data paper to document the data set.
 
-  - **Data files** These are a collection of files that contain the
+-   **Data files** These are a collection of files that contain the
     data. The format of this data is expected to be in a text-based
     delimited format such as [comma-seperated values
     (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) or
@@ -85,8 +93,8 @@ specific set of files inside:
     Information such as the encoding of the text and the type of
     delimiter used in the data files is often stored in the metafile.
     The first line of the data files may contain column headings.
-    
-      - *Core data file* Every Darwin Core archive needs exactly one
+
+    -   *Core data file* Every Darwin Core archive needs exactly one
         core data file. This is the main data table of the dataset and
         serves as the definition of the reference sampling unit for the
         data set. One column of the core data file must be an ID column
@@ -95,14 +103,14 @@ specific set of files inside:
         reference code for any extension data files included in the
         archive. Data being published to GBIF can have core data files
         that belong to one the following types:
-        
-          - [Sample event
+
+        -   [Sample event
             data](https://ipt.gbif.org/manual/en/ipt/2.5/best-practices-sampling-event-data)
             corresponds to data that have been collected according to a
             defined protocol or experimental design at particular times
             or locations. Here the data set is built around a series of
             sampling events at which measurements are recorded.
-          - [Occurrence
+        -   [Occurrence
             data](https://ipt.gbif.org/manual/en/ipt/2.5/occurrence-data)
             correspoinds to sightings or records of species (or other
             taxon level) that can been assigned to a location or time
@@ -111,15 +119,15 @@ specific set of files inside:
             that is not systemic or unknown. Observations from citizen
             science projects or from digitized museum records often fit
             this data type.
-          - [Species checklist
+        -   [Species checklist
             data](https://ipt.gbif.org/manual/en/ipt/2.5/checklist-data)
             corresponds to a list of named species (or other taxon
             level) that represent a catolgue for some purpose. This
             could for example be a list of species of particular
             conservation for a particular area or a list of potential
             invasive species.
-    
-      - *Extension data files* A Darwin Core archive file may optionally
+
+    -   *Extension data files* A Darwin Core archive file may optionally
         have any number of data tables that may contain additional
         information to extend the information in the core data file. For
         example, in a Darwin Core archive with an event-based core data
@@ -152,9 +160,10 @@ knowledge of both the Darwin Core standard and EML such that the
 dissemination of data to meet FAIR standards can be more easily
 integrated into a researcher’s workflow.
 
-![Structure of a Darwin Core archive file](images/DwCArchiveSchema.png)
+![Structure of a Darwin Core archive file](assets/DwCArchiveSchema.png)
 
-## The Living Norway R Package
+The Living Norway R Package
+---------------------------
 
 Before we can use any of the functions contained within the Living
 Norway package we must first install it. At the current time the easiest
@@ -186,12 +195,12 @@ The Living Norway package simply contains more class definitions that
 allow for easier manipulation of the information in Darwin Core archive
 files:
 
-  - **DwCTerm** Is a class that contains information about terms used in
+-   **DwCTerm** Is a class that contains information about terms used in
     the Darwin Core standard. Nearly all users of the Living Norway
     package will never need to create their own terms objects and, for
     the most part, only interact with terms objects that have been
     pre-defined from their description in the Darwin Core standard.
-  - **DwCGeneric** Is a class that the contains the information in the
+-   **DwCGeneric** Is a class that the contains the information in the
     Darwin Core archive data tables but also defines the link between
     columns in data tables to registered Darwin Core terms. Most users
     will not use this class directly but will use one of the derived
@@ -200,12 +209,12 @@ files:
     followed by the GBIF class name (for example, the GBIF
     implementation of the Event core data table class type is provided
     by the ‘GBIFEvent’ class).
-  - **DwCMetadata** This is a class for handling metadata relating the
+-   **DwCMetadata** This is a class for handling metadata relating the
     dataset. It allows for the easier import and export of EML files and
     also allows for the creation of EML files from other file formats
     such as R markdown files. This will described in greater detail
     later in this document.
-  - **DwCArchive** This class contains an object of a DwCGeneric-dervied
+-   **DwCArchive** This class contains an object of a DwCGeneric-dervied
     class for each of the data tables in a Darwin Core archive (one core
     file plus any number of extension tables) in addition to a
     DwCMetadata object containing the metadata describing the data
@@ -303,7 +312,8 @@ names(getGBIFExtensionClasses())
     ## [31] "GBIFGermplasmSample"           "GBIFExtendedMeasurementOrFact"
     ## [33] "GBIFChronometricAge"           "GBIFChronometricDate"
 
-## Importing a Darwin Core Archive File
+Importing a Darwin Core Archive File
+------------------------------------
 
 In order to import a Darwin Core archive file we need to first get hold
 of a Darwin Core archive file for a dataset that we wish to import.
@@ -364,8 +374,8 @@ TOVEArchive
     ## METADATA
     ## 
     ## Title: TOV-E Bird monitoring sampling data
-    ## Creators: John Atle Kålås (Norwegian Institute for Nature Research), Ingar Jostein Øien (Norsk Ornitologisk Forening), Bård Stokke (Norsk institutt for naturforskning), Roald Vang (Norwegian Institute for Nature Research)
-    ## Abstract: Data from the project "Extensive monitoring of breeding birds (TOV-E)" from 2006 up until today. The project is carried out in cooperation between NOF BirdLife Norway, Norwegian Institute for Nature Research (NINA) and the Norwegian Environment Agency, and is the most important project for monitoring population trends for Norwegian bird species on land.
+    ## Creators: John Atle Kålås (Norwegian Institute for Nature Research), Ingar Jostein Øien (Birdlife Norway), Bård Stokke (Norsk institutt for naturforskning), Roald Vang (Norwegian Institute for Nature Research)
+    ## Abstract: Data from the project "Extensive monitoring of breeding birds (TOV-E)" from 2006 up until today. The project is carried out in cooperation between BirdLife Norway, Norwegian Institute for Nature Research (NINA) and the Norwegian Environment Agency, and is the most important project for monitoring population trends for Norwegian bird species on land.
     ## 
     ## 
     ## CORE TABLE
@@ -514,16 +524,17 @@ TOVEArchive
     ## http://rs.tdwg.org/dwc/terms/occurrenceRemarks              8
     ## http://rs.tdwg.org/dwc/terms/organismQuantity               9
     ## http://rs.tdwg.org/dwc/terms/organismQuantityType          10
-    ## http://rs.tdwg.org/dwc/terms/eventID                       11
-    ## http://rs.tdwg.org/dwc/terms/scientificName                12
-    ## http://rs.tdwg.org/dwc/terms/kingdom                       13
-    ## http://rs.tdwg.org/dwc/terms/phylum                        14
-    ## http://rs.tdwg.org/dwc/terms/class                         15
-    ## http://rs.tdwg.org/dwc/terms/order                         16
-    ## http://rs.tdwg.org/dwc/terms/family                        17
-    ## http://rs.tdwg.org/dwc/terms/genus                         18
-    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet          19
-    ## http://rs.tdwg.org/dwc/terms/vernacularName                20
+    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus              11
+    ## http://rs.tdwg.org/dwc/terms/eventID                       12
+    ## http://rs.tdwg.org/dwc/terms/scientificName                13
+    ## http://rs.tdwg.org/dwc/terms/kingdom                       14
+    ## http://rs.tdwg.org/dwc/terms/phylum                        15
+    ## http://rs.tdwg.org/dwc/terms/class                         16
+    ## http://rs.tdwg.org/dwc/terms/order                         17
+    ## http://rs.tdwg.org/dwc/terms/family                        18
+    ## http://rs.tdwg.org/dwc/terms/genus                         19
+    ## http://rs.tdwg.org/dwc/terms/specificEpithet               20
+    ## http://rs.tdwg.org/dwc/terms/vernacularName                21
     ##                                                             columnName
     ## http://purl.org/dc/terms/type                                     type
     ## http://purl.org/dc/terms/modified                             modified
@@ -534,6 +545,7 @@ TOVEArchive
     ## http://rs.tdwg.org/dwc/terms/occurrenceRemarks       occurrenceRemarks
     ## http://rs.tdwg.org/dwc/terms/organismQuantity         organismQuantity
     ## http://rs.tdwg.org/dwc/terms/organismQuantityType organismQuantityType
+    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus         occurrenceStatus
     ## http://rs.tdwg.org/dwc/terms/eventID                           eventID
     ## http://rs.tdwg.org/dwc/terms/scientificName             scientificName
     ## http://rs.tdwg.org/dwc/terms/kingdom                           kingdom
@@ -542,15 +554,15 @@ TOVEArchive
     ## http://rs.tdwg.org/dwc/terms/order                               order
     ## http://rs.tdwg.org/dwc/terms/family                             family
     ## http://rs.tdwg.org/dwc/terms/genus                               genus
-    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet infraspecificEpithet
+    ## http://rs.tdwg.org/dwc/terms/specificEpithet           specificEpithet
     ## http://rs.tdwg.org/dwc/terms/vernacularName             vernacularName
     ##                                     id       type                modified
     ## 1 B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4 Occurrence 2012-06-19T23:33:30.053
     ## 2 BC7AB7CC-B9D9-433B-95E3-1609CD305E35 Occurrence 2013-07-08T22:06:26.513
     ## 3 29E73B38-950D-4EE1-A0B6-8443E7C219D2 Occurrence 2018-06-05T17:52:53.957
     ## 4 87416FAD-8400-48BF-B523-0BD0DF22ACDC Occurrence 2019-08-02T10:49:23.403
-    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Occurrence 2020-09-06T18:56:19.373
-    ## 6 18C6EA4B-E655-4A1B-981A-CF396B14B26D Occurrence 2014-06-08T12:14:57.170
+    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Occurrence 2021-10-20T22:45:15.517
+    ## 6 860EEAB7-71E5-455B-9A7D-C332AD49E093 Occurrence 2021-08-16T15:50:41.977
     ##                                 collectionCode    basisOfRecord
     ## 1 TOV - Extensive monitoring of bird in Norway HumanObservation
     ## 2 TOV - Extensive monitoring of bird in Norway HumanObservation
@@ -564,35 +576,35 @@ TOVEArchive
     ## 3 urn:catalog:NINA:TOV-E:2018180410    2018180410
     ## 4 urn:catalog:NINA:TOV-E:2019180410    2019180410
     ## 5 urn:catalog:NINA:TOV-E:2020180410    2020180410
-    ## 6 urn:catalog:NINA:TOV-E:2014152010    2014152010
+    ## 6 urn:catalog:NINA:TOV-E:2021180410    2021180410
     ##                                                                occurrenceRemarks
     ## 1 aggregated count for 15 sampling points situated less than 5000m from location
     ## 2 aggregated count for 15 sampling points situated less than 5000m from location
     ## 3 aggregated count for 15 sampling points situated less than 5000m from location
     ## 4 aggregated count for 15 sampling points situated less than 5000m from location
     ## 5 aggregated count for 15 sampling points situated less than 5000m from location
-    ## 6 aggregated count for 20 sampling points situated less than 5000m from location
-    ##   organismQuantity organismQuantityType                              eventID
-    ## 1                1                pairs B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4
-    ## 2                1                pairs BC7AB7CC-B9D9-433B-95E3-1609CD305E35
-    ## 3                2                pairs 29E73B38-950D-4EE1-A0B6-8443E7C219D2
-    ## 4                2                pairs 87416FAD-8400-48BF-B523-0BD0DF22ACDC
-    ## 5                3                pairs 8640104C-3DA0-45BB-B6FE-C9522D58CEAA
-    ## 6                1                pairs 18C6EA4B-E655-4A1B-981A-CF396B14B26D
-    ##   scientificName  kingdom   phylum class       order   family genus
-    ## 1 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 2 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 3 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 4 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 5 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 6 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ##   infraspecificEpithet vernacularName
-    ## 1             stellata         Smålom
-    ## 2             stellata         Smålom
-    ## 3             stellata         Smålom
-    ## 4             stellata         Smålom
-    ## 5             stellata         Smålom
-    ## 6             stellata         Smålom
+    ## 6 aggregated count for 15 sampling points situated less than 5000m from location
+    ##   organismQuantity organismQuantityType occurrenceStatus
+    ## 1                1                pairs          PRESENT
+    ## 2                1                pairs          PRESENT
+    ## 3                2                pairs          PRESENT
+    ## 4                2                pairs          PRESENT
+    ## 5                3                pairs          PRESENT
+    ## 6                1                pairs          PRESENT
+    ##                                eventID scientificName  kingdom   phylum class
+    ## 1 B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4 Gavia stellata Animalia Chordata  Aves
+    ## 2 BC7AB7CC-B9D9-433B-95E3-1609CD305E35 Gavia stellata Animalia Chordata  Aves
+    ## 3 29E73B38-950D-4EE1-A0B6-8443E7C219D2 Gavia stellata Animalia Chordata  Aves
+    ## 4 87416FAD-8400-48BF-B523-0BD0DF22ACDC Gavia stellata Animalia Chordata  Aves
+    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Gavia stellata Animalia Chordata  Aves
+    ## 6 860EEAB7-71E5-455B-9A7D-C332AD49E093 Gavia stellata Animalia Chordata  Aves
+    ##         order   family genus specificEpithet vernacularName
+    ## 1 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 2 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 3 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 4 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 5 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 6 Gaviiformes Gaviidae Gavia        stellata         Smålom
 
 The top section of the output gives a brief summary of the metadata
 associated with the project. What follows the metadata is a summary of
@@ -753,8 +765,8 @@ head(TOVEOccTableDF)
     ## 2 BC7AB7CC-B9D9-433B-95E3-1609CD305E35 Occurrence 2013-07-08T22:06:26.513
     ## 3 29E73B38-950D-4EE1-A0B6-8443E7C219D2 Occurrence 2018-06-05T17:52:53.957
     ## 4 87416FAD-8400-48BF-B523-0BD0DF22ACDC Occurrence 2019-08-02T10:49:23.403
-    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Occurrence 2020-09-06T18:56:19.373
-    ## 6 18C6EA4B-E655-4A1B-981A-CF396B14B26D Occurrence 2014-06-08T12:14:57.170
+    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Occurrence 2021-10-20T22:45:15.517
+    ## 6 860EEAB7-71E5-455B-9A7D-C332AD49E093 Occurrence 2021-08-16T15:50:41.977
     ##                                 collectionCode    basisOfRecord
     ## 1 TOV - Extensive monitoring of bird in Norway HumanObservation
     ## 2 TOV - Extensive monitoring of bird in Norway HumanObservation
@@ -768,35 +780,35 @@ head(TOVEOccTableDF)
     ## 3 urn:catalog:NINA:TOV-E:2018180410    2018180410
     ## 4 urn:catalog:NINA:TOV-E:2019180410    2019180410
     ## 5 urn:catalog:NINA:TOV-E:2020180410    2020180410
-    ## 6 urn:catalog:NINA:TOV-E:2014152010    2014152010
+    ## 6 urn:catalog:NINA:TOV-E:2021180410    2021180410
     ##                                                                occurrenceRemarks
     ## 1 aggregated count for 15 sampling points situated less than 5000m from location
     ## 2 aggregated count for 15 sampling points situated less than 5000m from location
     ## 3 aggregated count for 15 sampling points situated less than 5000m from location
     ## 4 aggregated count for 15 sampling points situated less than 5000m from location
     ## 5 aggregated count for 15 sampling points situated less than 5000m from location
-    ## 6 aggregated count for 20 sampling points situated less than 5000m from location
-    ##   organismQuantity organismQuantityType                              eventID
-    ## 1                1                pairs B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4
-    ## 2                1                pairs BC7AB7CC-B9D9-433B-95E3-1609CD305E35
-    ## 3                2                pairs 29E73B38-950D-4EE1-A0B6-8443E7C219D2
-    ## 4                2                pairs 87416FAD-8400-48BF-B523-0BD0DF22ACDC
-    ## 5                3                pairs 8640104C-3DA0-45BB-B6FE-C9522D58CEAA
-    ## 6                1                pairs 18C6EA4B-E655-4A1B-981A-CF396B14B26D
-    ##   scientificName  kingdom   phylum class       order   family genus
-    ## 1 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 2 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 3 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 4 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 5 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ## 6 Gavia stellata Animalia Chordata  Aves Gaviiformes Gaviidae Gavia
-    ##   infraspecificEpithet vernacularName
-    ## 1             stellata         Smålom
-    ## 2             stellata         Smålom
-    ## 3             stellata         Smålom
-    ## 4             stellata         Smålom
-    ## 5             stellata         Smålom
-    ## 6             stellata         Smålom
+    ## 6 aggregated count for 15 sampling points situated less than 5000m from location
+    ##   organismQuantity organismQuantityType occurrenceStatus
+    ## 1                1                pairs          PRESENT
+    ## 2                1                pairs          PRESENT
+    ## 3                2                pairs          PRESENT
+    ## 4                2                pairs          PRESENT
+    ## 5                3                pairs          PRESENT
+    ## 6                1                pairs          PRESENT
+    ##                                eventID scientificName  kingdom   phylum class
+    ## 1 B5538DE6-437D-4B61-9CB0-8AE7CAF4D5A4 Gavia stellata Animalia Chordata  Aves
+    ## 2 BC7AB7CC-B9D9-433B-95E3-1609CD305E35 Gavia stellata Animalia Chordata  Aves
+    ## 3 29E73B38-950D-4EE1-A0B6-8443E7C219D2 Gavia stellata Animalia Chordata  Aves
+    ## 4 87416FAD-8400-48BF-B523-0BD0DF22ACDC Gavia stellata Animalia Chordata  Aves
+    ## 5 8640104C-3DA0-45BB-B6FE-C9522D58CEAA Gavia stellata Animalia Chordata  Aves
+    ## 6 860EEAB7-71E5-455B-9A7D-C332AD49E093 Gavia stellata Animalia Chordata  Aves
+    ##         order   family genus specificEpithet vernacularName
+    ## 1 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 2 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 3 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 4 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 5 Gaviiformes Gaviidae Gavia        stellata         Smålom
+    ## 6 Gaviiformes Gaviidae Gavia        stellata         Smålom
 
 It is possible to extract elements from the archive metadata. The
 ‘getMetadata’ method of the DwCArchive class returns a DwCMetadata
@@ -817,7 +829,7 @@ TOVEMetadata$getTitle()
 TOVEMetadata$getAbstract()
 ```
 
-    ## [1] "Data from the project \"Extensive monitoring of breeding birds (TOV-E)\" from 2006 up until today. The project is carried out in cooperation between NOF BirdLife Norway, Norwegian Institute for Nature Research (NINA) and the Norwegian Environment Agency, and is the most important project for monitoring population trends for Norwegian bird species on land."
+    ## [1] "Data from the project \"Extensive monitoring of breeding birds (TOV-E)\" from 2006 up until today. The project is carried out in cooperation between BirdLife Norway, Norwegian Institute for Nature Research (NINA) and the Norwegian Environment Agency, and is the most important project for monitoring population trends for Norwegian bird species on land."
 
 ``` r
 # Retrieve the information on the data set creators
@@ -870,7 +882,7 @@ TOVEMetadata$getCreatorInfo()
     ## 
     ## 
     ## [[2]]$organizationName
-    ## [1] "Norsk Ornitologisk Forening"
+    ## [1] "Birdlife Norway"
     ## 
     ## [[2]]$positionName
     ## [1] "Fagsjef"
@@ -967,7 +979,8 @@ TOVEMetadata$getCreatorInfo()
     ## [[4]]$userId
     ## [1] "0000-0002-4006-8689"
 
-## Creating a Darwin Core Archive File
+Creating a Darwin Core Archive File
+-----------------------------------
 
 ### Creating the Data Tables
 
@@ -1001,23 +1014,23 @@ data table that lists these taxa and is handled in the Living Norway
 package with the ‘GBIFTaxon’ class.
 
 So we’ve decided that the core data table should be the
-‘TOVEEventTableDF’ data frame and that this data table is an
-event-based core. To initialise a GBIF-complaint event table we can use
-the ‘initializeGBIFEvent’ function. This function requires two
-arguments: the data frame making up the table and a column (given as
-either a column name or column number) to represent the ID information.
-If the table is going to be used as a core table then this ID column
-must contain unique values for each row and will serve as a key to link
+‘TOVEEventTableDF’ data frame and that this data table is an event-based
+core. To initialise a GBIF-complaint event table we can use the
+‘initializeGBIFEvent’ function. This function requires two arguments:
+the data frame making up the table and a column (given as either a
+column name or column number) to represent the ID information. If the
+table is going to be used as a core table then this ID column must
+contain unique values for each row and will serve as a key to link
 extension data tables to the core table. After these two mandatory
 arguments are given then the user must specify how the columns (if any)
 relate to definitions in the Darwin Core standard for that data table
 type. This can be done in one of two ways: either the data frame can
 have column names that correspond to Darwin Core terms relevant to the
 data table type and then the user can simply add the argument
-‘nameAutoMap = TRUE’ to the initialisation function and it will look
-for any column names that correspond to Darwin Core terms, or the user
-can add arguments with names corresponding to each Darwin Core term and
-set that argument either as a column name or column number. The
+‘nameAutoMap = TRUE’ to the initialisation function and it will look for
+any column names that correspond to Darwin Core terms, or the user can
+add arguments with names corresponding to each Darwin Core term and set
+that argument either as a column name or column number. The
 ‘getGBIFEventMembers’ function returns a list of all the Darwin Core
 terms associated with GBIF-compliant event data tables.
 
@@ -1650,7 +1663,7 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/reproductiveCondition                        NA
     ## http://rs.tdwg.org/dwc/terms/behavior                                     NA
     ## http://rs.tdwg.org/dwc/terms/establishmentMeans                           NA
-    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus                             NA
+    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus                             11
     ## http://rs.tdwg.org/dwc/terms/preparations                                 NA
     ## http://rs.tdwg.org/dwc/terms/disposition                                  NA
     ## http://rs.tdwg.org/dwc/terms/otherCatalogNumbers                          NA
@@ -1665,7 +1678,7 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/associatedOrganisms                          NA
     ## http://rs.tdwg.org/dwc/terms/previousIdentifications                      NA
     ## http://rs.tdwg.org/dwc/terms/organismRemarks                              NA
-    ## http://rs.tdwg.org/dwc/terms/eventID                                      11
+    ## http://rs.tdwg.org/dwc/terms/eventID                                      12
     ## http://rs.tdwg.org/dwc/terms/parentEventID                                NA
     ## http://rs.tdwg.org/dwc/terms/samplingProtocol                             NA
     ## http://rs.tdwg.org/dwc/terms/sampleSizeValue                              NA
@@ -1762,7 +1775,7 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/nameAccordingToID                            NA
     ## http://rs.tdwg.org/dwc/terms/namePublishedInID                            NA
     ## http://rs.tdwg.org/dwc/terms/taxonConceptID                               NA
-    ## http://rs.tdwg.org/dwc/terms/scientificName                               12
+    ## http://rs.tdwg.org/dwc/terms/scientificName                               13
     ## http://rs.tdwg.org/dwc/terms/acceptedNameUsage                            NA
     ## http://rs.tdwg.org/dwc/terms/parentNameUsage                              NA
     ## http://rs.tdwg.org/dwc/terms/originalNameUsage                            NA
@@ -1770,19 +1783,19 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/namePublishedIn                              NA
     ## http://rs.tdwg.org/dwc/terms/namePublishedInYear                          NA
     ## http://rs.tdwg.org/dwc/terms/higherClassification                         NA
-    ## http://rs.tdwg.org/dwc/terms/kingdom                                      13
-    ## http://rs.tdwg.org/dwc/terms/phylum                                       14
-    ## http://rs.tdwg.org/dwc/terms/class                                        15
-    ## http://rs.tdwg.org/dwc/terms/order                                        16
-    ## http://rs.tdwg.org/dwc/terms/family                                       17
-    ## http://rs.tdwg.org/dwc/terms/genus                                        18
+    ## http://rs.tdwg.org/dwc/terms/kingdom                                      14
+    ## http://rs.tdwg.org/dwc/terms/phylum                                       15
+    ## http://rs.tdwg.org/dwc/terms/class                                        16
+    ## http://rs.tdwg.org/dwc/terms/order                                        17
+    ## http://rs.tdwg.org/dwc/terms/family                                       18
+    ## http://rs.tdwg.org/dwc/terms/genus                                        19
     ## http://rs.tdwg.org/dwc/terms/subgenus                                     NA
-    ## http://rs.tdwg.org/dwc/terms/specificEpithet                              NA
-    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet                         19
+    ## http://rs.tdwg.org/dwc/terms/specificEpithet                              20
+    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet                         NA
     ## http://rs.tdwg.org/dwc/terms/taxonRank                                    NA
     ## http://rs.tdwg.org/dwc/terms/verbatimTaxonRank                            NA
     ## http://rs.tdwg.org/dwc/terms/scientificNameAuthorship                     NA
-    ## http://rs.tdwg.org/dwc/terms/vernacularName                               20
+    ## http://rs.tdwg.org/dwc/terms/vernacularName                               21
     ## http://rs.tdwg.org/dwc/terms/nomenclaturalCode                            NA
     ## http://rs.tdwg.org/dwc/terms/taxonomicStatus                              NA
     ## http://rs.tdwg.org/dwc/terms/nomenclaturalStatus                          NA
@@ -1822,7 +1835,7 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/reproductiveCondition                               <NA>
     ## http://rs.tdwg.org/dwc/terms/behavior                                            <NA>
     ## http://rs.tdwg.org/dwc/terms/establishmentMeans                                  <NA>
-    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus                                    <NA>
+    ## http://rs.tdwg.org/dwc/terms/occurrenceStatus                        occurrenceStatus
     ## http://rs.tdwg.org/dwc/terms/preparations                                        <NA>
     ## http://rs.tdwg.org/dwc/terms/disposition                                         <NA>
     ## http://rs.tdwg.org/dwc/terms/otherCatalogNumbers                                 <NA>
@@ -1949,8 +1962,8 @@ newTOVEOccTable$getTermMapping()
     ## http://rs.tdwg.org/dwc/terms/family                                            family
     ## http://rs.tdwg.org/dwc/terms/genus                                              genus
     ## http://rs.tdwg.org/dwc/terms/subgenus                                            <NA>
-    ## http://rs.tdwg.org/dwc/terms/specificEpithet                                     <NA>
-    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet                infraspecificEpithet
+    ## http://rs.tdwg.org/dwc/terms/specificEpithet                          specificEpithet
+    ## http://rs.tdwg.org/dwc/terms/infraspecificEpithet                                <NA>
     ## http://rs.tdwg.org/dwc/terms/taxonRank                                           <NA>
     ## http://rs.tdwg.org/dwc/terms/verbatimTaxonRank                                   <NA>
     ## http://rs.tdwg.org/dwc/terms/scientificNameAuthorship                            <NA>
@@ -1979,7 +1992,7 @@ cat(readLines(con = file.path(tempDirLoc, "eml.xml"), n = 20, encoding = "UTF-8"
     ##          xmlns:dc="http://purl.org/dc/terms/"
     ##          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     ##          xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
-    ##          packageId="4a00502d-6342-4294-aad1-9727e5c24041/v1.4" system="http://gbif.org" scope="system"
+    ##          packageId="4a00502d-6342-4294-aad1-9727e5c24041/v1.6" system="http://gbif.org" scope="system"
     ##          xml:lang="eng">
     ## 
     ## <dataset>

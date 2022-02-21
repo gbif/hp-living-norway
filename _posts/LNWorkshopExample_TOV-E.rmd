@@ -1,7 +1,9 @@
 ---
 title: "Handling Darwin Core Files With Living Norway:  Example Using the TOV-E Dataset"
-output: github_document
-
+output:
+  md_document:
+    variant: markdown_github
+    preserve_yaml: true
 ---
 
 ```{r setupEx, include=FALSE}
@@ -32,7 +34,7 @@ Darwin core archive files are simply a [ZIP](https://en.wikipedia.org/wiki/ZIP_(
     
 To make it easier to both create and manipulate the contents of Darwin Core archive files, the Living Norway package provides a number of functions and tools for data managers and researchers.  The aim of the package and this documentation is to provide a more approachable interface to producing Darwin Core archives without requiring extensive knowledge of both the Darwin Core standard and EML such that the dissemination of data to meet FAIR standards can be more easily integrated into a researcher's workflow.
 
-![Structure of a Darwin Core archive file](images/DwCArchiveSchema.png)
+![Structure of a Darwin Core archive file](assets/DwCArchiveSchema.png)
 
 ## The Living Norway R Package
 
