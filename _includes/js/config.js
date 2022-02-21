@@ -3,5 +3,13 @@ var siteTheme = gbifReactComponents.themeBuilder.extend({baseTheme: 'light', ext
 }});
 
 var siteConfig = {
-  rootPredicate: { type: 'equals', key: 'publishingOrg', value: "46fec380-8e1d-11dd-8679-b8a03c50a862" }
+  routeConfig: {
+    datasetKey: {
+      url: ({key}) => `/dataset?key=${key}`,
+      isHref: true
+    },
+  },
+  occurrence: {
+    rootPredicate: { type: 'equals', key: 'publishingOrg', value: "46fec380-8e1d-11dd-8679-b8a03c50a862" }
+  }
 };

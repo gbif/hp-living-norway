@@ -10,25 +10,42 @@
     <p class="subtitle">
       The datasets that belong to the Living Norway Network
     </p>
+ 
+<div class="columns">
+  <div class="column is-5">
+    <input class="input" type="search" placeholder="Search the datasets in the network" v-model="searchterm" @keyup.enter="search">
+    
   </div>
-</section>
-<section class="section">
-<div class="container">
+  <div class="column">
+
+    <button class="button is-success" @click="search">
+      <span class="icon is-small">
+        <i class="fa fa-search"></i>
+      </span>
+      <span>Search</span>
+    </button>
+  </div>
+</div>  
+
 <table class="table is-fullwidth is-bordered is-striped">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Type</th>
-      <th>Created date</th>
+      <th>Datasets</th>
     </tr>
   </thead>
   
   <tbody>
     <tr v-for="dataset in datasets" :key="dataset.key">     
-      <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a>  <span class="tags has-addons" style="margin-bottom: 0;">
+      <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a>
+        <div class="description-text" v-html=limitText(dataset.description) ></div>
+        <div>
+          <span class="mr-2"><i class="fa fa-info-circle"></i> {{ getType(dataset.type) }}</span> 
+          <span v-show="hasDate(dataset.created)"><i class="fa fa-calendar"></i> {{ dataset.created | formatDate }}</span>
+          <span v-show="hasLogoUrl(dataset.logoUrl)"><img :src=dataset.logoUrl class="img-icon is-pulled-right"></img> </span>
+        
+        </div>
+       
       </td>
-      <td>{{ getType(dataset.type) }}</td>
-      <td>{{ dataset.created | formatDate }}</td>
     </tr>
   </tbody>
 </table>
@@ -53,22 +70,62 @@
 var app = new Vue({
     el: '#app',
     data: {
-      datasets: []
+      datasets: [],
+      searchterm: ''
     },
     methods: {
       getType (type) {
         return type.replace('_', ' ')
+      },
+      limitText(text) {
+        if (text.length > 500) {
+          return text.substr(0, 500) + ' ...';
+        } else {
+          return text;
+        }
+      },
+      hasLogoUrl(url) {
+        return url !== undefined  && url.length > 0
+      },
+      hasDate(date) {
+        return date != undefined
+      },
+      getAllDatasetsInNetwork() {
+        let self = this
+        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents?limit=100').then(function(response) {
+          self.datasets = response.data.results
+        })
+      },
+      search() {
+        let self = this
+        axios.get('https://api.gbif.org/v1/dataset/search?q=' + this.searchterm + '&networkKey=379a0de5-f377-4661-9a30-33dd844e7b9a').then(function(response) {
+          self.datasets = response.data.results
+        })
       }
     },
     computed: {},  
     mounted() {
-        let self = this
-        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents?limit=100').then(function(response) {
-          self.datasets = response.data.results
-          
-         
-
-        })
+        this.getAllDatasetsInNetwork()
+    },
+    watch: {
+    // when searchbox is cleared  
+    searchterm(newVal, oldVal) {
+      if (oldVal && !newVal) {
+        this.getAllDatasetsInNetwork()
+      }
     }
+  }
   })
 </script>
+<style>
+  .description-text {
+    font-size: 14px;
+    font-style: italic;
+    margin: 10px 0;
+  }
+  .img-icon {
+  width: 100px;
+  height: 30px;
+  object-fit: scale-down;
+  }
+</style>
