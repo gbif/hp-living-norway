@@ -13,12 +13,12 @@
  
 <div class="columns">
   <div class="column is-5">
-    <input class="input" type="search" placeholder="Search the datasets in the network" v-model="searchterm" @keyup.enter="search">
+    <input class="input" type="search" placeholder="Search the datasets in the network" v-model="searchterm" v-on:keyup.enter="search">
     
   </div>
   <div class="column">
 
-    <button class="button is-success" @click="search">
+    <button class="button is-success" v-on:click="search">
       <span class="icon is-small">
         <i class="fa fa-search"></i>
       </span>
