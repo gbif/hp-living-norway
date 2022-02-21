@@ -311,7 +311,7 @@ var app = new Vue({
     },
     getCitations() {
       if (this.dataset.citation != undefined) {
-        return this.dataset.citation.text
+        return this.dataset.citation.text.replace('GBIF.org', 'LivingNorway')
       }
     },
     getTag() {
