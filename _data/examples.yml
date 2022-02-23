@@ -54,7 +54,7 @@ blank:
           margin: 0;
           background-image: url('/assets/images/blue1.jpg');
           background-size: cover;
-          height: 600px;
+          height: 400px;
       }
       .my-content {
         text-align: center;
@@ -63,13 +63,13 @@ blank:
         text-align: center;
         font-size: 3.5rem;
         font-weight: 900;
-        padding-top: 84px;
+        padding-top: 50px;
         margin-bottom: 1.23rem;
       }
       .my-description {
         font-size: 120%;
         margin-top: 34px;
-        width: 750px;
+        width: 800px;
         padding: 0 32px;
         margin: auto;
       }
@@ -96,6 +96,7 @@ stats:
     - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span>
       description: Occurrences
       background: 
-    - title: <span data-ajax-url="https://www.gbif.org/api/resource/search?contentType=literature&limit=0&publishingOrganizationKey=46fec380-8e1d-11dd-8679-b8a03c50a862"></span>
+    #- title: <span data-ajax-url="https://www.gbif.org/api/resource/search?contentType=literature&limit=0&publishingOrganizationKey=46fec380-8e1d-11dd-8679-b8a03c50a862"></span>
+    - title: 444
       description: Citations
       background: 

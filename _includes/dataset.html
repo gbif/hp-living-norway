@@ -41,7 +41,7 @@
           <span class="icon">
             <i class="fa fa-cc" aria-hidden="true"></i>
           </span>
-          <span>Licence</span>
+          <span>License</span>
         </a>
       </p>
     </div>
@@ -80,7 +80,7 @@
         <ul>
           <li v-for="(taxa, index) in getTaxa" :key="index"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
         </ul>
-        <a v-on:click="toggleShowTaxa">{{ showTaxaLink }}</a>
+        <a v-show="hasMoreThan5Taxa" v-on:click="toggleShowTaxa">{{ showTaxaLink }}</a>
       </div>
       <h2 class="is-size-4 mt-5 mb-5">Contacts</h2>
       <div class="content">
@@ -251,6 +251,12 @@ var app = new Vue({
           return this.dataset.taxonomicCoverages[0].coverages.slice(0, 5)
         }
         return this.dataset.taxonomicCoverages[0].coverages
+      }
+    },
+    hasMoreThan5Taxa () {
+      if (this.dataset.taxonomicCoverages != undefined)
+      {
+        return this.dataset.taxonomicCoverages[0].coverages.length > 5
       }
     },
     getLicense () {
