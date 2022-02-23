@@ -41,7 +41,7 @@ remote_theme: gbif/jekyll-hp-base-theme
 
 # for usage in the standard privacy layout
 privacy:
-  name: Norwagian Institute for Nature Research (NINA)
+  name: Norwegian Institute for Nature Research (NINA)
   domain: nina.no
   contactEmail: erlend.nilsen@nina.no
   helpdeskEmail: miljodata@nina.no
