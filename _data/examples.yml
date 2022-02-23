@@ -1,12 +1,12 @@
-boxExample: 
+boxExample:
   title: "type: boxHero"
   description: See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml#L12) for the content structure.
   background: /assets/img/Haeckel_Siphoneae.jpg
-postExample: 
+postExample:
   title: "type: postHeader"
   description: See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml#L5) for the content structure.
   background: /assets/img/Haeckel_Siphoneae.jpg
-latestPostsExample: 
+latestPostsExample:
   title: "type: latestPosts"
   description: The theme lets you stitch blocks together from the frontmatter. Below is examples of how. See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml) for the content structure.
 split1:
@@ -46,28 +46,42 @@ text:
   background: /assets/theme/img/patterns/wavy-dots.png
   overlayColor: "#ffffff55"
   hasWhiteText: false
-blank: 
+blank:
   klass: test
   markdownContent: |
     <style>
       .my-headline {
           margin: 0;
-          background-image: url('/assets/images/front1.jpg'); 
-          background-size: cover; 
-          -webkit-background-clip: text; 
-          -webkit-text-fill-color: transparent; 
-          font-size: 120px; 
-          text-align: center; 
-          text-transform: uppercase; 
-          font-weight: 900;
-      } 
+          background-image: url('/assets/images/blue1.jpg');
+          background-size: cover;
+          height: 600px;
+      }
+      .my-content {
+        text-align: center;
+      }
+      .my-header {
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: 900;
+        padding-top: 84px;
+        margin-bottom: 1.23rem;
+      }
+      .my-description {
+        font-size: 120%;
+        margin-top: 34px;
+        width: 750px;
+        padding: 0 32px;
+        margin: auto;
+      }
     </style>
-    <div style="background: #444440; color: white">
-      <h1 class="my-headline">A blank slate - do as you like here</h1>
-      <div style="text-align: center; padding: 24px">
-        <h2>type: blank</h2>
-        <p>See <a href="https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml"><code class="language-plaintext highlighter-rouge">_data/compose/markdownBlock.yml</code></a> for the content structure.</p>
-      </div>
+    <div>
+      <div class="my-headline">
+        <div class="my-content">
+          <h1 class="my-header">Living Norway data portal</h1>
+          <div class="my-description">Living Norway Ecological Data Network facilitate open, reprodusible and transparent sharing, use and reuse of ecological data to the benefit of society and science</div>
+        </div>
+    </div>
+
     </div>
 stats:
   klass: my-custom-identifier-for-styling
@@ -76,10 +90,12 @@ stats:
   #  See [`_data/compose/examples.yml`](https://github.com/gbif/jekyll-theme-algae/blob/master/_data/compose/examples.yml#L72) for the content structure.
   # See https://github.com/gbif/jekyll-hp-base-theme/commit/82348400e256648292533c8977eb07dfee3a5771 for examples
   features:
-    - title: <span data-ajax-url="https://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span> 
+    - title: <span data-ajax-url="https://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span>
       description: Datasets
-      background: /assets/img/icons/visualization.png
-    - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span> 
+      background: 
+    - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span>
       description: Occurrences
-      background: /assets/img/icons/visualization.png
-    
+      background: 
+    - title: <span data-ajax-url="https://www.gbif.org/api/resource/search?contentType=literature&limit=0&publishingOrganizationKey=46fec380-8e1d-11dd-8679-b8a03c50a862"></span>
+      description: Citations
+      background: 

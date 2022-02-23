@@ -3,7 +3,7 @@ lang-ref: home
 layout: compose
 title: Living Norway Data Portal
 description: Living Norway Ecological Data Network is facilitating FAIR management of ecological data to the benefit of society and science.
-background: /assets/images/front1.jpg
+background: /assets/images/blue1.jpg
 imageLicense: |
   *Aursunden, Brekkfjorden* Photo by Odd Terje Sandlund
 cta:
@@ -15,7 +15,8 @@ cta:
     isPrimary: false
 permalink: /
 composition:
-- type: heroImage
+- type: blank
+  data: examples.blank
 - type: stats
   data: examples.stats
 - type: features
