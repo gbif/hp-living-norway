@@ -254,7 +254,7 @@ var app = new Vue({
       }
     },
     hasMoreThan5Taxa () {
-      if (this.dataset.taxonomicCoverages != undefined)
+      if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0)
       {
         return this.dataset.taxonomicCoverages[0].coverages.length > 5
       }
