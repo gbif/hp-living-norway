@@ -37,6 +37,12 @@
             <span>{{endpoint.type}}</span>
             </a>
         </span>
+        <a class="button" v-bind:href="getLicense" target="_blank" title="License">
+          <span class="icon">
+            <i class="fa fa-cc" aria-hidden="true"></i>
+          </span>
+          <span>Licence</span>
+        </a>
       </p>
     </div>
     <div class="tabs">
@@ -247,7 +253,9 @@ var app = new Vue({
         return this.dataset.taxonomicCoverages[0].coverages
       }
     },
-    
+    getLicense () {
+      return this.dataset.license
+    },
     getGeographicScope () {
       if (this.dataset.geographicCoverages != undefined && this.dataset.geographicCoverages.length > 0) {
         return this.dataset.geographicCoverages[0].description
