@@ -72,8 +72,9 @@
       <h3 class="is-size-5 mt-5" v-show="getTaxa">Taxa</h3>
       <div class="content">
         <ul>
-          <li v-for="taxa in getTaxa"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
+          <li v-for="(taxa, index) in getTaxa" :key="index"> {{ taxa.commonName}} {{ taxa.scientificName}}</li>
         </ul>
+        <a v-on:click="toggleShowTaxa">{{ showTaxaLink }}</a>
       </div>
       <h2 class="is-size-4 mt-5 mb-5">Contacts</h2>
       <div class="content">
@@ -181,7 +182,9 @@ var app = new Vue({
       installation: {},
       tabselect: 'dataset',
       bounds: {},
-      project: {}
+      project: {},
+      showAllTaxa: false,
+      showTaxaLink: "Show all"
   },
   methods: {
     getDatasetKey() {
@@ -215,7 +218,15 @@ var app = new Vue({
       if (coverage["@type"] === 'verbatim') {
         return coverage.period
       }
-    } 
+    },
+    toggleShowTaxa() {
+      this.showAllTaxa = !this.showAllTaxa
+      if (this.showAllTaxa) {
+        this.showTaxaLink = "Show less"
+      } else {
+        this.showTaxaLink = "Show all"
+      }
+    }
     
   },
   computed: {
@@ -230,10 +241,13 @@ var app = new Vue({
     },
     getTaxa () {
       if (this.dataset.taxonomicCoverages != undefined && this.dataset.taxonomicCoverages.length > 0) {
-
+        if (!this.showAllTaxa)  {
+          return this.dataset.taxonomicCoverages[0].coverages.slice(0, 5)
+        }
         return this.dataset.taxonomicCoverages[0].coverages
       }
     },
+    
     getGeographicScope () {
       if (this.dataset.geographicCoverages != undefined && this.dataset.geographicCoverages.length > 0) {
         return this.dataset.geographicCoverages[0].description
