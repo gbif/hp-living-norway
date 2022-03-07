@@ -9,7 +9,7 @@
   - text: Occurrence search
     href: /data
   - text: DarwinCoreEcoViewer         
-    href: http://158.38.174.16:8999/
+    href: https://dwcviewer.nina.no/
 - text: How-to
   menu:
   - text: Share data

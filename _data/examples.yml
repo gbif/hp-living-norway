@@ -78,7 +78,7 @@ blank:
       <div class="my-headline">
         <div class="my-content">
           <h1 class="my-header">Living Norway data portal</h1>
-          <div class="my-description">Living Norway Ecological Data Network facilitate open, reprodusible and transparent sharing, use and reuse of ecological data to the benefit of society and science</div>
+          <div class="my-description">Living Norway Ecological Data Network facilitates open, reproducible and transparent sharing, use and reuse of ecological data to the benefit of society and science</div>
         </div>
     </div>
 
@@ -96,7 +96,7 @@ stats:
     - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span>
       description: Occurrences
       background: 
-    #- title: <span data-ajax-url="https://www.gbif.org/api/resource/search?contentType=literature&limit=0&publishingOrganizationKey=46fec380-8e1d-11dd-8679-b8a03c50a862"></span>
-    - title: 444
+    - title: <span data-ajax-path="count" data-ajax-url="https://livingnorway.frafra.workers.dev/literature"></span> 
+    #- title: 444
       description: Citations
       background: 

@@ -47,9 +47,9 @@
     </div>
     <div class="tabs">
       <ul>
-        <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" @click="setDatasetTab"><a>Dataset</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'citations' }" @click="tabselect = 'citations'"><a>Citations</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'project' }" @click="tabselect = 'project'"><a>Project</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" v-on:click="setDatasetTab"><a>Dataset</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'citations' }" v-on:click="tabselect = 'citations'"><a>Citations</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'"><a>Project</a></li>
       </ul>
     </div>
      
@@ -138,10 +138,10 @@
   </div>
 </div>
 
-  <div  v-show="tabselect == 'citations'" class="mt-5"> 
+  <div v-show="tabselect == 'citations'" class="mt-5"> 
     <iframe v-bind:src="getWidgetUrl" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="false" style="width: 100%; min-height: 550px;"></iframe>
   </div>
-  <div  v-show="tabselect == 'project'" class="mt-5"> 
+  <div v-show="tabselect == 'project'" class="mt-5"> 
     <div class="container">
       <div class="content">
     <div class="mt-6" v-html="project.description"> </div>
@@ -353,9 +353,6 @@ var app = new Vue({
     
   },  
   mounted() {
-
-    
-
     let key = this.getDatasetKey()
     if (key) {
       let self = this

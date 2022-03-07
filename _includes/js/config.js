@@ -10,6 +10,6 @@ var siteConfig = {
     },
   },
   occurrence: {
-    rootPredicate: { type: 'equals', key: 'publishingOrg', value: "46fec380-8e1d-11dd-8679-b8a03c50a862" }
+    rootPredicate: { type: 'equals', key: 'networkKey', value: "379a0de5-f377-4661-9a30-33dd844e7b9a" }
   }
 };
