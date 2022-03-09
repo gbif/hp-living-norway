@@ -4,7 +4,7 @@ output:
     preserve_yaml: True
     variant: 'markdown\_github'
 title: 'TOV-E Bird monitoring sampling data'
-background: https://upload.wikimedia.org/wikipedia/commons/8/84/Haeckel_Caulerpa_racemosa_%28uvifera%29.jpg
+background: /assets/images/icon6.png
 ---
 
 A Mini-Introduction to R Markdown

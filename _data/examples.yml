@@ -69,15 +69,22 @@ blank:
       .my-description {
         font-size: 120%;
         margin-top: 34px;
-        width: 800px;
+        width: 850px;
         padding: 0 32px;
         margin: auto;
+        font-weight: bold;
+      }
+      .is-orange {
+        color: #f26641
+      }
+      .is-green {
+        color: #8BC751
       }
     </style>
     <div>
       <div class="my-headline">
         <div class="my-content">
-          <h1 class="my-header">Living Norway data portal</h1>
+          <h1 class="my-header"><span class="is-green">Living Norway</span> <span class="is-orange">data</span> <span class="is-green">portal</span></h1>
           <div class="my-description">Living Norway Ecological Data Network facilitates open, reproducible and transparent sharing, use and reuse of ecological data to the benefit of society and science</div>
         </div>
     </div>
@@ -92,11 +99,11 @@ stats:
   features:
     - title: <span data-ajax-url="https://api.gbif.org/v1/dataset/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0">100,000</span>
       description: Datasets
-      background: 
+      background: /assets/images/icon1.png
     - title: <span data-ajax-url="https://api.gbif.org/v1/occurrence/search?netWorkKey=379a0de5-f377-4661-9a30-33dd844e7b9a&limit=0"></span>
       description: Occurrences
-      background: 
+      background: /assets/images/icon2.png
     - title: <span data-ajax-path="count" data-ajax-url="https://livingnorway.frafra.workers.dev/literature"></span> 
     #- title: 444
       description: Citations
-      background: 
+      background: /assets/images/icon3.png

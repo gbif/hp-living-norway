@@ -4,16 +4,16 @@ features:
       description: |      # required
        Some description about LivingNorwayR
       # img required
-      background: https://upload.wikimedia.org/wikipedia/commons/9/92/Haeckel_Caulerpa_racemosa.JPG
+      background: /assets/images/icon4.png
       href: https://livingnorway.github.io/LivingNorwayR/
       #categories: [, dog]
     - title: Darwin Core Eco Viewer
       href: https://dwcviewer.nina.no/
       description: |      # required
        Tool for viewing Darwin Core data
-      background: https://upload.wikimedia.org/wikipedia/commons/8/84/Haeckel_Caulerpa_racemosa_%28uvifera%29.jpg
+      background: /assets/images/icon5.png
     - title: Techincal blog
       href: /news
       description: |      # required
        Tips and tricks
-      background: https://upload.wikimedia.org/wikipedia/commons/8/84/Haeckel_Caulerpa_racemosa_%28uvifera%29.jpg
+      background: /assets/images/icon6.png

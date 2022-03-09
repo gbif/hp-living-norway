@@ -6,7 +6,7 @@ output:
 title: |
     Handling Darwin Core Files With Living Norway: Example Using the TOV-E
     Dataset
-background: /assets/images/DwCArchiveSchema.png
+background: /assets/images/icon6.png
 ---
 
 What is Darwin Core?
