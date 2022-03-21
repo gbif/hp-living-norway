@@ -6,7 +6,7 @@ description: <span class="header-description">Living Norway Ecological Data Netw
 background: /assets/images/blue4.jpg
 height: 43vh
 imageLicense: |
-  *Aursunden, Brekkfjorden* Photo by Odd Terje Sandlund
+  *Blåner* Photo by Anders Endrestøl
 permalink: /
 composition:
 - type: heroImage
