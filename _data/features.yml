@@ -15,5 +15,5 @@ features:
     - title: Techincal blog
       href: /news
       description: |      # required
-       Tips and tricks
+       Tutorials and workflows for making your biodiversity data and metadata open and sharable using open-source tools. We predominately use the programming languages R and JavaScript but are open to other approaches.
       background: /assets/images/icon6.png
