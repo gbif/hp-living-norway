@@ -1,6 +1,6 @@
 {::nomarkdown}
 {% raw %}
-<div id="app" v-cloak>
+<div id="app" v-cloak v-if="dataset">
 
   <div>
   <div class="container">
@@ -60,8 +60,11 @@
     <div class="container">
       <div id="map"></div>
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
-      
       <p v-html=dataset.description v-linkified ></p>
+
+      <h2 class="is-size-4 mt-5 mb-3">Version</h2>
+      <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blan"> IPT from which this dataset was published</a>. 
+        If you want to use an earlier version of this dataset, you can add version number to the endpoint below (under 'GBIF Registrations'). In the R-code provided in the R-tab, you can request a specific version of the dataset by defining version number in the provided code.  </p>
       <h2 class="is-size-4 mt-5" v-show="hasTemporalCoverages">Temporal scope</h2>
       <div class="content">
         <ul>
@@ -181,7 +184,7 @@ var app = new Vue({
   el: '#app',
   data: {
       title: '',
-      dataset: {},
+      dataset: null,
       map: {},
       mapBoundingBox: {},
       publishingOrg: {},
@@ -295,6 +298,16 @@ var app = new Vue({
     },
     hasMethodology() {
       return this.dataset.samplingDescription != undefined
+    },
+    getIptResource() {
+      if (this.dataset.identifiers != undefined) {
+        var result = this.dataset.identifiers.find(obj => {
+          return obj.type === 'URL' 
+        })
+        
+        return result.identifier
+      }
+      
     },
     getContacts() {
       const contacts = []
