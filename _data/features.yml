@@ -2,7 +2,7 @@
 features:
     - title: LivingNorwayR  # required
       description: |      # required
-       Some description about LivingNorwayR
+       With our R package you can create a Darwin Core compliant data archive (“a data package”) for your biodiversity data. This facilitates data sharing and uploading to repositories such as GBIF.
       # img required
       background: /assets/images/icon4.png
       href: https://livingnorway.github.io/LivingNorwayR/
