@@ -63,8 +63,9 @@
       <p v-html=dataset.description v-linkified ></p>
 
       <h2 class="is-size-4 mt-5 mb-3">Version</h2>
-      <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blan"> IPT from which this dataset was published</a>. 
-        If you want to use an earlier version of this dataset, you can add version number to the endpoint below (under 'GBIF Registrations'). In the R-code provided in the R-tab, you can request a specific version of the dataset by defining version number in the provided code.  </p>
+      <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blank"> IPT from which this dataset was published</a>. 
+        If you want to use an earlier version of this dataset, you can add version number to the endpoints below (under 'GBIF Registrations'), such as <span v-html="getIptVersionUrl" v-linkified></span>.
+        In the R-code provided in the R-tab, you can request a specific version of the dataset by defining version number in the provided code.  </p>
       <h2 class="is-size-4 mt-5" v-show="hasTemporalCoverages">Temporal scope</h2>
       <div class="content">
         <ul>
@@ -220,6 +221,7 @@ var app = new Vue({
       }
       
     },
+    
     getCoverage (coverage) {
       if (coverage["@type"] === 'range'){
         return moment(String(coverage.start)).format("DD.MM.YYYY")   + ' - ' + moment(String(coverage.end)).format("DD.MM.YYYY")
@@ -303,11 +305,18 @@ var app = new Vue({
       if (this.dataset.identifiers != undefined) {
         var result = this.dataset.identifiers.find(obj => {
           return obj.type === 'URL' 
-        })
-        
+        }) 
         return result.identifier
       }
-      
+    },
+    getIptVersionUrl () {
+      if (this.getIptResource != undefined) {
+        if (this.dataset.version !== undefined) {
+          return this.getIptResource + '&v=' + this.dataset.version
+        } else {
+          return this.getIptResource + '&v=1.0'
+        }
+      }
     },
     getContacts() {
       const contacts = []
