@@ -13,9 +13,9 @@
 - text: How-to
   menu:
   - text: Share data
-    href: https://livingnorway.no/using-and-reusing-data-shared-through-the-living-norway-ecological-data-network/
-  - text: Use data
     href: 
+  - text: Use data
+    href: https://livingnorway.no/using-and-reusing-data-shared-through-the-living-norway-ecological-data-network/
   - text: LivingNorwayR   
     href: https://livingnorway.github.io/LivingNorwayR/    
 - text: About
