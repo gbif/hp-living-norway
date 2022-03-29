@@ -61,7 +61,7 @@
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" v-on:click="tabselect = 'citations'"><a>Citations</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'" v-show="project.description != undefined"><a>Program</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'metadata' }" v-on:click="tabselect = 'metadata'" v-show="dataset.additionalInfo != undefined"><a>Additional metadata</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R-code</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R code</a></li>
       </ul>
     </div>
      
@@ -72,8 +72,7 @@
     <div class="container">
       <div id="map"></div>
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
-     
-
+      <P v-html="dataset.description" v-linkified ></P>
       <h2 class="is-size-4 mt-5 mb-3">Version</h2>
       <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blank"> IPT from which this dataset was published</a>. 
         If you want to use an earlier version of this dataset, you can add version number to the endpoints below (under 'GBIF Registrations'), such as <span v-html="getIptVersionUrl" v-linkified></span>.
@@ -160,6 +159,7 @@
   <div v-show="tabselect == 'project'" class="mt-5"> 
     <div class="container">
       <div class="content">
+        <h3 class="mt-6"> {{ project.title }}</h3>
       <div class="mt-6" v-html="project.description"> </div>
         <h3>Datasets in the program</h3>
         <table class="table is-fullwidth is-bordered is-striped mt-4">
@@ -194,7 +194,12 @@
     <div v-show="tabselect == 'rcode'" class="mt-5"> 
         <div class="container">
           <div class="content">
-            <div class="mt-6" v-html="project.description"> </div>
+            <p>
+              <button class="button is-default is-primary is-outlined is-pulled-right" v-on:click="copyRcode"> Copy </button>
+              <h3>R code</h3>
+            </p>
+            <span class="is-clearfix"></span>
+            <textarea class="textarea mt-2" ref="text"></textarea> 
           </div>
         </div>
     </div>
@@ -290,6 +295,10 @@ var app = new Vue({
       } else {
         this.showTaxaLink = "Show all"
       }
+    },
+    copyRcode() {
+      this.$refs.text.select();
+      document.execCommand('copy');
     }
     
   },
