@@ -16,6 +16,8 @@ Hønsefuglportalen was launched in 2013 to 1) coordinate local and regional tetr
 ### Funding
 The program has been funded by several sources, following annual or multiyear contracts. In general, the landowners carries all the cost related to organization and actual performance of field work. In addition, the Environmental Agency of Norway (http://www.miljodirektoratet.no/en/) have supported the work through a series of contracts to NINA since 2012. In addition, involved landowners are funding parts of the operating costs associated with running the infrastructure. Involved research institutions are using strategic funding to support the program.
 
+{% include projectDatasets.html %}
+
 
 
 

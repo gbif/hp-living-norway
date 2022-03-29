@@ -2,7 +2,7 @@
 {% raw %}
 <div id="app" class="mt-4" v-cloak>
 
-<h3>Datasets in the project</h3>
+<h3>Datasets in the program</h3>
 <table class="table is-fullwidth is-bordered is-striped mt-4">
   <thead>
     <tr>
@@ -12,7 +12,7 @@
   
   <tbody>
     <tr v-for="dataset in datasets" :key="dataset.key">     
-      <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a>
+      <td><a v-bind:href="'/dataset?key='+ dataset.key">{{ dataset.title }}</a>
         <div class="description-text" v-html=limitText(dataset.description) ></div>
         <div>
           <span class="mr-2"><i class="fa fa-info-circle"></i> {{ getType(dataset.type) }}</span> 

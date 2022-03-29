@@ -4,8 +4,8 @@
   menu:
   - text: Datasets
     href: /datasets
-  - text: Projects
-    href: /projects
+  - text: Programs
+    href: /programs
   - text: Occurrence search
     href: /data
   - text: DarwinCoreEcoViewer         

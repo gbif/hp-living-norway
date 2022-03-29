@@ -8,9 +8,18 @@
       <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
         <span class="tag">DOI</span>
         <span class="tag is-primary" ><a v-bind:href="'https://doi.org/' + dataset.doi" target="_blank">{{dataset.doi}}</a></span>
+     
       </div> 
+   
+
       {{ getType(dataset.type) }} | {{ dataset.created | formatDate}}
     </p>
+    <span class="is-clearfix"></span>
+    <div class="tags has-addons is-pulled-right" style="margin-bottom: 0;">
+      <span class="tag">Key</span>
+      <span class="tag is-info" >{{dataset.key}}</span>
+   
+    </div> 
     <span class="is-clearfix"></span>
     <p class="title">
       {{dataset.title}}
@@ -20,6 +29,7 @@
     <p>
       <span class="contact-list" v-for="contact in getContacts"> {{ contact.name}}  </span>
     </p>
+   
     </div>
     <div class="block">
       <p class="buttons">
@@ -49,7 +59,9 @@
       <ul>
         <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" v-on:click="setDatasetTab"><a>Dataset</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" v-on:click="tabselect = 'citations'"><a>Citations</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'"><a>Project</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'" v-show="project.description != undefined"><a>Program</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'metadata' }" v-on:click="tabselect = 'metadata'" v-show="dataset.additionalInfo != undefined"><a>Additional metadata</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R-code</a></li>
       </ul>
     </div>
      
@@ -60,7 +72,7 @@
     <div class="container">
       <div id="map"></div>
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
-      <p v-html=dataset.description v-linkified ></p>
+     
 
       <h2 class="is-size-4 mt-5 mb-3">Version</h2>
       <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blank"> IPT from which this dataset was published</a>. 
@@ -148,10 +160,44 @@
   <div v-show="tabselect == 'project'" class="mt-5"> 
     <div class="container">
       <div class="content">
-    <div class="mt-6" v-html="project.description"> </div>
+      <div class="mt-6" v-html="project.description"> </div>
+        <h3>Datasets in the program</h3>
+        <table class="table is-fullwidth is-bordered is-striped mt-4">
+          <thead>
+            <tr>
+              <th>Datasets</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <tr v-for="dataset in project.datasets" :key="dataset.key">     
+              <td><a v-bind:href="'/dataset?key='+ dataset.key">{{ dataset.title }}</a>
+                <div class="description-text" v-html=limitText(dataset.description) ></div>
+                <div>
+                  <span class="mr-2"><i class="fa fa-info-circle"></i> {{ getType(dataset.type) }}</span> 
+                </div>
+              
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
   </div>
-</div>
   </div>
+   <div v-show="tabselect == 'metadata'" class="mt-5"> 
+      <div class="container">
+        <div class="content">
+          <div class="mt-6" v-html=dataset.additionalInfo v-linkified > </div>
+        </div>
+    </div>
+    </div>
+    <div v-show="tabselect == 'rcode'" class="mt-5"> 
+        <div class="container">
+          <div class="content">
+            <div class="mt-6" v-html="project.description"> </div>
+          </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -221,6 +267,13 @@ var app = new Vue({
       }
       
     },
+    limitText(text) {
+        if (text.length > 500) {
+          return text.substr(0, 500) + ' ...';
+        } else {
+          return text;
+        }
+      },
     
     getCoverage (coverage) {
       if (coverage["@type"] === 'range'){
@@ -380,14 +433,17 @@ var app = new Vue({
       let self = this
       axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
         self.dataset = response.data
-        axios.get('projects.json')
+        axios.get('programs.json')
         .then(res => {
             if (res.data.length > 0) {
               let element = res.data.find(d => d.projectId === self.getTag ) 
                 if (element !== undefined) {
                   self.project = element
                 }
-              }
+                axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + self.getTag).then(function(response) {
+                  self.project.datasets = response.data.results
+                })
+            }
         })
         .catch(err => console.log(err))
         
