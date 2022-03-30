@@ -1,0 +1,21 @@
+---
+layout: none
+---
+[
+  {% for program in site.programs %}
+  {
+    "projectId": "{{ program.identifier }}",
+    "title": "{{ program.title }}",
+    "description": "{{ program.content | strip | strip_newlines | replace: '"', '\\"' }}"
+  }
+  {% if forloop.last == true %}
+  {% else %}
+  ,
+    {% endif %}
+  
+  {% endfor %}
+]
+
+
+
+

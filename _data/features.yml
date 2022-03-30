@@ -10,7 +10,7 @@ features:
     - title: Darwin Core Eco Viewer
       href: https://dwcviewer.nina.no/
       description: |      # required
-       Tool for viewing Darwin Core data
+       Our visualization application made with R Shiny will help you quickly display the key features of the Darwin core compliant dataset you are interested in
       background: /assets/images/icon5.png
     - title: Techincal blog
       href: /news

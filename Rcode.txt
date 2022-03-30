@@ -1,0 +1,66 @@
+###############################################################
+# To download Living Norway Data and import it directly       #
+# in to R you can use any of these code suggestions.          #
+# Using LivingNorwayR there is a simple function for          #
+# creating a Darwin Core Archive "object" in R (an R6 Class). #
+# This has options for specifying the version of the data     #
+# An approach using other packages is also shown. The code is #
+# commented out (#) so to run it you will need to delete the  #
+# comment symbol (#). 
+###############################################################
+## First load packages and install those that are missing
+packages = c("tidyverse", "readr", "devtools", "EML")
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)
+## Get the dataset using the key: 
+datasetKey <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+########################################################
+## Use LivingNorwayR to extract the Archive
+## LivingNorwayR is not on CRAN yet so we need to have a seperate approach to install from github
+if(!require("LivingNorwayR", character.only = TRUE)){
+  devtools::install_github("LivingNorway/LivingNorwayR")
+  library(LivingNorwayR,, character.only = TRUE)
+ }
+ 
+Archive <-getLNportalData(datasetKey = datasetKey)
+core<-Archive$getCoreTable()
+extensions<-Archive$getExtensionTables()
+eml<-Archive$getMetadata()
+## If we have a dataset with several versions we can use the function to get a particular version
+#datasetKey <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+#Archive <-getLNportalData(datasetKey = datasetKey, version=1.6)
+
+########################################################
+## Using packages other than the LivingNorwayR package
+# datasetKey <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# dataset <- RJSONIO::fromJSON(paste0("http://api.gbif.org/v1/dataset/",datasetKey,"/endpoint"))
+# endpoint_url <- dataset[[1]]$url
+# datasetName=sub(".*r=", "", endpoint_url)
+# datsetName=sub("&v*.","", datasetName)
+# tempDirLoc <- tempdir()
+# localDataLoc <- file.path(tempDirLoc,datasetName)
+# download.file(endpoint_url, localDataLoc, mode = "wb")
+## list the files in the archive
+# unzip(zipfile = localDataLoc, list = TRUE)
+# occurence <- as_tibble(read.table(unz(localDataLoc, "occurrence.txt"), header=T,sep="\t", quote=""))
+# measurement <- as_tibble(read.table(unz(localDataLoc, "measurementorfact.txt"), header=T,sep="\t", quote=""))
+## You need to unzip the eml before read_eml() will work
+# f <- unzip(localDataLoc, "eml.xml")
+# eml=EML::read_eml(f)
+
+## Again if there is a dataset with multiple versions we can adapt the code
+# datasetKey <- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# version=1.6 # the number of the version we want
+# endpoint_url<-paste0(endpoint_url,"&v=",version)
+
+
+## clean up and remove temp directory
+unlink(tempDirLoc)

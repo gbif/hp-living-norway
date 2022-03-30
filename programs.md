@@ -1,10 +1,10 @@
 ---
 layout: dataset
-permalink: /projects
+permalink: /programs
 composition:
 - type: pageMarkdown
 ---
 
-{% include projects.html %}
+{% include programs.html %}
 
 

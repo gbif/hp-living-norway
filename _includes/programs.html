@@ -4,26 +4,26 @@
   <div class="container">
   
     <p class="title">
-      Projects
+      Programs
     </p>
     <p class="subtitle">
-      A short description of what a project is
+     Some subtitle here explainig the purpose of a program
     </p>
 
 
-    <table class="table is-fullwidth is-bordered is-striped">
+    <table class="table is-fullwidth is-bordered is-striped mt-6">
       <thead>
         <tr>
-          <th>Projects</th>
+          <th>Title</th>
         </tr>
       </thead>
       
       <tbody>
-        {% for project in site.projects %}
+        {% for program in site.programs %}
         <tr>     
           <td> 
-            <a href="{{project.url}}"> <h1>{{ project.title }}</h1> </a>
-            <div class="description-text"> Beskrivelse kommer her</div>
+            <a href="{{program.url}}"> <h1>{{ program.title }}</h1> </a>
+            <div class="description-text"> </div>
           </td>
         </tr>
         {% endfor %}
