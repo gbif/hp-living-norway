@@ -199,7 +199,7 @@
               <h3>R code</h3>
             </p>
             <span class="is-clearfix"></span>
-            <textarea class="textarea mt-2" ref="text"></textarea> 
+            <textarea class="textarea mt-2 code-area" ref="text" v-model="rCode"></textarea> 
           </div>
         </div>
     </div>
@@ -245,7 +245,8 @@ var app = new Vue({
       bounds: {},
       project: {},
       showAllTaxa: false,
-      showTaxaLink: "Show all"
+      showTaxaLink: "Show all",
+      rCode: ""
   },
   methods: {
     getDatasetKey() {
@@ -299,6 +300,15 @@ var app = new Vue({
     copyRcode() {
       this.$refs.text.select();
       document.execCommand('copy');
+    },
+    getRCode(datasetKey) {
+     let self = this 
+     fetch('Rcode.txt')
+      .then(response => response.text())
+      .then(data => {
+        let result = data.replace(/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/g, datasetKey)
+       self.rCode = result  
+    })
     }
     
   },
@@ -434,6 +444,7 @@ var app = new Vue({
     hasTemporalCoverages () {
       return this.dataset.temporalCoverages !== undefined && this.dataset.temporalCoverages.length > 0
     }
+
     
   },  
   mounted() {
@@ -489,7 +500,13 @@ var app = new Vue({
           new L.TileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=' + key + '&bin=hex&hexPerTile=30&style=green.poly'
         ).addTo(self.map)
       })
+      self.getRCode(key)
+
     })
+    
+
+ 
+
 
     } else {
       alert('no such dataset found');
