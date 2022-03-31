@@ -10,8 +10,6 @@
         <span class="tag is-primary" ><a v-bind:href="'https://doi.org/' + dataset.doi" target="_blank">{{dataset.doi}}</a></span>
      
       </div> 
-   
-
       {{ getType(dataset.type) }} | {{ dataset.created | formatDate}}
     </p>
     <span class="is-clearfix"></span>
@@ -24,11 +22,44 @@
     <p class="title">
       {{dataset.title}}
     </p>
+
+    <p class="block scoring">
+      <span class="button" v-bind:class="{ 'is-primary': scoring.richDescription === 1}" :disabled="scoring.richDescription == 0">
+        <span v-show="scoring.richDescription === 1" class="icon is-small">
+          <i class="fa fa-star"></i>
+        </span>
+        <span>Rich description</span>
+      </span>
+
+      <span class="button" v-bind:class="{ 'is-primary': scoring.additionalMetadata === 1}" :disabled="scoring.additionalMetadata == 0">
+        <span v-show="scoring.additionalMetadata === 1" class="icon is-small">
+          <i class="fa fa-star"></i>
+        </span>
+        <span>Additional metadata</span>
+      </span>
+
+      <span class="button" v-bind:class="{ 'is-primary': scoring.projectData === 1}" :disabled="scoring.projectData == 0">
+        <span v-show="scoring.projectData === 1" class="icon is-small">
+          <i class="fa fa-star"></i>
+        </span>
+        <span>Project data</span>
+      </span>
+
+      <span class="button" v-bind:class="{ 'is-primary': scoring.samplingMethods === 1}" :disabled="scoring.samplingMethods == 0">
+        <span v-show="scoring.samplingMethods === 1" class="icon is-small">
+          <i class="fa fa-star"></i>
+        </span>
+        <span>Sampling methods</span>
+      </span>
+  </p>
+
     <div class="block">
     <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
     <p>
       <span class="contact-list" v-for="contact in getContacts"> {{ contact.name}}  </span>
     </p>
+
+    
    
     </div>
     <div class="block">
@@ -62,6 +93,7 @@
         <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'" v-show="project.description != undefined"><a>Program</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'metadata' }" v-on:click="tabselect = 'metadata'" v-show="dataset.additionalInfo != undefined"><a>Additional metadata</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R code</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'projectdata' }" v-on:click="tabselect = 'projectdata'" v-show="dataset.project != undefined"><a>Project data</a></li>
       </ul>
     </div>
      
@@ -189,6 +221,20 @@
         <div class="content">
           <div class="mt-6" v-html=dataset.additionalInfo v-linkified > </div>
         </div>
+    </div>
+    </div>
+    <div v-show="tabselect == 'projectdata'" class="mt-5"> 
+      <div class="container" v-if="getProject">
+        <div class="content mt-6">
+         <h1> {{ getProject.title}}</h1>
+         <p>{{ getProject.abstract }}</p>
+        </div>
+        <h3 class="is-size-5">Study area</h3>
+        <p class="block">{{ getProject.studyAreaDescription }}</p>
+        <h3 class="is-size-5">Description</h3>
+        <p class="block">{{ getProject.designDescription }}</p>
+        <h3 class="is-size-5">Funding</h3>
+        <p class="block">{{ getProject.funding }}</p>
     </div>
     </div>
     <div v-show="tabselect == 'rcode'" class="mt-5"> 
@@ -443,8 +489,35 @@ var app = new Vue({
     },
     hasTemporalCoverages () {
       return this.dataset.temporalCoverages !== undefined && this.dataset.temporalCoverages.length > 0
+    },
+    scoring () {
+      let score = {
+        richDescription: 0,
+        samplingMethods:  0,
+        projectData: 0,
+        additionalMetadata: 0
+      }
+      if (this.dataset.description != undefined && this.dataset.description.length >= 300 ) {
+        score.richDescription = 1
+      }
+      if (this.getStudyExtent) {
+        score.samplingMethods = 1
+      }
+      if (this.dataset.additionalInfo != undefined && this.dataset.additionalInfo.length >= 1 ) {
+        score.additionalMetadata = 1
+      }
+      if (this.dataset.project != undefined )
+      {
+        score.projectData = 1
+      }
+      return score
+    },
+    getProject() {
+      if (this.dataset.project != undefined) {
+        return this.dataset.project
+      }
     }
-
+   
     
   },  
   mounted() {
@@ -503,10 +576,6 @@ var app = new Vue({
       self.getRCode(key)
 
     })
-    
-
- 
-
 
     } else {
       alert('no such dataset found');

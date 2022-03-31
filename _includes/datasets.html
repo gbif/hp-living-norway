@@ -27,20 +27,51 @@
   </div>
 </div>  
 
+
+
 <table class="table is-fullwidth is-bordered is-striped">
   <thead>
     <tr>
       <th>Datasets</th>
     </tr>
   </thead>
+
+
   
   <tbody>
     <tr v-for="dataset in datasets" :key="dataset.key">     
-      <td><a v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a>
+      <td><a class="has-text-weight-semibold" v-bind:href="'dataset?key='+ dataset.key">{{ dataset.title }}</a>
+      <p class="scoring">
+          <span v-show="scoring (dataset).richDescription ===1" class="button is-primary">
+            <span class="icon is-small">
+              <i class="fa fa-star"></i>
+            </span>
+            <span>Rich description</span>
+          </span>
+          <span v-show="scoring (dataset).additionalMetadata ===1" class="button is-primary">
+            <span class="icon is-small">
+              <i class="fa fa-star"></i>
+            </span>
+            <span>Additional metadata</span>
+          </span>
+          <span v-show="scoring (dataset).projectData === 1" class="button is-primary">
+            <span class="icon is-small">
+              <i class="fa fa-star"></i>
+            </span>
+            <span>Project data</span>
+          </span>
+          <span v-show="scoring (dataset).samplingMethods === 1" class="button is-primary">
+            <span class="icon is-small">
+              <i class="fa fa-star"></i>
+            </span>
+            <span>Sampling methods</span>
+          </span>
+      </p> 
+        
         <div class="description-text" v-html=limitText(dataset.description) ></div>
         <div>
           <span class="mr-2"><i class="fa fa-info-circle"></i> {{ getType(dataset.type) }}</span> 
-          <span v-show="hasDate(dataset.created)"><i class="fa fa-calendar"></i> {{ dataset.created | formatDate }}</span>
+         <span v-show="hasDate(dataset.pubDate)"><i class="fa fa-calendar"></i> {{ dataset.pubDate | formatDate }}</span>
           <span v-show="hasLogoUrl(dataset.logoUrl)"><img :src=dataset.logoUrl class="img-icon is-pulled-right"></img> </span>
         
         </div>
@@ -67,6 +98,7 @@
     return moment(String(value)).format("DD.MM.YYYY");
   }
 });
+const MAX_LIMIT = 2**31-1;
 var app = new Vue({
     el: '#app',
     data: {
@@ -85,27 +117,78 @@ var app = new Vue({
         }
       },
       hasLogoUrl(url) {
-        return url !== undefined  && url.length > 0
+        return url && url.length > 0
       },
       hasDate(date) {
-        return date != undefined
+        return date
       },
-      getAllDatasetsInNetwork() {
+      
+      async search() {
         let self = this
-        axios.get('https://api.gbif.org/v1/network/379a0de5-f377-4661-9a30-33dd844e7b9a/constituents?limit=100').then(function(response) {
-          self.datasets = response.data.results
-        })
+        let searchTerm = this.searchterm
+        let result = await ( await this.gbifQuery(`{ 
+          datasetSearch(networkKey: "379a0de5-f377-4661-9a30-33dd844e7b9a", limit: ${MAX_LIMIT}, q: "${searchTerm}") {
+              results { dataset {key, title, pubDate, type, description, additionalInfo, logoUrl, project {title}, samplingDescription { studyExtent}} }
+            }
+          }`
+        )).json()
+      
+        self.datasets = result.data.datasetSearch.results.map(d => d.dataset)
+        
       },
-      search() {
-        let self = this
-        axios.get('https://api.gbif.org/v1/dataset/search?q=' + this.searchterm + '&networkKey=379a0de5-f377-4661-9a30-33dd844e7b9a').then(function(response) {
-          self.datasets = response.data.results
-        })
-      }
+      async gbifQuery(query, variables) {
+          return fetch('https://graphql.gbif-staging.org/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              query: query,
+              variables: variables,
+            })
+      })
     },
-    computed: {},  
+
+    async getAllDatasetsInNetwork () {
+      let self = this
+      let result = await ( await this.gbifQuery(`{ 
+        datasetSearch(networkKey: "379a0de5-f377-4661-9a30-33dd844e7b9a", limit: ${MAX_LIMIT}) {
+            results { dataset {key, title, pubDate, type, description, additionalInfo, logoUrl, project {title}, samplingDescription { studyExtent}} }
+          }
+        }`
+      )).json()
+      self.datasets = result.data.datasetSearch.results.map(d => d.dataset)
+    },
+    scoring (dataset) {
+      let self = this
+      let score = {
+        richDescription: 0,
+        samplingMethods:  0,
+        projectData: 0,
+        additionalMetadata: 0
+      }
+      if (dataset.description && dataset.description.length >= 300 ) {
+        score.richDescription = 1
+      }
+      if (dataset.samplingDescription) {
+        score.samplingMethods = 1
+      }
+        if (dataset.additionalInfo && dataset.additionalInfo.length >= 1 ) {
+          score.additionalMetadata = 1
+        }
+        if (dataset.project )
+        {
+          score.projectData = 1
+        }
+      return score
+    },
+   
+    },  
     mounted() {
         this.getAllDatasetsInNetwork()
+
+        
     },
     watch: {
     // when searchbox is cleared  

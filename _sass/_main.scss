@@ -49,3 +49,27 @@
   background-color: #4a4a4a; 
   color: white
 }
+
+.scoring {
+  margin: 10px 0 10px;
+  .button {
+    pointer-events: none;
+    height: 2em;
+    @extend .is-outlined;
+    @extend .is-small;
+    @extend .is-rounded;
+  }
+  .button[disabled] {
+    color: lightgray
+  }
+}
+.description-text {
+  font-size: 14px;
+  font-style: italic;
+  margin: 10px 0;
+}
+.img-icon {
+width: 100px;
+height: 30px;
+object-fit: scale-down;
+}
