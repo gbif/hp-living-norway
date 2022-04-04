@@ -4,8 +4,8 @@
   menu:
   - text: Datasets
     href: /datasets
-  - text: Programs
-    href: /programs
+  - text: Dataset collections
+    href: /datasetcollections
   - text: Occurrence search
     href: /data
   - text: DarwinCoreEcoViewer         
@@ -13,7 +13,7 @@
 - text: How-to
   menu:
   - text: Share data
-    href: 
+    href: https://livingnorway.no/how-to-share-data/
   - text: Use data
     href: https://livingnorway.no/using-and-reusing-data-shared-through-the-living-norway-ecological-data-network/
   - text: LivingNorwayR   
@@ -22,8 +22,6 @@
   menu:
   - text: About the network
     href: https://livingnorway.no/
-  - text: Link to GutHub site
-    href: https://github.com/LivingNorway
   - text: Contact info   
     href: https://livingnorway.no/contact/
 - text: Living Norway web page

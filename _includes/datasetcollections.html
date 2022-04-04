@@ -4,10 +4,10 @@
   <div class="container">
   
     <p class="title">
-      Programs
+      Dataset collections
     </p>
     <p class="subtitle">
-     Some subtitle here explainig the purpose of a program
+     Some subtitle here explainig the purpose of a dataset collection
     </p>
 
 
@@ -19,10 +19,10 @@
       </thead>
       
       <tbody>
-        {% for program in site.programs %}
+        {% for dsc in site.datasetcollections %}
         <tr>     
           <td> 
-            <a href="{{program.url}}"> <h1>{{ program.title }}</h1> </a>
+            <a href="{{dsc.url}}"> <h1>{{ dsc.title }}</h1> </a>
             <div class="description-text"> </div>
           </td>
         </tr>

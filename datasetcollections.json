@@ -2,7 +2,7 @@
 layout: none
 ---
 [
-  {% for program in site.programs %}
+  {% for program in site.datasetcollections %}
   {
     "projectId": "{{ program.identifier }}",
     "title": "{{ program.title }}",

@@ -90,10 +90,10 @@
       <ul>
         <li v-bind:class="{ 'is-active': tabselect == 'dataset' }" v-on:click="setDatasetTab"><a>Dataset</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'citations' }" v-on:click="tabselect = 'citations'"><a>Citations</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'" v-show="project.description != undefined"><a>Program</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'metadata' }" v-on:click="tabselect = 'metadata'" v-show="dataset.additionalInfo != undefined"><a>Additional metadata</a></li>
-        <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R code</a></li>
         <li v-bind:class="{ 'is-active': tabselect == 'projectdata' }" v-on:click="tabselect = 'projectdata'" v-show="dataset.project != undefined"><a>Project data</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'project' }" v-on:click="tabselect = 'project'" v-show="project.description != undefined"><a>Dataset collection</a></li>
+        <li v-bind:class="{ 'is-active': tabselect == 'rcode' }" v-on:click="tabselect = 'rcode'"><a>R code</a></li>
       </ul>
     </div>
      
@@ -193,7 +193,7 @@
       <div class="content">
         <h3 class="mt-6"> {{ project.title }}</h3>
       <div class="mt-6" v-html="project.description"> </div>
-        <h3>Datasets in the program</h3>
+        <h3>Datasets in the collection</h3>
         <table class="table is-fullwidth is-bordered is-striped mt-4">
           <thead>
             <tr>
@@ -526,7 +526,7 @@ var app = new Vue({
       let self = this
       axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
         self.dataset = response.data
-        axios.get('programs.json')
+        axios.get('datasetcollections.json')
         .then(res => {
             if (res.data.length > 0) {
               let element = res.data.find(d => d.projectId === self.getTag ) 
