@@ -24,8 +24,8 @@
 </table>
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="/scripts/apiConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
 {% endraw %}
@@ -53,9 +53,9 @@ var app = new Vue({
     computed: {},  
     mounted() {
         let self = this
-      axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + '{{ page.identifier }}').then(function(response) {
-        self.datasets = response.data.results
-    })
+        axios.get(window.apiConfig["gbif-api-v1"] +'dataset/search?keyword=' + '{{ page.identifier }}').then(function(response) {
+          self.datasets = response.data.results
+        })
     }
   })
 </script>

@@ -106,9 +106,9 @@
       <h2 class="is-size-4 mt-5 mb-3">Description</h2>
       <P v-html="dataset.description" v-linkified ></P>
       <h2 class="is-size-4 mt-5 mb-3">Version</h2>
-      <p>The download links above point to the last version <b>{{dataset.version}}</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blank"> IPT from which this dataset was published</a>. 
-        If you want to use an earlier version of this dataset, you can add version number to the endpoints below (under 'GBIF Registrations'), such as <span v-html="getIptVersionUrl" v-linkified></span>.
-        In the R-code provided in the R-tab, you can request a specific version of the dataset by defining version number in the provided code.  </p>
+      <p>The download links above point to the last version (<a v-bind:href="getIptVersionUrl" target="_blank">version</a> <b>{{dataset.version}})</b> of this dataset. There might be one or more previous versions of this dataset published before the current one. You should always report which version of the dataset you are using. You can find a list of versions if you visit the <a v-bind:href="getIptResource" target="_blank"> IPT from which this dataset was published</a>. 
+        If you want to use an earlier version of this dataset, you can specify version number to the endpoints below (under 'GBIF Registrations'), such as <span v-html="getIptVersionUrl" v-linkified></span>.
+        In the R-code provided in the R-tab, you can request a specific version of the dataset by defining version number.  </p>
       <h2 class="is-size-4 mt-5" v-show="hasTemporalCoverages">Temporal scope</h2>
       <div class="content">
         <ul>
@@ -251,7 +251,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="/scripts/apiConfig.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -524,7 +525,7 @@ var app = new Vue({
     let key = this.getDatasetKey()
     if (key) {
       let self = this
-      axios.get('https://api.gbif.org/v1/dataset/' + key).then(function(response) {
+      axios.get(window.apiConfig["gbif-api-v1"] + "dataset/"+ key).then(function(response) {
         self.dataset = response.data
         axios.get('datasetcollections.json')
         .then(res => {
@@ -533,7 +534,7 @@ var app = new Vue({
                 if (element !== undefined) {
                   self.project = element
                 }
-                axios.get('https://api.gbif.org/v1/dataset/search?keyword=' + self.getTag).then(function(response) {
+                axios.get(window.apiConfig["gbif-api-v1"] +'dataset/search?keyword=' + self.getTag).then(function(response) {
                   self.project.datasets = response.data.results
                 })
             }
@@ -541,7 +542,7 @@ var app = new Vue({
         .catch(err => console.log(err))
         
         
-        axios.get('https://api.gbif.org/v2/map/occurrence/density/capabilities.json?datasetKey=' + key).then(function(res) {
+        axios.get(window.apiConfig["gbif-api-v2"] +'map/occurrence/density/capabilities.json?datasetKey=' + key).then(function(res) {
           
           var corner1 = L.latLng(res.data.minLat, res.data.minLng),
           corner2 = L.latLng(res.data.maxLat, res.data.maxLng),
@@ -556,11 +557,11 @@ var app = new Vue({
           var boundingBox = L.rectangle(bounds, {color: "#ff7800", weight: 2})
           self.mapBoundingBox.addLayer(boundingBox)
 
-          axios.get('https://api.gbif.org/v1/organization/' + self.dataset.publishingOrganizationKey).then(function(response) {
+          axios.get(window.apiConfig["gbif-api-v1"] +'organization/' + self.dataset.publishingOrganizationKey).then(function(response) {
             self.publishingOrg = response.data
           });
 
-          axios.get('https://api.gbif.org/v1/installation/' + self.dataset.installationKey).then(function(response) {
+          axios.get(window.apiConfig["gbif-api-v1"] +'installation/' + self.dataset.installationKey).then(function(response) {
             self.installation = response.data
           });
 
@@ -570,7 +571,7 @@ var app = new Vue({
         new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
           {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(self.map)
           
-          new L.TileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=' + key + '&bin=hex&hexPerTile=30&style=green.poly'
+          new L.TileLayer(window.apiConfig["gbif-api-v2"] +'map/occurrence/density/{z}/{x}/{y}@1x.png?datasetKey=' + key + '&bin=hex&hexPerTile=30&style=green.poly'
         ).addTo(self.map)
       })
       self.getRCode(key)
