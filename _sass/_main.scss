@@ -73,3 +73,9 @@ width: 100px;
 height: 30px;
 object-fit: scale-down;
 }
+
+.image-dataset {
+  margin-bottom: 10px;
+  max-height: 50px;
+  object-fit: cover;
+}
