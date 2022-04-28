@@ -54,10 +54,12 @@
   </p>
 
     <div class="block">
+    <p> <span v-show="hasLogoUrl(dataset.logoUrl)"><img :src=dataset.logoUrl class="image-dataset"></img> </span></p>  
     <p>Published by: <a v-bind:href="getPublishingOrgUrl" target="_blank">{{getPublishingOrgName}}</a></p>
     <p>
       <span class="contact-list" v-for="contact in getContacts"> {{ contact.name}}  </span>
     </p>
+
 
     
    
@@ -356,6 +358,9 @@ var app = new Vue({
         let result = data.replace(/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/g, datasetKey)
        self.rCode = result  
     })
+    },
+    hasLogoUrl(url) {
+        return url && url.length > 0
     }
     
   },
