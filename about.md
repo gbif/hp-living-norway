@@ -10,7 +10,7 @@ height: 70vh
 
 ## Procris quippe mentior urbes ubi
 
-Living Norway Ecological Data Network is established as a joint effort to promote management of ecological data from Norwegian research institutions in agreement with FAIR principles. This include data mobilization efforts, development and deployment of new tools and data-infrastructure, contributing to the international development of data standards, and development of education and training for students and established researchers. Living Norway is embedded with the Norwegian node of the Global Biodiversity Information Facility [GBIF](https://www.gbif.org).
+Living Norway Ecological Data Network is established as a joint effort to promote management of ecological data from Norwegian research institutions in agreement with FAIR principles. This includes data mobilization efforts, development and deployment of new tools and data-infrastructure, contributing to the international development of data standards, and development of education and training for students and established researchers. Living Norway is embedded with the Norwegian node of the Global Biodiversity Information Facility [GBIF](https://www.gbif.org).
 
 When fully operational Living Norway Ecological Data Network has the ambition to become the focal point for ecological data in Norway.
 
