@@ -7,7 +7,7 @@ addEventListener("fetch", (event) => {
 });
 
 async function gbifQuery(query, variables) {
-  return fetch('https://graphql.gbif-staging.org/graphql', {
+  return fetch('https://graphql.gbif.org/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
