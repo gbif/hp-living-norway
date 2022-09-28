@@ -20,6 +20,12 @@ async function gbifQuery(query, variables) {
   })
 }
 
+/**
+ * Many more examples available at:
+ *   https://developers.cloudflare.com/workers/examples
+ * @param {Request} request
+ * @returns {Promise<Response>}
+ */
 async function handleRequest(request) {
   const { pathname } = new URL(request.url);
 
