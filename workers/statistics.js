@@ -43,7 +43,7 @@ async function handleRequest(request) {
     documents = await (await gbifQuery(`
       query($keys: [ID]){
         literatureSearch(gbifDatasetKey: $keys) {
-          documents { count }
+          documents { total }
         }
       }`,
       {
@@ -51,7 +51,7 @@ async function handleRequest(request) {
       },
     )).json();
     return new Response(JSON.stringify({
-        count: documents.data.literatureSearch.documents.count,
+        count: documents.data.literatureSearch.documents.total,
       }), {
       headers: {
         "Content-Type": "application/json",
