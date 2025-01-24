@@ -10,6 +10,7 @@ var siteConfig = {
       route: '/data'
     },
     datasetKey: {
+      route: '/dataset?key=:key',// adding this will make the transition to the new components easier. See also #39
       url: ({key}) => `/dataset?key=${key}`,
       isHref: true
     }
