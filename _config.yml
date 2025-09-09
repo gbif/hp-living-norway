@@ -23,7 +23,7 @@ email: erlend.nilsen@nina.no
 description: >- # this means to ignore newlines (until baseurl:)
   Living Norway Ecological Data Network facilitates open, reproducible and transparent sharing, use and reuse of ecological data to the benefit of society and science
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://hp-living-norway.gbif.org" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://data.livingnorway.no" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: living_norway
 github_username:  LivingNorway
 

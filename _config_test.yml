@@ -1,4 +1,4 @@
-url: "https://hp-living-norway.gbif-uat.org"
+url: "https://living-norway.hp.gbif-uat.org"
   
 useSharedLibrary: true # Use the new component library
 testSite: true #style the site to show that it is a test site
